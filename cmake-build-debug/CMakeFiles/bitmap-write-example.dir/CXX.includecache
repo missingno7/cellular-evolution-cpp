@@ -1,0 +1,18 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../include/cellular-evolution/utilities/bitmap.hpp
+
+C:/playspace/personal/cpp/cellular-evolution-cpp/examples/bitmap_write/main.cpp
+iostream
+-
+fstream
+-
+cellular-evolution/utilities/bitmap.hpp
+C:/playspace/personal/cpp/cellular-evolution-cpp/examples/bitmap_write/cellular-evolution/utilities/bitmap.hpp
+
