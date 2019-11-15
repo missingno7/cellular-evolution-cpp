@@ -4,92 +4,141 @@
 	<Project>
 		<Option title="cellular_evolution"/>
 		<Option makefile_is_custom="1"/>
-		<Option compiler="msvc8"/>
+		<Option compiler="gcc"/>
 		<Option virtualFolders="CMake Files\;"/>
 		<Build>
 			<Target title="all">
-				<Option working_dir="C:/playspace/personal/cpp/cellular-evolution-cpp/cmake-build-release"/>
+				<Option working_dir="/cygdrive/c/playspace/personal/cpp/cellular-evolution-cpp/cmake-build-release"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="nmake /NOLOGO /f C:\playspace\personal\cpp\cellular-evolution-cpp\cmake-build-release\Makefile VERBOSE=1 all"/>
-					<CompileFile command="nmake /NOLOGO /f C:\playspace\personal\cpp\cellular-evolution-cpp\cmake-build-release\Makefile VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="nmake /NOLOGO /f C:\playspace\personal\cpp\cellular-evolution-cpp\cmake-build-release\Makefile VERBOSE=1 clean"/>
-					<DistClean command="nmake /NOLOGO /f C:\playspace\personal\cpp\cellular-evolution-cpp\cmake-build-release\Makefile VERBOSE=1 clean"/>
-				</MakeCommands>
-			</Target>
-			<Target title="bitmap-write-example">
-				<Option output="C:/playspace/personal/cpp/cellular-evolution-cpp/cmake-build-release/bitmap-write-example.exe" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="C:/playspace/personal/cpp/cellular-evolution-cpp/cmake-build-release"/>
-				<Option object_output="./"/>
-				<Option type="1"/>
-				<Option compiler="msvc8"/>
-				<Compiler>
-					<Add directory="C:/playspace/personal/cpp/cellular-evolution-cpp/./include"/>
-					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\ATLMFC\include"/>
-					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\include"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\NETFXSDK\4.6.1\include\um"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\ucrt"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\shared"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\um"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\winrt"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\cppwinrt"/>
-				</Compiler>
-				<MakeCommands>
-					<Build command="nmake /NOLOGO /f C:\playspace\personal\cpp\cellular-evolution-cpp\cmake-build-release\Makefile VERBOSE=1 bitmap-write-example"/>
-					<CompileFile command="nmake /NOLOGO /f C:\playspace\personal\cpp\cellular-evolution-cpp\cmake-build-release\Makefile VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="nmake /NOLOGO /f C:\playspace\personal\cpp\cellular-evolution-cpp\cmake-build-release\Makefile VERBOSE=1 clean"/>
-					<DistClean command="nmake /NOLOGO /f C:\playspace\personal\cpp\cellular-evolution-cpp\cmake-build-release\Makefile VERBOSE=1 clean"/>
-				</MakeCommands>
-			</Target>
-			<Target title="bitmap-write-example/fast">
-				<Option output="C:/playspace/personal/cpp/cellular-evolution-cpp/cmake-build-release/bitmap-write-example.exe" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="C:/playspace/personal/cpp/cellular-evolution-cpp/cmake-build-release"/>
-				<Option object_output="./"/>
-				<Option type="1"/>
-				<Option compiler="msvc8"/>
-				<Compiler>
-					<Add directory="C:/playspace/personal/cpp/cellular-evolution-cpp/./include"/>
-					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\ATLMFC\include"/>
-					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\include"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\NETFXSDK\4.6.1\include\um"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\ucrt"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\shared"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\um"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\winrt"/>
-					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\cppwinrt"/>
-				</Compiler>
-				<MakeCommands>
-					<Build command="nmake /NOLOGO /f C:\playspace\personal\cpp\cellular-evolution-cpp\cmake-build-release\Makefile VERBOSE=1 bitmap-write-example/fast"/>
-					<CompileFile command="nmake /NOLOGO /f C:\playspace\personal\cpp\cellular-evolution-cpp\cmake-build-release\Makefile VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="nmake /NOLOGO /f C:\playspace\personal\cpp\cellular-evolution-cpp\cmake-build-release\Makefile VERBOSE=1 clean"/>
-					<DistClean command="nmake /NOLOGO /f C:\playspace\personal\cpp\cellular-evolution-cpp\cmake-build-release\Makefile VERBOSE=1 clean"/>
-				</MakeCommands>
-			</Target>
-			<Target title="edit_cache">
-				<Option working_dir="C:/playspace/personal/cpp/cellular-evolution-cpp/cmake-build-release"/>
-				<Option type="4"/>
-				<MakeCommands>
-					<Build command="nmake /NOLOGO /f C:\playspace\personal\cpp\cellular-evolution-cpp\cmake-build-release\Makefile VERBOSE=1 edit_cache"/>
-					<CompileFile command="nmake /NOLOGO /f C:\playspace\personal\cpp\cellular-evolution-cpp\cmake-build-release\Makefile VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="nmake /NOLOGO /f C:\playspace\personal\cpp\cellular-evolution-cpp\cmake-build-release\Makefile VERBOSE=1 clean"/>
-					<DistClean command="nmake /NOLOGO /f C:\playspace\personal\cpp\cellular-evolution-cpp\cmake-build-release\Makefile VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make.exe -j16 -f &quot;/cygdrive/c/playspace/personal/cpp/cellular-evolution-cpp/cmake-build-release/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make.exe -j16 -f &quot;/cygdrive/c/playspace/personal/cpp/cellular-evolution-cpp/cmake-build-release/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make.exe -j16 -f &quot;/cygdrive/c/playspace/personal/cpp/cellular-evolution-cpp/cmake-build-release/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make.exe -j16 -f &quot;/cygdrive/c/playspace/personal/cpp/cellular-evolution-cpp/cmake-build-release/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="rebuild_cache">
-				<Option working_dir="C:/playspace/personal/cpp/cellular-evolution-cpp/cmake-build-release"/>
+				<Option working_dir="/cygdrive/c/playspace/personal/cpp/cellular-evolution-cpp/cmake-build-release"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="nmake /NOLOGO /f C:\playspace\personal\cpp\cellular-evolution-cpp\cmake-build-release\Makefile VERBOSE=1 rebuild_cache"/>
-					<CompileFile command="nmake /NOLOGO /f C:\playspace\personal\cpp\cellular-evolution-cpp\cmake-build-release\Makefile VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="nmake /NOLOGO /f C:\playspace\personal\cpp\cellular-evolution-cpp\cmake-build-release\Makefile VERBOSE=1 clean"/>
-					<DistClean command="nmake /NOLOGO /f C:\playspace\personal\cpp\cellular-evolution-cpp\cmake-build-release\Makefile VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make.exe -j16 -f &quot;/cygdrive/c/playspace/personal/cpp/cellular-evolution-cpp/cmake-build-release/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/make.exe -j16 -f &quot;/cygdrive/c/playspace/personal/cpp/cellular-evolution-cpp/cmake-build-release/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make.exe -j16 -f &quot;/cygdrive/c/playspace/personal/cpp/cellular-evolution-cpp/cmake-build-release/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make.exe -j16 -f &quot;/cygdrive/c/playspace/personal/cpp/cellular-evolution-cpp/cmake-build-release/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="/cygdrive/c/playspace/personal/cpp/cellular-evolution-cpp/cmake-build-release"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make.exe -j16 -f &quot;/cygdrive/c/playspace/personal/cpp/cellular-evolution-cpp/cmake-build-release/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/make.exe -j16 -f &quot;/cygdrive/c/playspace/personal/cpp/cellular-evolution-cpp/cmake-build-release/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make.exe -j16 -f &quot;/cygdrive/c/playspace/personal/cpp/cellular-evolution-cpp/cmake-build-release/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make.exe -j16 -f &quot;/cygdrive/c/playspace/personal/cpp/cellular-evolution-cpp/cmake-build-release/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="bitmap-write-example">
+				<Option output="/cygdrive/c/playspace/personal/cpp/cellular-evolution-cpp/cmake-build-release/bitmap-write-example.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/cygdrive/c/playspace/personal/cpp/cellular-evolution-cpp/cmake-build-release"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/cygdrive/c/playspace/personal/cpp/cellular-evolution-cpp/./include"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-cygwin/7.4.0/include/c++"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-cygwin/7.4.0/include/c++/x86_64-pc-cygwin"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-cygwin/7.4.0/include/c++/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-cygwin/7.4.0/include"/>
+					<Add directory="/usr/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-cygwin/7.4.0/../../../../lib/../include/w32api"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make.exe -j16 -f &quot;/cygdrive/c/playspace/personal/cpp/cellular-evolution-cpp/cmake-build-release/Makefile&quot;  VERBOSE=1 bitmap-write-example"/>
+					<CompileFile command="/usr/bin/make.exe -j16 -f &quot;/cygdrive/c/playspace/personal/cpp/cellular-evolution-cpp/cmake-build-release/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make.exe -j16 -f &quot;/cygdrive/c/playspace/personal/cpp/cellular-evolution-cpp/cmake-build-release/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make.exe -j16 -f &quot;/cygdrive/c/playspace/personal/cpp/cellular-evolution-cpp/cmake-build-release/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="bitmap-write-example/fast">
+				<Option output="/cygdrive/c/playspace/personal/cpp/cellular-evolution-cpp/cmake-build-release/bitmap-write-example.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/cygdrive/c/playspace/personal/cpp/cellular-evolution-cpp/cmake-build-release"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/cygdrive/c/playspace/personal/cpp/cellular-evolution-cpp/./include"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-cygwin/7.4.0/include/c++"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-cygwin/7.4.0/include/c++/x86_64-pc-cygwin"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-cygwin/7.4.0/include/c++/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-cygwin/7.4.0/include"/>
+					<Add directory="/usr/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-cygwin/7.4.0/../../../../lib/../include/w32api"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make.exe -j16 -f &quot;/cygdrive/c/playspace/personal/cpp/cellular-evolution-cpp/cmake-build-release/Makefile&quot;  VERBOSE=1 bitmap-write-example/fast"/>
+					<CompileFile command="/usr/bin/make.exe -j16 -f &quot;/cygdrive/c/playspace/personal/cpp/cellular-evolution-cpp/cmake-build-release/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make.exe -j16 -f &quot;/cygdrive/c/playspace/personal/cpp/cellular-evolution-cpp/cmake-build-release/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make.exe -j16 -f &quot;/cygdrive/c/playspace/personal/cpp/cellular-evolution-cpp/cmake-build-release/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="evolution-example">
+				<Option output="/cygdrive/c/playspace/personal/cpp/cellular-evolution-cpp/cmake-build-release/evolution-example.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/cygdrive/c/playspace/personal/cpp/cellular-evolution-cpp/cmake-build-release"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/cygdrive/c/playspace/personal/cpp/cellular-evolution-cpp/./include"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-cygwin/7.4.0/include/c++"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-cygwin/7.4.0/include/c++/x86_64-pc-cygwin"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-cygwin/7.4.0/include/c++/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-cygwin/7.4.0/include"/>
+					<Add directory="/usr/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-cygwin/7.4.0/../../../../lib/../include/w32api"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make.exe -j16 -f &quot;/cygdrive/c/playspace/personal/cpp/cellular-evolution-cpp/cmake-build-release/Makefile&quot;  VERBOSE=1 evolution-example"/>
+					<CompileFile command="/usr/bin/make.exe -j16 -f &quot;/cygdrive/c/playspace/personal/cpp/cellular-evolution-cpp/cmake-build-release/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make.exe -j16 -f &quot;/cygdrive/c/playspace/personal/cpp/cellular-evolution-cpp/cmake-build-release/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make.exe -j16 -f &quot;/cygdrive/c/playspace/personal/cpp/cellular-evolution-cpp/cmake-build-release/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="evolution-example/fast">
+				<Option output="/cygdrive/c/playspace/personal/cpp/cellular-evolution-cpp/cmake-build-release/evolution-example.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/cygdrive/c/playspace/personal/cpp/cellular-evolution-cpp/cmake-build-release"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/cygdrive/c/playspace/personal/cpp/cellular-evolution-cpp/./include"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-cygwin/7.4.0/include/c++"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-cygwin/7.4.0/include/c++/x86_64-pc-cygwin"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-cygwin/7.4.0/include/c++/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-cygwin/7.4.0/include"/>
+					<Add directory="/usr/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-cygwin/7.4.0/../../../../lib/../include/w32api"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make.exe -j16 -f &quot;/cygdrive/c/playspace/personal/cpp/cellular-evolution-cpp/cmake-build-release/Makefile&quot;  VERBOSE=1 evolution-example/fast"/>
+					<CompileFile command="/usr/bin/make.exe -j16 -f &quot;/cygdrive/c/playspace/personal/cpp/cellular-evolution-cpp/cmake-build-release/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make.exe -j16 -f &quot;/cygdrive/c/playspace/personal/cpp/cellular-evolution-cpp/cmake-build-release/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make.exe -j16 -f &quot;/cygdrive/c/playspace/personal/cpp/cellular-evolution-cpp/cmake-build-release/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="C:/playspace/personal/cpp/cellular-evolution-cpp/examples/bitmap_write/main.cpp">
+		<Unit filename="/cygdrive/c/playspace/personal/cpp/cellular-evolution-cpp/examples/bitmap_write/main.cpp">
 			<Option target="bitmap-write-example"/>
 		</Unit>
-		<Unit filename="C:/playspace/personal/cpp/cellular-evolution-cpp/CMakeLists.txt">
+		<Unit filename="/cygdrive/c/playspace/personal/cpp/cellular-evolution-cpp/examples/evolution_simple/main.cpp">
+			<Option target="evolution-example"/>
+		</Unit>
+		<Unit filename="/cygdrive/c/playspace/personal/cpp/cellular-evolution-cpp/examples/evolution_simple/test_ind.h">
+			<Option target="evolution-example"/>
+		</Unit>
+		<Unit filename="/cygdrive/c/playspace/personal/cpp/cellular-evolution-cpp/examples/evolution_simple/test_ind_data.h">
+			<Option target="evolution-example"/>
+		</Unit>
+		<Unit filename="/cygdrive/c/playspace/personal/cpp/cellular-evolution-cpp/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
 		</Unit>
 	</Project>
