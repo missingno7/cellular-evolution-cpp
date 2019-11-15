@@ -2,6 +2,7 @@
 #include <fstream>
 #include "cellular-evolution/utilities/bitmap.hpp"
 #include "cellular-evolution/utilities/random.h"
+#include "cellular-evolution/floor_planning/fp_individual.h"
 
 int main() {
 

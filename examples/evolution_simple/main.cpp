@@ -10,14 +10,14 @@ int main() {
 
     std::string indPath = "out/";
 
-    PopConfig cfg;
+    std::shared_ptr<PopConfig> cfg=std::make_shared<PopConfig>();
 
 
-    cfg.reg.newInt("tstint");
+    cfg->reg.newInt("tstint");
 
-    cfg.LoadConfig("config.txt");
+    cfg->LoadConfig("config.txt");
 
-    std::vector<int> tstint = cfg.reg.getInt("tstint");
+    std::vector<int> tstint = cfg->reg.getInt("tstint");
 
     std::cout << tstint.size() << " - " << tstint[1] << std::endl;
 
@@ -38,7 +38,7 @@ int main() {
         std::cout << bestInd->toString(tstData) << std::endl;
         std::cout << "BEST FITNESS: " << std::to_string(bestInd->getFitness()) << std::endl;
         std::cout << "AVG FITNESS: " << std::to_string(pop.avgFitness()) << std::endl;
-        if (cfg.drawpop)pop.paintPop(indPath + "GEN" + std::to_string(i) + ".bmp");
+        if (cfg->drawpop)pop.paintPop(indPath + "GEN" + std::to_string(i) + ".bmp");
         pop.nextGen();
     }
 

@@ -54,6 +54,7 @@ CMAKE_BINARY_DIR = /cygdrive/c/playspace/personal/cpp/cellular-evolution-cpp/cma
 
 # The main recursive "all" target.
 all: CMakeFiles/bitmap-write-example.dir/all
+all: CMakeFiles/floor-planning-example.dir/all
 all: CMakeFiles/variable-register-example.dir/all
 all: CMakeFiles/evolution-example.dir/all
 
@@ -61,6 +62,7 @@ all: CMakeFiles/evolution-example.dir/all
 
 # The main recursive "clean" target.
 clean: CMakeFiles/bitmap-write-example.dir/clean
+clean: CMakeFiles/floor-planning-example.dir/clean
 clean: CMakeFiles/variable-register-example.dir/clean
 clean: CMakeFiles/evolution-example.dir/clean
 
@@ -99,13 +101,40 @@ CMakeFiles/bitmap-write-example.dir/clean:
 .PHONY : CMakeFiles/bitmap-write-example.dir/clean
 
 #=============================================================================
+# Target rules for target CMakeFiles/floor-planning-example.dir
+
+# All Build rule for target.
+CMakeFiles/floor-planning-example.dir/all:
+	$(MAKE) -f CMakeFiles/floor-planning-example.dir/build.make CMakeFiles/floor-planning-example.dir/depend
+	$(MAKE) -f CMakeFiles/floor-planning-example.dir/build.make CMakeFiles/floor-planning-example.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/cygdrive/c/playspace/personal/cpp/cellular-evolution-cpp/cmake-build-debug/CMakeFiles --progress-num=5,6 "Built target floor-planning-example"
+.PHONY : CMakeFiles/floor-planning-example.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/floor-planning-example.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /cygdrive/c/playspace/personal/cpp/cellular-evolution-cpp/cmake-build-debug/CMakeFiles 2
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/floor-planning-example.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /cygdrive/c/playspace/personal/cpp/cellular-evolution-cpp/cmake-build-debug/CMakeFiles 0
+.PHONY : CMakeFiles/floor-planning-example.dir/rule
+
+# Convenience name for target.
+floor-planning-example: CMakeFiles/floor-planning-example.dir/rule
+
+.PHONY : floor-planning-example
+
+# clean rule for target.
+CMakeFiles/floor-planning-example.dir/clean:
+	$(MAKE) -f CMakeFiles/floor-planning-example.dir/build.make CMakeFiles/floor-planning-example.dir/clean
+.PHONY : CMakeFiles/floor-planning-example.dir/clean
+
+#=============================================================================
 # Target rules for target CMakeFiles/variable-register-example.dir
 
 # All Build rule for target.
 CMakeFiles/variable-register-example.dir/all:
 	$(MAKE) -f CMakeFiles/variable-register-example.dir/build.make CMakeFiles/variable-register-example.dir/depend
 	$(MAKE) -f CMakeFiles/variable-register-example.dir/build.make CMakeFiles/variable-register-example.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/cygdrive/c/playspace/personal/cpp/cellular-evolution-cpp/cmake-build-debug/CMakeFiles --progress-num=5,6 "Built target variable-register-example"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/cygdrive/c/playspace/personal/cpp/cellular-evolution-cpp/cmake-build-debug/CMakeFiles --progress-num=7,8 "Built target variable-register-example"
 .PHONY : CMakeFiles/variable-register-example.dir/all
 
 # Build rule for subdir invocation for target.

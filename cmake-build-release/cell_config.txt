@@ -1,0 +1,13 @@
+xpopsize 512
+ypopsize 512
+crossrate 0.5
+mutamount 5
+mutprob 0.1
+flipprob 0.04
+switchprob 0.04
+gennew true
+drawpop true
+squares 30
+threads 16
+
+

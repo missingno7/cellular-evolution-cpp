@@ -23,6 +23,42 @@ public:
         delete[] img;
     }
 
+    void clear(unsigned char r, unsigned char g, unsigned char b) {
+        for (int i = 0; i < width_; i++) {
+            for (int j = 0; j < height_; j++) {
+                SetPixel(i, j, r, g, b);
+            }
+        }
+    }
+
+    void fillRect(int x1, int y1, int x2, int y2, unsigned char r, unsigned char g, unsigned char b) {
+        for (int i = x1; i <= x2; i++) {
+            for (int j = y1; j <= y2; j++) {
+                SetPixel(i, j, r, g, b);
+            }
+        }
+
+    }
+
+    void  drawRect(int x1, int y1, int x2, int y2, unsigned char r, unsigned char g, unsigned char b) {
+        for (int i = x1; i <= x2; i++) {
+                SetPixel(i, y1, r, g, b);
+            }
+
+        for (int i = x1; i <= x2; i++) {
+            SetPixel(i, y2, r, g, b);
+        }
+
+        for (int i = y1; i <= y2; i++) {
+            SetPixel(x1, i, r, g, b);
+        }
+
+        for (int i = y1; i <= y2; i++) {
+            SetPixel(x2, i, r, g, b);
+        }
+
+
+    }
 
     void SetPixel(int x, int y, unsigned char r, unsigned char g, unsigned char b) {
         img[3 * (x + y * width_)] = b;

@@ -9,6 +9,12 @@ class Random {
 
 public:
 
+    Random()
+    {
+        generator_.seed(seed);
+        seed++;
+    }
+
     int nextInt(int min, int max) {
         std::uniform_int_distribution<int> distribution(min, max);
         int val = distribution(generator_);
@@ -21,6 +27,14 @@ public:
         return val;
     }
 
+    bool nextBoolean()
+    {
+        return nextInt(0,1);
+    }
+
     std::default_random_engine generator_;
 
+    static int seed;
+
 };
+int Random::seed = 0;

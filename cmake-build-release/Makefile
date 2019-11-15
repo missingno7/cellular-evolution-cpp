@@ -124,6 +124,19 @@ bitmap-write-example/fast:
 .PHONY : bitmap-write-example/fast
 
 #=============================================================================
+# Target rules for targets named floor-planning-example
+
+# Build rule for target.
+floor-planning-example: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 floor-planning-example
+.PHONY : floor-planning-example
+
+# fast build rule for target.
+floor-planning-example/fast:
+	$(MAKE) -f CMakeFiles/floor-planning-example.dir/build.make CMakeFiles/floor-planning-example.dir/build
+.PHONY : floor-planning-example/fast
+
+#=============================================================================
 # Target rules for targets named variable-register-example
 
 # Build rule for target.
@@ -203,6 +216,33 @@ examples/evolution_simple/main.cpp.s:
 	$(MAKE) -f CMakeFiles/evolution-example.dir/build.make CMakeFiles/evolution-example.dir/examples/evolution_simple/main.cpp.s
 .PHONY : examples/evolution_simple/main.cpp.s
 
+examples/floor_planning/main.o: examples/floor_planning/main.cpp.o
+
+.PHONY : examples/floor_planning/main.o
+
+# target to build an object file
+examples/floor_planning/main.cpp.o:
+	$(MAKE) -f CMakeFiles/floor-planning-example.dir/build.make CMakeFiles/floor-planning-example.dir/examples/floor_planning/main.cpp.o
+.PHONY : examples/floor_planning/main.cpp.o
+
+examples/floor_planning/main.i: examples/floor_planning/main.cpp.i
+
+.PHONY : examples/floor_planning/main.i
+
+# target to preprocess a source file
+examples/floor_planning/main.cpp.i:
+	$(MAKE) -f CMakeFiles/floor-planning-example.dir/build.make CMakeFiles/floor-planning-example.dir/examples/floor_planning/main.cpp.i
+.PHONY : examples/floor_planning/main.cpp.i
+
+examples/floor_planning/main.s: examples/floor_planning/main.cpp.s
+
+.PHONY : examples/floor_planning/main.s
+
+# target to generate assembly for a file
+examples/floor_planning/main.cpp.s:
+	$(MAKE) -f CMakeFiles/floor-planning-example.dir/build.make CMakeFiles/floor-planning-example.dir/examples/floor_planning/main.cpp.s
+.PHONY : examples/floor_planning/main.cpp.s
+
 examples/vari_reg_example/main.o: examples/vari_reg_example/main.cpp.o
 
 .PHONY : examples/vari_reg_example/main.o
@@ -239,6 +279,7 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
 	@echo "... bitmap-write-example"
+	@echo "... floor-planning-example"
 	@echo "... variable-register-example"
 	@echo "... evolution-example"
 	@echo "... examples/bitmap_write/main.o"
@@ -247,6 +288,9 @@ help:
 	@echo "... examples/evolution_simple/main.o"
 	@echo "... examples/evolution_simple/main.i"
 	@echo "... examples/evolution_simple/main.s"
+	@echo "... examples/floor_planning/main.o"
+	@echo "... examples/floor_planning/main.i"
+	@echo "... examples/floor_planning/main.s"
 	@echo "... examples/vari_reg_example/main.o"
 	@echo "... examples/vari_reg_example/main.i"
 	@echo "... examples/vari_reg_example/main.s"

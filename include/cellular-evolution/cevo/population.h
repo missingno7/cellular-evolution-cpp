@@ -61,7 +61,7 @@ public:
                     for (int i = val.from; i < val.to; i++) {
                         m_currGenInds[i]->randomize(m_indData, rnd);
                         m_currGenInds[i]->countFitness(m_indData);
-                        if (m_cfg.drawpop) {
+                        if (m_cfg->drawpop) {
                             m_currGenInds[i]->countColor();
                         }
                     }
@@ -74,23 +74,23 @@ public:
                     Individual *second_ind = NULL;
 
                     for (int i = val.from; i < val.to; i++) {
-                        if (rnd.nextFloat() < m_cfg.crossrate) {
+                        if (rnd.nextFloat() < m_cfg->crossrate) {
                             dualTournamentL5(i / m_popHeight, i % m_popHeight, first_ind, second_ind);
 
                             if (second_ind != NULL) {
                                 first_ind->crossoverTo(second_ind, m_nextGenInds[i], rnd);
                             } else {
-                                first_ind->mutateTo(rnd.nextFloat() * m_cfg.mutamount, m_cfg.mutprob, m_nextGenInds[i],
+                                first_ind->mutateTo(rnd.nextFloat() * m_cfg->mutamount, m_cfg->mutprob, m_nextGenInds[i],
                                                     rnd);
                             }
                         } else {
-                            tournamentL5(i / m_popHeight, i % m_popHeight)->mutateTo(rnd.nextFloat() * m_cfg.mutamount,
-                                                                                     m_cfg.mutprob, m_nextGenInds[i],
+                            tournamentL5(i / m_popHeight, i % m_popHeight)->mutateTo(rnd.nextFloat() * m_cfg->mutamount,
+                                                                                     m_cfg->mutprob, m_nextGenInds[i],
                                                                                      rnd);
                         }
 
                         m_nextGenInds[i]->countFitness(m_indData); // TRAIN AND TEST SPLIT
-                        if (m_cfg.drawpop) {
+                        if (m_cfg->drawpop) {
                             m_nextGenInds[i]->countColor();
                         }
                     }
@@ -100,13 +100,14 @@ public:
         }
     }
 
-    Population(std::shared_ptr<Individual> &srcInd, std::shared_ptr<IndData> &data, PopConfig &cfg) {
+    Population(std::shared_ptr<Individual> &srcInd, std::shared_ptr<IndData> &data, std::shared_ptr<PopConfig> &cfg) {
         m_cfg = cfg;
         m_indData = data;
 
-        m_popWidth = cfg.xpopsize;
-        m_popHeight = cfg.ypopsize;
+        m_popWidth = cfg->xpopsize;
+        m_popHeight = cfg->ypopsize;
         m_inds_cnt = m_popWidth * m_popHeight;
+        m_number_of_threads_ = cfg->threads;
 
         image_ = std::make_shared<Bitmap>(m_popWidth, m_popHeight);
 
@@ -117,12 +118,12 @@ public:
         m_nextGenInds = new Individual *[m_popWidth * m_popHeight];
 
         srcInd->countFitness(data);
-        if (cfg.drawpop) {
+        if (cfg->drawpop) {
             srcInd->countColor();
         }
 
         ClearTasks();
-        int step = m_inds_cnt / (m_number_of_threads * 128);
+        int step = m_inds_cnt / (m_number_of_threads_ * 128);
 
         int from = 0;
         while (from + step < m_inds_cnt) {
@@ -143,7 +144,7 @@ public:
         }
 
         m_threads.clear();
-        for (int i = 0; i < m_number_of_threads; i++) {
+        for (int i = 0; i < m_number_of_threads_; i++) {
             m_threads.push_back(std::thread(&Population::consume, this));
 
 
@@ -152,7 +153,7 @@ public:
 
         }
 
-        for (int i = 0; i < m_number_of_threads; i++) {
+        for (int i = 0; i < m_number_of_threads_; i++) {
             // t1 finishes before t2
             m_threads[i].join();
         }
@@ -164,7 +165,7 @@ public:
     void nextGen() {
 
         ClearTasks();
-        int step = m_inds_cnt / (m_number_of_threads * 128);
+        int step = m_inds_cnt / (m_number_of_threads_ * 128);
 
         int from = 0;
         while (from + step < m_inds_cnt) {
@@ -185,11 +186,11 @@ public:
         }
 
         m_threads.clear();
-        for (int i = 0; i < m_number_of_threads; i++) {
+        for (int i = 0; i < m_number_of_threads_; i++) {
             m_threads.push_back(std::thread(&Population::consume, this));
         }
 
-        for (int i = 0; i < m_number_of_threads; i++) {
+        for (int i = 0; i < m_number_of_threads_; i++) {
             // t1 finishes before t2
             m_threads[i].join();
         }
@@ -204,7 +205,7 @@ public:
     void Randomize(Random rnd) {
 
         ClearTasks();
-        int step = m_inds_cnt / (m_number_of_threads * 128);
+        int step = m_inds_cnt / (m_number_of_threads_ * 128);
 
         int from = 0;
         while (from + step < m_inds_cnt) {
@@ -225,11 +226,11 @@ public:
         }
 
         m_threads.clear();
-        for (int i = 0; i < m_number_of_threads; i++) {
+        for (int i = 0; i < m_number_of_threads_; i++) {
             m_threads.push_back(std::thread(&Population::consume, this));
         }
 
-        for (int i = 0; i < m_number_of_threads; i++) {
+        for (int i = 0; i < m_number_of_threads_; i++) {
             // t1 finishes before t2
             m_threads[i].join();
         }
@@ -267,7 +268,7 @@ public:
         for (int i = 0; i < m_inds_cnt; i++) {
             avgFit += m_currGenInds[i]->fitness;
         }
-        return avgFit / (m_cfg.xpopsize * m_cfg.ypopsize);
+        return avgFit / (m_cfg->xpopsize * m_cfg->ypopsize);
     }
 
     void paintPop(std::string imgName) {
@@ -333,7 +334,7 @@ public:
 
         xa = x - 1;
         if (xa < 0) {
-            xa += m_cfg.xpopsize;
+            xa += m_cfg->xpopsize;
         }
 
         if (m_currGenInds[xa * m_popHeight + y]->fitness > bestInd->fitness) {
@@ -342,8 +343,8 @@ public:
 
         xa = x + 1;
 
-        if (xa >= m_cfg.xpopsize) {
-            xa -= m_cfg.xpopsize;
+        if (xa >= m_cfg->xpopsize) {
+            xa -= m_cfg->xpopsize;
         }
 
         if (m_currGenInds[xa * m_popHeight + y]->fitness > bestInd->fitness) {
@@ -353,7 +354,7 @@ public:
         ya = y - 1;
 
         if (ya < 0) {
-            ya += m_cfg.ypopsize;
+            ya += m_cfg->ypopsize;
         }
 
         if (m_currGenInds[x * m_popHeight + ya]->fitness > bestInd->fitness) {
@@ -362,8 +363,8 @@ public:
 
         ya = y + 1;
 
-        if (ya >= m_cfg.ypopsize) {
-            ya -= m_cfg.ypopsize;
+        if (ya >= m_cfg->ypopsize) {
+            ya -= m_cfg->ypopsize;
         }
 
         if (m_currGenInds[x * m_popHeight + ya]->fitness > bestInd->fitness) {
@@ -382,7 +383,7 @@ public:
 
         xa = x - 1;
         if (xa < 0) {
-            xa += m_cfg.xpopsize;
+            xa += m_cfg->xpopsize;
         }
 
         if (m_currGenInds[xa * m_popHeight + y]->fitness > ind_1->fitness) {
@@ -401,8 +402,8 @@ public:
 
         xa = x + 1;
 
-        if (xa >= m_cfg.xpopsize) {
-            xa -= m_cfg.xpopsize;
+        if (xa >= m_cfg->xpopsize) {
+            xa -= m_cfg->xpopsize;
         }
 
         if (m_currGenInds[xa * m_popHeight + y]->fitness > ind_1->fitness) {
@@ -422,7 +423,7 @@ public:
         ya = y - 1;
 
         if (ya < 0) {
-            ya += m_cfg.ypopsize;
+            ya += m_cfg->ypopsize;
         }
 
         if (m_currGenInds[x * m_popHeight + ya]->fitness > ind_1->fitness) {
@@ -441,8 +442,8 @@ public:
 
         ya = y + 1;
 
-        if (ya >= m_cfg.ypopsize) {
-            ya -= m_cfg.ypopsize;
+        if (ya >= m_cfg->ypopsize) {
+            ya -= m_cfg->ypopsize;
         }
 
         if (m_currGenInds[x * m_popHeight + ya]->fitness > ind_1->fitness) {
@@ -478,7 +479,7 @@ public:
 
     int m_gensCount;
 
-    PopConfig m_cfg;
+    std::shared_ptr<PopConfig> m_cfg;
     std::shared_ptr<IndData> m_indData;
 
     std::shared_ptr<Bitmap> image_;
@@ -486,7 +487,7 @@ public:
     //Random rnd;
 
     std::vector<std::thread> m_threads;
-    int m_number_of_threads = 1;
+    int m_number_of_threads_;
 
     std::queue<ThrTask> m_taskList;
     std::mutex task_list_mutex_;
