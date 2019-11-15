@@ -10,5 +10,5 @@
 
 class IndData {
 public:
-    virtual ~IndData()=default;
+    virtual ~IndData() = default;
 };

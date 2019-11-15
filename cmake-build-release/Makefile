@@ -124,6 +124,19 @@ bitmap-write-example/fast:
 .PHONY : bitmap-write-example/fast
 
 #=============================================================================
+# Target rules for targets named variable-register-example
+
+# Build rule for target.
+variable-register-example: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 variable-register-example
+.PHONY : variable-register-example
+
+# fast build rule for target.
+variable-register-example/fast:
+	$(MAKE) -f CMakeFiles/variable-register-example.dir/build.make CMakeFiles/variable-register-example.dir/build
+.PHONY : variable-register-example/fast
+
+#=============================================================================
 # Target rules for targets named evolution-example
 
 # Build rule for target.
@@ -190,6 +203,33 @@ examples/evolution_simple/main.cpp.s:
 	$(MAKE) -f CMakeFiles/evolution-example.dir/build.make CMakeFiles/evolution-example.dir/examples/evolution_simple/main.cpp.s
 .PHONY : examples/evolution_simple/main.cpp.s
 
+examples/vari_reg_example/main.o: examples/vari_reg_example/main.cpp.o
+
+.PHONY : examples/vari_reg_example/main.o
+
+# target to build an object file
+examples/vari_reg_example/main.cpp.o:
+	$(MAKE) -f CMakeFiles/variable-register-example.dir/build.make CMakeFiles/variable-register-example.dir/examples/vari_reg_example/main.cpp.o
+.PHONY : examples/vari_reg_example/main.cpp.o
+
+examples/vari_reg_example/main.i: examples/vari_reg_example/main.cpp.i
+
+.PHONY : examples/vari_reg_example/main.i
+
+# target to preprocess a source file
+examples/vari_reg_example/main.cpp.i:
+	$(MAKE) -f CMakeFiles/variable-register-example.dir/build.make CMakeFiles/variable-register-example.dir/examples/vari_reg_example/main.cpp.i
+.PHONY : examples/vari_reg_example/main.cpp.i
+
+examples/vari_reg_example/main.s: examples/vari_reg_example/main.cpp.s
+
+.PHONY : examples/vari_reg_example/main.s
+
+# target to generate assembly for a file
+examples/vari_reg_example/main.cpp.s:
+	$(MAKE) -f CMakeFiles/variable-register-example.dir/build.make CMakeFiles/variable-register-example.dir/examples/vari_reg_example/main.cpp.s
+.PHONY : examples/vari_reg_example/main.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -199,6 +239,7 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
 	@echo "... bitmap-write-example"
+	@echo "... variable-register-example"
 	@echo "... evolution-example"
 	@echo "... examples/bitmap_write/main.o"
 	@echo "... examples/bitmap_write/main.i"
@@ -206,6 +247,9 @@ help:
 	@echo "... examples/evolution_simple/main.o"
 	@echo "... examples/evolution_simple/main.i"
 	@echo "... examples/evolution_simple/main.s"
+	@echo "... examples/vari_reg_example/main.o"
+	@echo "... examples/vari_reg_example/main.i"
+	@echo "... examples/vari_reg_example/main.s"
 .PHONY : help
 
 

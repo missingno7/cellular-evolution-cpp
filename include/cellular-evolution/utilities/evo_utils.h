@@ -5,9 +5,8 @@
 
 #include <cmath>
 
-void LABtoRGB(int &r_r, int &g_r, int &b_r, int const l, int const a, int const b)
-{
-    float r_t,g_t,b_t;
+void LABtoRGB(int &r_r, int &g_r, int &b_r, int const l, int const a, int const b) {
+    float r_t, g_t, b_t;
 
     float y = (l + 16.0) / 116.0;
     float x = a / 500.0 + y;

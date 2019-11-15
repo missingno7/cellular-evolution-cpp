@@ -8,39 +8,37 @@
 
 int main() {
 
-   std::string indPath = "out/";
+    std::string indPath = "out/";
 
     PopConfig cfg;
 
-    /*
+
     cfg.reg.newInt("tstint");
 
     cfg.LoadConfig("config.txt");
 
-    int[] tstint=cfg.reg.getInt("tstint");
+    std::vector<int> tstint = cfg.reg.getInt("tstint");
 
-    System.out.println(tstint.length+" - "+tstint[1]);
-*/
+    std::cout << tstint.size() << " - " << tstint[1] << std::endl;
 
-    std::shared_ptr<Individual> tstInd=std::make_shared<TestInd>();
+
+    std::shared_ptr<Individual> tstInd = std::make_shared<TestInd>();
     //std::dynamic_pointer_cast<tstInd>(tstInd)->val_ = 3;
 
-    std::shared_ptr<IndData> tstData=std::make_shared<TestIndData>();
-
+    std::shared_ptr<IndData> tstData = std::make_shared<TestIndData>();
 
 
     Population pop(tstInd, tstData, cfg);
     pop.Randomize(Random());
 
 
-
     for (int i = 0; i < 100; i++) {
         Individual *bestInd = pop.getBest();
-        std::cout<<"GENERATION " << std::to_string(pop.getGen())<<std::endl;
-        std::cout<<bestInd->toString(tstData)<<std::endl;
-        std::cout<<"BEST FITNESS: " << std::to_string(bestInd->getFitness())<<std::endl;
-        std::cout<<"AVG FITNESS: " << std::to_string(pop.avgFitness())<<std::endl;
-        if(cfg.drawpop)pop.paintPop(indPath + "GEN" + std::to_string(i) + ".bmp");
+        std::cout << "GENERATION " << std::to_string(pop.getGen()) << std::endl;
+        std::cout << bestInd->toString(tstData) << std::endl;
+        std::cout << "BEST FITNESS: " << std::to_string(bestInd->getFitness()) << std::endl;
+        std::cout << "AVG FITNESS: " << std::to_string(pop.avgFitness()) << std::endl;
+        if (cfg.drawpop)pop.paintPop(indPath + "GEN" + std::to_string(i) + ".bmp");
         pop.nextGen();
     }
 

@@ -5,10 +5,9 @@
 
 #include "cellular-evolution/cevo/ind_data.h"
 
-class TestIndData : public IndData
-        {
-        public:
+class TestIndData : public IndData {
+public:
     ~TestIndData() = default;
 
-    int data=5;
-        };
+    int data = 5;
+};

@@ -25,6 +25,12 @@ string
 -
 iostream
 -
+fstream
+-
+sstream
+-
+iterator
+-
 
 ../include/cellular-evolution/cevo/population.h
 cellular-evolution/utilities/random.h
@@ -58,7 +64,21 @@ cmath
 random
 -
 
+../include/cellular-evolution/varireg/variable.h
+vector
+-
+
 ../include/cellular-evolution/varireg/varireg.h
+cellular-evolution/varireg/variable.h
+../include/cellular-evolution/varireg/cellular-evolution/varireg/variable.h
+string
+-
+map
+-
+iostream
+-
+memory
+-
 
 /cygdrive/c/playspace/personal/cpp/cellular-evolution-cpp/examples/evolution_simple/main.cpp
 iostream

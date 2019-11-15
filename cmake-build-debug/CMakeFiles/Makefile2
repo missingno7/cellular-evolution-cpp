@@ -54,12 +54,14 @@ CMAKE_BINARY_DIR = /cygdrive/c/playspace/personal/cpp/cellular-evolution-cpp/cma
 
 # The main recursive "all" target.
 all: CMakeFiles/bitmap-write-example.dir/all
+all: CMakeFiles/variable-register-example.dir/all
 all: CMakeFiles/evolution-example.dir/all
 
 .PHONY : all
 
 # The main recursive "clean" target.
 clean: CMakeFiles/bitmap-write-example.dir/clean
+clean: CMakeFiles/variable-register-example.dir/clean
 clean: CMakeFiles/evolution-example.dir/clean
 
 .PHONY : clean
@@ -95,6 +97,33 @@ bitmap-write-example: CMakeFiles/bitmap-write-example.dir/rule
 CMakeFiles/bitmap-write-example.dir/clean:
 	$(MAKE) -f CMakeFiles/bitmap-write-example.dir/build.make CMakeFiles/bitmap-write-example.dir/clean
 .PHONY : CMakeFiles/bitmap-write-example.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/variable-register-example.dir
+
+# All Build rule for target.
+CMakeFiles/variable-register-example.dir/all:
+	$(MAKE) -f CMakeFiles/variable-register-example.dir/build.make CMakeFiles/variable-register-example.dir/depend
+	$(MAKE) -f CMakeFiles/variable-register-example.dir/build.make CMakeFiles/variable-register-example.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/cygdrive/c/playspace/personal/cpp/cellular-evolution-cpp/cmake-build-debug/CMakeFiles --progress-num=5,6 "Built target variable-register-example"
+.PHONY : CMakeFiles/variable-register-example.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/variable-register-example.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /cygdrive/c/playspace/personal/cpp/cellular-evolution-cpp/cmake-build-debug/CMakeFiles 2
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/variable-register-example.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /cygdrive/c/playspace/personal/cpp/cellular-evolution-cpp/cmake-build-debug/CMakeFiles 0
+.PHONY : CMakeFiles/variable-register-example.dir/rule
+
+# Convenience name for target.
+variable-register-example: CMakeFiles/variable-register-example.dir/rule
+
+.PHONY : variable-register-example
+
+# clean rule for target.
+CMakeFiles/variable-register-example.dir/clean:
+	$(MAKE) -f CMakeFiles/variable-register-example.dir/build.make CMakeFiles/variable-register-example.dir/clean
+.PHONY : CMakeFiles/variable-register-example.dir/clean
 
 #=============================================================================
 # Target rules for target CMakeFiles/evolution-example.dir

@@ -52,5 +52,6 @@ set(CMAKE_MAKEFILE_PRODUCTS
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
   "CMakeFiles/bitmap-write-example.dir/DependInfo.cmake"
+  "CMakeFiles/variable-register-example.dir/DependInfo.cmake"
   "CMakeFiles/evolution-example.dir/DependInfo.cmake"
   )

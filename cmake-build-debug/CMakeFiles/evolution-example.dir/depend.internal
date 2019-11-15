@@ -9,6 +9,7 @@ CMakeFiles/evolution-example.dir/examples/evolution_simple/main.cpp.o
  ../include/cellular-evolution/utilities/bitmap.hpp
  ../include/cellular-evolution/utilities/evo_utils.h
  ../include/cellular-evolution/utilities/random.h
+ ../include/cellular-evolution/varireg/variable.h
  ../include/cellular-evolution/varireg/varireg.h
  /cygdrive/c/playspace/personal/cpp/cellular-evolution-cpp/examples/evolution_simple/main.cpp
  /cygdrive/c/playspace/personal/cpp/cellular-evolution-cpp/examples/evolution_simple/test_ind.h

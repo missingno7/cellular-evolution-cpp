@@ -1,4 +1,0 @@
-C:/playspace/personal/cpp/cellular-evolution-cpp/cmake-build-debug-visual-studio/CMakeFiles/bitmap-write-example.dir
-C:/playspace/personal/cpp/cellular-evolution-cpp/cmake-build-debug-visual-studio/CMakeFiles/rebuild_cache.dir
-C:/playspace/personal/cpp/cellular-evolution-cpp/cmake-build-debug-visual-studio/CMakeFiles/evolution-example.dir
-C:/playspace/personal/cpp/cellular-evolution-cpp/cmake-build-debug-visual-studio/CMakeFiles/edit_cache.dir
