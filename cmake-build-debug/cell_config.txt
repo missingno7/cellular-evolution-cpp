@@ -1,5 +1,5 @@
-xpopsize 512
-ypopsize 512
+xpopsize 128
+ypopsize 128
 crossrate 0.5
 mutamount 5
 mutprob 0.1
@@ -9,5 +9,3 @@ gennew true
 drawpop true
 squares 30
 threads 16
-
-

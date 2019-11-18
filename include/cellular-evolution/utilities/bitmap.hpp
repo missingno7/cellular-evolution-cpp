@@ -8,7 +8,7 @@ public:
 
     Bitmap(int width, int height)
             : width_(width), height_(height) {
-        img = new unsigned char[3 * width * height];
+        img = new unsigned char[3 * width * height]();
         const int pad = (4 - (3 * width_) % 4) % 4, filesize = 54 + (3 * width_ + pad) *
                                                                     height_; // horizontal line must be a multiple of 4 bytes long, header is 54 bytes
 

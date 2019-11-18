@@ -19,8 +19,8 @@ public:
         rec->y2=y2;
     }
 
-    int x1;
-    int y1;
-    int x2;
-    int y2;
+    uint16_t x1;
+    uint16_t y1;
+    uint16_t x2;
+    uint16_t y2;
 };

@@ -17,29 +17,16 @@
   <component name="ChangeListManager">
     <list default="true" id="18aa0adb-a839-4a50-a63f-cd93c2ea04ad" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile2" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile2" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/TargetDirectories.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/TargetDirectories.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/evolution-example.dir/examples/evolution_simple/main.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/evolution-example.dir/examples/evolution_simple/main.cpp.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/progress.marks" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/progress.marks" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/variable-register-example.dir/progress.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/variable-register-example.dir/progress.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/Makefile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/cellular_evolution.cbp" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/cellular_evolution.cbp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/evolution-example.exe" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/evolution-example.exe" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/out.bmp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-release/CMakeFiles/Makefile.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-release/CMakeFiles/Makefile.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-release/CMakeFiles/Makefile2" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-release/CMakeFiles/Makefile2" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-release/CMakeFiles/TargetDirectories.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-release/CMakeFiles/TargetDirectories.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-release/CMakeFiles/progress.marks" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-release/CMakeFiles/progress.marks" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-release/CMakeFiles/variable-register-example.dir/progress.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-release/CMakeFiles/variable-register-example.dir/progress.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-release/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-release/Makefile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-release/cellular_evolution.cbp" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-release/cellular_evolution.cbp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/examples/bitmap_write/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/examples/bitmap_write/main.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/examples/evolution_simple/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/examples/evolution_simple/main.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/include/cellular-evolution/cevo/population.h" beforeDir="false" afterPath="$PROJECT_DIR$/include/cellular-evolution/cevo/population.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/cell_config.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/cell_config.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/config.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/config.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/floor-planning-example.exe" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/floor-planning-example.exe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-release/CMakeFiles/floor-planning-example.dir/CXX.includecache" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-release/CMakeFiles/floor-planning-example.dir/CXX.includecache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-release/CMakeFiles/floor-planning-example.dir/examples/floor_planning/main.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-release/CMakeFiles/floor-planning-example.dir/examples/floor_planning/main.cpp.o" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-release/cell_config.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-release/cell_config.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-release/floor-planning-example.exe" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-release/floor-planning-example.exe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/include/cellular-evolution/floor_planning/fp_individual.h" beforeDir="false" afterPath="$PROJECT_DIR$/include/cellular-evolution/floor_planning/fp_individual.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/include/cellular-evolution/floor_planning/rectangle.h" beforeDir="false" afterPath="$PROJECT_DIR$/include/cellular-evolution/floor_planning/rectangle.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/include/cellular-evolution/utilities/bitmap.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/include/cellular-evolution/utilities/bitmap.hpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/include/cellular-evolution/utilities/random.h" beforeDir="false" afterPath="$PROJECT_DIR$/include/cellular-evolution/utilities/random.h" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -50,7 +37,7 @@
   <component name="ClangdSettings">
     <option name="formatViaClangd" value="false" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Debug" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Release" />
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
@@ -165,9 +152,14 @@
           <option name="timeStamp" value="43" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/include/cellular-evolution/floor_planning/fp_individual.h</url>
-          <line>22</line>
-          <option name="timeStamp" value="52" />
+          <url>file://$PROJECT_DIR$/include/cellular-evolution/cevo/population.h</url>
+          <line>166</line>
+          <option name="timeStamp" value="56" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/include/cellular-evolution/cevo/population.h</url>
+          <line>201</line>
+          <option name="timeStamp" value="57" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

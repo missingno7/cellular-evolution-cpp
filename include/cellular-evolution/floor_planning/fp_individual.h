@@ -24,12 +24,8 @@ public:
         }
 
         cfg_ = cfg;
-        genom_ = new Rectangle *[squares];
+        genom_ = new Rectangle [squares];
         genom_len_ = squares;
-
-        for (int i = 0; i < squares; i++) {
-            genom_[i] = new Rectangle();
-        }
 
         // Expensive operation, will be called only once
         if (!init_) {
@@ -67,18 +63,18 @@ public:
             do {
                 flip = rnd.nextBoolean();
 
-                genom_[i]->x1 = rnd.nextInt(100, maxX - 100);
-                genom_[i]->y1 = rnd.nextInt(100, maxY - 100);
+                genom_[i].x1 = rnd.nextInt(100, maxX - 100);
+                genom_[i].y1 = rnd.nextInt(100, maxY - 100);
                 //System.out.println(x[i]+"AND"+y[i]);
 
                 if (flip) {
 
-                    genom_[i]->x2 = genom_[i]->x1 + fp_data->height[i];
-                    genom_[i]->y2 = genom_[i]->y1 + fp_data->width[i];
+                    genom_[i].x2 = genom_[i].x1 + fp_data->height[i];
+                    genom_[i].y2 = genom_[i].y1 + fp_data->width[i];
 
                 } else {
-                    genom_[i]->x2 = genom_[i]->x1 + fp_data->width[i];
-                    genom_[i]->y2 = genom_[i]->y1 + fp_data->height[i];
+                    genom_[i].x2 = genom_[i].x1 + fp_data->width[i];
+                    genom_[i].y2 = genom_[i].y1 + fp_data->height[i];
                 }
 
                 again = false;
@@ -86,8 +82,8 @@ public:
 
                 if (attempts < 10000) {
                     for (int j = 0; j < i; j++) {
-                        if (overlap2D(genom_[i]->x1, genom_[i]->y1, genom_[i]->x2, genom_[i]->y2, genom_[j]->x1,
-                                      genom_[j]->y1, genom_[j]->x2, genom_[j]->y2)) {
+                        if (overlap2D(genom_[i].x1, genom_[i].y1, genom_[i].x2, genom_[i].y2, genom_[j].x1,
+                                      genom_[j].y1, genom_[j].x2, genom_[j].y2)) {
                             again = true;
                             attempts++;
                         }
@@ -119,35 +115,35 @@ public:
             // Move
             if (rnd.nextFloat() < probability) {
                 float mutX = (float) rnd.nextFloat(-2.0, 2.0) * amount;
-                if (genom_[i]->x1 + mutX >= scWidth_ || genom_[i]->x1 + mutX < 0) {
-                    genom_[i]->x1 -= mutX;
-                    genom_[i]->x2 -= mutX;
+                if (genom_[i].x1 + mutX >= scWidth_ || genom_[i].x1 + mutX < 0) {
+                    genom_[i].x1 -= mutX;
+                    genom_[i].x2 -= mutX;
                 } else {
-                    genom_[i]->x1 += mutX;
-                    genom_[i]->x2 += mutX;
+                    genom_[i].x1 += mutX;
+                    genom_[i].x2 += mutX;
                 }
                 float mutY = (float) (rnd.nextFloat(-2.0, 2.0) * amount);
-                if (genom_[i]->y1 + mutY >= scHeight_ || genom_[i]->y1 + mutY < 0) {
-                    genom_[i]->y1 -= mutY;
-                    genom_[i]->y2 -= mutY;
+                if (genom_[i].y1 + mutY >= scHeight_ || genom_[i].y1 + mutY < 0) {
+                    genom_[i].y1 -= mutY;
+                    genom_[i].y2 -= mutY;
                 } else {
-                    genom_[i]->y1 += mutY;
-                    genom_[i]->y2 += mutY;
+                    genom_[i].y1 += mutY;
+                    genom_[i].y2 += mutY;
                 }
             }
             // Flip
             if (rnd.nextFloat() < flip_prob_) {
-                genom_[i]->flip();
+                genom_[i].flip();
             }
             //Switch
             if (rnd.nextFloat() < switch_prob_) {
                 int sw = rnd.nextInt(0, genom_len_ - 1);
-                int tmpx = genom_[i]->x1 - genom_[sw]->x1;
-                genom_[i]->x1 = genom_[i]->x1 - tmpx;
-                genom_[i]->x2 = genom_[i]->x2 - tmpx;
-                int tmpy = genom_[i]->y1 - genom_[sw]->y1;
-                genom_[i]->y1 = genom_[i]->y1 - tmpy;
-                genom_[i]->y2 = genom_[i]->y2 - tmpy;
+                int tmpx = genom_[i].x1 - genom_[sw].x1;
+                genom_[i].x1 = genom_[i].x1 - tmpx;
+                genom_[i].x2 = genom_[i].x2 - tmpx;
+                int tmpy = genom_[i].y1 - genom_[sw].y1;
+                genom_[i].y1 = genom_[i].y1 - tmpy;
+                genom_[i].y2 = genom_[i].y2 - tmpy;
             }
         }
     }
@@ -169,15 +165,15 @@ public:
         cInd.mut_amount_ = ratio * mut_amount_ + (1 - ratio) * cSecondOne.mut_amount_;*/
         for (int i = 0; i < genom_len_; i++) {
             if (rnd.nextBoolean()) {
-                cInd->genom_[i]->x1 = genom_[i]->x1;
-                cInd->genom_[i]->x2 = genom_[i]->x2;
-                cInd->genom_[i]->y1 = genom_[i]->y1;
-                cInd->genom_[i]->y2 = genom_[i]->y2;
+                cInd->genom_[i].x1 = genom_[i].x1;
+                cInd->genom_[i].x2 = genom_[i].x2;
+                cInd->genom_[i].y1 = genom_[i].y1;
+                cInd->genom_[i].y2 = genom_[i].y2;
             } else {
-                cInd->genom_[i]->x1 = cSecondOne->genom_[i]->x1;
-                cInd->genom_[i]->x2 = cSecondOne->genom_[i]->x2;
-                cInd->genom_[i]->y1 = cSecondOne->genom_[i]->y1;
-                cInd->genom_[i]->y2 = cSecondOne->genom_[i]->y2;
+                cInd->genom_[i].x1 = cSecondOne->genom_[i].x1;
+                cInd->genom_[i].x2 = cSecondOne->genom_[i].x2;
+                cInd->genom_[i].y1 = cSecondOne->genom_[i].y1;
+                cInd->genom_[i].y2 = cSecondOne->genom_[i].y2;
             }
         }
     }
@@ -191,7 +187,7 @@ public:
         FpIndividual *fpInd = dynamic_cast<FpIndividual *>(ind);
 
         for (int i = 0; i < genom_len_; i++) {
-            genom_[i]->copyTo(fpInd->genom_[i]);
+            genom_[i].copyTo(&fpInd->genom_[i]);
         }
 
         fpInd->fitness = fitness;
@@ -208,8 +204,8 @@ public:
         int sumX = 0, sumY = 0;
 
         for (int i = 0; i < genom_len_; i++) {
-            sumX += genom_[i]->x1;
-            sumY += genom_[i]->y1;
+            sumX += genom_[i].x1;
+            sumY += genom_[i].y1;
         }
 
         sumX = sumX / genom_len_;
@@ -222,10 +218,10 @@ public:
         int moveY = sumY - centerY;
 
         for (int i = 0; i < genom_len_; i++) {
-            genom_[i]->x1 -= moveX;
-            genom_[i]->y1 -= moveY;
-            genom_[i]->x2 -= moveX;
-            genom_[i]->y2 -= moveY;
+            genom_[i].x1 -= moveX;
+            genom_[i].y1 -= moveY;
+            genom_[i].x2 -= moveX;
+            genom_[i].y2 -= moveY;
         }
 
     }
@@ -239,8 +235,8 @@ public:
         // Colisions
         for (int i = 0; i < genom_len_; i++) {
             for (int j = i + 1; j < genom_len_; j++) {
-                if (overlap2D(genom_[i]->x1, genom_[i]->y1, genom_[i]->x2, genom_[i]->y2, genom_[j]->x1, genom_[j]->y1,
-                              genom_[j]->x2, genom_[j]->y2)) {
+                if (overlap2D(genom_[i].x1, genom_[i].y1, genom_[i].x2, genom_[i].y2, genom_[j].x1, genom_[j].y1,
+                              genom_[j].x2, genom_[j].y2)) {
                     float penalty = fp_data->width[i] * fp_data->height[i] + fp_data->width[j] * fp_data->height[j];
                     fitness -= penalty * 3;
                 }
@@ -248,26 +244,26 @@ public:
         }
 
         // bounding box surface
-        float maxX = genom_[0]->x2;
-        float maxY = genom_[0]->y2;
-        float minX = genom_[0]->x1;
-        float minY = genom_[0]->y1;
+        float maxX = genom_[0].x2;
+        float maxY = genom_[0].y2;
+        float minX = genom_[0].x1;
+        float minY = genom_[0].y1;
 
         for (int i = 1; i < genom_len_; i++) {
-            if (maxX < genom_[i]->x2) {
-                maxX = genom_[i]->x2;
+            if (maxX < genom_[i].x2) {
+                maxX = genom_[i].x2;
             }
 
-            if (minX > genom_[i]->x1) {
-                minX = genom_[i]->x1;
+            if (minX > genom_[i].x1) {
+                minX = genom_[i].x1;
             }
 
-            if (maxY < genom_[i]->y2) {
-                maxY = genom_[i]->y2;
+            if (maxY < genom_[i].y2) {
+                maxY = genom_[i].y2;
             }
 
-            if (minY > genom_[i]->y1) {
-                minY = genom_[i]->y1;
+            if (minY > genom_[i].y1) {
+                minY = genom_[i].y1;
             }
 
         }
@@ -280,11 +276,11 @@ public:
 
         for (int i = 0; i < genom_len_; i++) {
             if (i % 2 == 0) {
-                colX += genom_[i]->x1;
-                colY += genom_[i]->y1;
+                colX += genom_[i].x1;
+                colY += genom_[i].y1;
             } else {
-                colX -= genom_[i]->x1;
-                colY -= genom_[i]->y1;
+                colX -= genom_[i].x1;
+                colY -= genom_[i].y1;
             }
         }
     }
@@ -300,7 +296,7 @@ public:
         std::string res = "";
 
         for (int i = 0; i < genom_len_; i++) {
-            res += std::to_string((int) genom_[i]->x1) + "," + std::to_string((int) genom_[i]->y1) + "\n";
+            res += std::to_string((int) genom_[i].x1) + "," + std::to_string((int) genom_[i].y1) + "\n";
         }
 
         return res;
@@ -308,26 +304,26 @@ public:
 
     void Draw(std::shared_ptr<IndData> &data, std::string filename) {
         // bounding box surface
-        float maxX = genom_[0]->x2;
-        float maxY = genom_[0]->y2;
-        float minX = genom_[0]->x1;
-        float minY = genom_[0]->y2;
+        float maxX = genom_[0].x2;
+        float maxY = genom_[0].y2;
+        float minX = genom_[0].x1;
+        float minY = genom_[0].y2;
 
         for (int i = 1; i < genom_len_; i++) {
-            if (maxX < genom_[i]->x2) {
-                maxX = genom_[i]->x2;
+            if (maxX < genom_[i].x2) {
+                maxX = genom_[i].x2;
             }
 
-            if (minX > genom_[i]->x1) {
-                minX = genom_[i]->x1;
+            if (minX > genom_[i].x1) {
+                minX = genom_[i].x1;
             }
 
-            if (maxY < genom_[i]->y2) {
-                maxY = genom_[i]->y2;
+            if (maxY < genom_[i].y2) {
+                maxY = genom_[i].y2;
             }
 
-            if (minY > genom_[i]->y1) {
-                minY = genom_[i]->y1;
+            if (minY > genom_[i].y1) {
+                minY = genom_[i].y1;
             }
         }
 
@@ -340,10 +336,10 @@ public:
 
         for (int i = 0; i < genom_len_; i++) {
 
-            bmp_->fillRect((int) genom_[i]->x1, (int) genom_[i]->y1, (int) genom_[i]->x2, (int) genom_[i]->y2, 255, 255,
+            bmp_->fillRect((int) genom_[i].x1, (int) genom_[i].y1, (int) genom_[i].x2, (int) genom_[i].y2, 255, 255,
                            255);
 
-            bmp_->drawRect((int) genom_[i]->x1, (int) genom_[i]->y1, (int) genom_[i]->x2, (int) genom_[i]->y2, 255, 0,
+            bmp_->drawRect((int) genom_[i].x1, (int) genom_[i].y1, (int) genom_[i].x2, (int) genom_[i].y2, 255, 0,
                            0);
 
             //g.drawRect((int) genom_[i].x1, (int) genom_[i].y1, (int) genom_[i].x2 - genom_[i].x1, (int) genom_[i].y2 - genom_[i].y1);
@@ -354,12 +350,12 @@ public:
 
     }
 
-    int scWidth_, scHeight_;
+    uint16_t scWidth_, scHeight_;
 
-    Rectangle **genom_;
-    int genom_len_;
+    Rectangle *genom_;
+    uint8_t genom_len_;
 
-    bool init_;
+    static bool init_;
     static float flip_prob_;
     static float switch_prob_;
     static float mut_prob_;
@@ -376,4 +372,5 @@ float FpIndividual::flip_prob_;
 float FpIndividual::switch_prob_;
 float FpIndividual::mut_prob_;
 float FpIndividual::mut_amount_;
+bool FpIndividual::init_;
 std::shared_ptr<PopConfig> FpIndividual::cfg_ = 0;
