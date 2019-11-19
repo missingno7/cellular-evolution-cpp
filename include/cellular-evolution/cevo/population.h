@@ -310,9 +310,9 @@ public:
             int xx = i / m_popHeight;
             int yy = i % m_popHeight;
 
-            int pix_intensity = static_cast<int>(((m_currGenInds[i]->fitness - min) * 100) / diff);
-            int pix_color_x = static_cast<int> (((m_currGenInds[i]->colX - min_x) * 100) / diff_x);
-            int pix_color_y = static_cast<int> (((m_currGenInds[i]->colY - min_y) * 100) / diff_y);
+            int pix_intensity = static_cast<int>(((m_currGenInds[i]->fitness - min) * 100.0) / diff);
+            int pix_color_x = static_cast<int> (((m_currGenInds[i]->colX - min_x) * 100.0) / diff_x);
+            int pix_color_y = static_cast<int> (((m_currGenInds[i]->colY - min_y) * 100.0) / diff_y);
 
             l = pix_intensity;
             a = pix_color_x - 50;

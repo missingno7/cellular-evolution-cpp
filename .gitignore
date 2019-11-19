@@ -1,0 +1,29 @@
+# Build Output
+/*build*/
+info.txt
+CMakeCache.txt
+
+/docs/build
+
+# Merge Outputs
+*.orig
+
+# Bazel Files
+bazel-*
+
+# Legacy Editors
+\#*#
+.\#*
+*~
+*.swp
+*.swo
+*.swn
+.idea/
+*.osm
+tags
+
+*.gz
+*.so
+
+*.DS_Store
+

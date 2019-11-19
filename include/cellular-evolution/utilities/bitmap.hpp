@@ -3,6 +3,8 @@
 // Created by jiri on 14/11/19.
 //
 
+#include<cassert>
+
 class Bitmap {
 public:
 
@@ -11,6 +13,12 @@ public:
         img = new unsigned char[3 * width * height]();
         const int pad = (4 - (3 * width_) % 4) % 4, filesize = 54 + (3 * width_ + pad) *
                                                                     height_; // horizontal line must be a multiple of 4 bytes long, header is 54 bytes
+
+
+        for (int i = 29; i<54;i++)
+        {
+            header_[i]=0;
+        }
 
         for (int i = 0; i < 4; i++) {
             header_[2 + i] = (unsigned char) ((filesize >> (8 * i)) & 255);
@@ -61,6 +69,9 @@ public:
     }
 
     void SetPixel(int x, int y, unsigned char r, unsigned char g, unsigned char b) {
+        assert(x>=0 && x<width_);
+        assert(y>=0 && y<height_);
+
         img[3 * (x + y * width_)] = b;
         img[3 * (x + y * width_) + 1] = g;
         img[3 * (x + y * width_) + 2] = r;

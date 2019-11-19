@@ -1,1 +1,0 @@
-/usr/bin/c++.exe -g  -Wl,--enable-auto-import CMakeFiles/variable-register-example.dir/examples/vari_reg_example/main.cpp.o  -o variable-register-example.exe -Wl,--out-implib,libvariable-register-example.dll.a -Wl,--major-image-version,0,--minor-image-version,0 

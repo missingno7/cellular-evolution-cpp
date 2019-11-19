@@ -1,4 +1,0 @@
-C:\Users\MissingNO\.CLion2019.2\system\cygwin_cmake\bin\cmake.exe -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /cygdrive/c/playspace/personal/cpp/cellular-evolution-cpp
--- Configuring done
--- Generating done
--- Build files have been written to: /cygdrive/c/playspace/personal/cpp/cellular-evolution-cpp/cmake-build-debug

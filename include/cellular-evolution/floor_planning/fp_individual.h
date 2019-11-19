@@ -56,8 +56,9 @@ public:
         switch_prob_ = rnd.nextFloat();
         mut_prob_ = rnd.nextFloat();
         mut_amount_ = (float) rnd.nextGaussian();*/
-        for (int i = 0; i < genom_len_; i++) {
 
+
+        for (int i = 0; i < genom_len_; i++) {
             bool again;
             bool flip;
             do {
@@ -65,7 +66,6 @@ public:
 
                 genom_[i].x1 = rnd.nextInt(100, maxX - 100);
                 genom_[i].y1 = rnd.nextInt(100, maxY - 100);
-                //System.out.println(x[i]+"AND"+y[i]);
 
                 if (flip) {
 
@@ -304,10 +304,10 @@ public:
 
     void Draw(std::shared_ptr<IndData> &data, std::string filename) {
         // bounding box surface
-        float maxX = genom_[0].x2;
-        float maxY = genom_[0].y2;
-        float minX = genom_[0].x1;
-        float minY = genom_[0].y2;
+        uint16_t maxX = genom_[0].x2;
+        uint16_t maxY = genom_[0].y2;
+        uint16_t minX = genom_[0].x1;
+        uint16_t minY = genom_[0].y2;
 
         for (int i = 1; i < genom_len_; i++) {
             if (maxX < genom_[i].x2) {

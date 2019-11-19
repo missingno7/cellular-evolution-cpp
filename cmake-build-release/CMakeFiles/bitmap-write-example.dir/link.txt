@@ -1,1 +1,0 @@
-/usr/bin/c++.exe -O3  -Wl,--enable-auto-import CMakeFiles/bitmap-write-example.dir/examples/bitmap_write/main.cpp.o  -o bitmap-write-example.exe -Wl,--out-implib,libbitmap-write-example.dll.a -Wl,--major-image-version,0,--minor-image-version,0 
