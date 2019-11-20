@@ -2,6 +2,8 @@
 #include <fstream>
 #include "cellular-evolution/floor_planning/fp_individual.h"
 #include "cellular-evolution/cevo/population.h"
+#include "cellular-evolution/utilities/random.h"
+
 
 int main() {
 
@@ -14,26 +16,26 @@ int main() {
     cfg->reg.newFloat("flipprob");
     cfg->reg.newFloat("switchprob");
 
-    cfg->LoadConfig("cell_config.txt");
+    cfg->LoadConfig("../cfg/cell_config.txt");
 
     std::shared_ptr<FpData> fpData = std::make_shared<FpData>("squares.txt", cfg);
     std::shared_ptr<IndData> tstData = fpData;
     int perfectFitness = fpData->getPerfection();
 
-    std::shared_ptr<Individual> tstInd = std::make_shared<FpIndividual>(fpData->scWidth, fpData->scHeight, fpData->squares,cfg);
+    std::shared_ptr<FpIndividual> tstInd = std::make_shared<FpIndividual>(fpData->scWidth, fpData->scHeight, fpData->squares,cfg);
 
-    Population pop(tstInd, tstData, cfg);
+    Population<FpIndividual> pop(tstInd, tstData, cfg);
 
-    pop.Randomize(Random());
+    pop.Randomize();
 
-    FpIndividual *bestOne = dynamic_cast<FpIndividual*>(pop.getBest());
+    std::shared_ptr<FpIndividual> bestOne = pop.getBest()->clone();
 
 
     while (true) {
-        FpIndividual *bestInd =  dynamic_cast<FpIndividual*>(pop.getBest());
+        FpIndividual *bestInd = pop.getBest();
 
         if (bestInd->getFitness() > bestOne->getFitness()) {
-            bestOne = dynamic_cast<FpIndividual*>(bestInd->clone());
+            bestOne = bestInd->clone();
             bestInd->Draw(tstData, indPath + "IGEN" + std::to_string(pop.getGen()) + ".bmp");
 
             if (cfg->drawpop) {

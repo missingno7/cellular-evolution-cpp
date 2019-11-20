@@ -5,7 +5,9 @@
 
 #include "cellular-evolution/utilities/random.h"
 #include "cellular-evolution/utilities/evo_utils.h"
-#include "cellular-evolution/cevo/individual.h"
+//#include "cellular-evolution/cevo/individual.h"
+#include "cellular-evolution/cevo/ind_data.h"
+
 #include "cellular-evolution/cevo/pop_config.h"
 #include "cellular-evolution/utilities/bitmap.hpp"
 #include <thread>
@@ -25,7 +27,7 @@ struct ThrTask {
     int from, to;
 };
 
-
+template<typename Individual>
 class Population {
 public:
 
@@ -51,7 +53,7 @@ public:
                 // Initialize population
                 case INIT:
                     for (int i = val.from; i < val.to; i++) {
-                        m_currGenInds[i] = m_templateInd->clone();
+                        m_currGenInds[i] = m_templateInd->UnsafeClone();
                         m_nextGenInds[i] = m_templateInd->makeBlank(); // Temporary can be blank
                     }
                     break;
@@ -80,7 +82,8 @@ public:
                             if (second_ind != NULL) {
                                 first_ind->crossoverTo(second_ind, m_nextGenInds[i], rnd);
                             } else {
-                                first_ind->mutateTo(rnd.nextFloat() * m_cfg->mutamount, m_cfg->mutprob, m_nextGenInds[i],
+                                first_ind->mutateTo(rnd.nextFloat() * m_cfg->mutamount, m_cfg->mutprob,
+                                                    m_nextGenInds[i],
                                                     rnd);
                             }
                         } else {
@@ -131,7 +134,7 @@ public:
             tsk.from = from;
             tsk.to = from + step;
             tsk.act = ThrAction::INIT;
-            m_taskList.push(tsk);
+            m_taskList.emplace(std::move(tsk));
             from += step;
         }
 
@@ -140,12 +143,12 @@ public:
             tsk.from = from;
             tsk.to = m_inds_cnt;
             tsk.act = ThrAction::INIT;
-            m_taskList.push(tsk);
+            m_taskList.emplace(std::move(tsk));
         }
 
         m_threads.clear();
         for (int i = 0; i < m_number_of_threads_; i++) {
-            m_threads.push_back(std::thread(&Population::consume, this));
+            m_threads.emplace_back(std::thread(&Population<Individual>::consume, this));
 
 
             // Start both threads
@@ -173,7 +176,7 @@ public:
             tsk.from = from;
             tsk.to = from + step;
             tsk.act = ThrAction::NEXTGEN;
-            m_taskList.push(tsk);
+            m_taskList.emplace(std::move(tsk));
             from += step;
         }
 
@@ -182,12 +185,12 @@ public:
             tsk.from = from;
             tsk.to = m_inds_cnt;
             tsk.act = ThrAction::NEXTGEN;
-            m_taskList.push(tsk);
+            m_taskList.emplace(std::move(tsk));
         }
 
         m_threads.clear();
         for (int i = 0; i < m_number_of_threads_; i++) {
-            m_threads.push_back(std::thread(&Population::consume, this));
+            m_threads.emplace_back(std::thread(&Population<Individual>::consume, this));
         }
 
         for (int i = 0; i < m_number_of_threads_; i++) {
@@ -202,7 +205,7 @@ public:
         m_gensCount++;
     }
 
-    void Randomize(Random rnd) {
+    void Randomize() {
 
         ClearTasks();
         int step = m_inds_cnt / (m_number_of_threads_ * 128);
@@ -213,7 +216,7 @@ public:
             tsk.from = from;
             tsk.to = from + step;
             tsk.act = ThrAction::RANDOMIZE;
-            m_taskList.push(tsk);
+            m_taskList.emplace(std::move(tsk));
             from += step;
         }
 
@@ -222,12 +225,12 @@ public:
             tsk.from = from;
             tsk.to = m_inds_cnt;
             tsk.act = ThrAction::RANDOMIZE;
-            m_taskList.push(tsk);
+            m_taskList.emplace(std::move(tsk));
         }
 
         m_threads.clear();
         for (int i = 0; i < m_number_of_threads_; i++) {
-            m_threads.push_back(std::thread(&Population::consume, this));
+            m_threads.emplace_back(std::thread(&Population<Individual>::consume, this));
         }
 
         for (int i = 0; i < m_number_of_threads_; i++) {

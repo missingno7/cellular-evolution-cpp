@@ -4,46 +4,56 @@
 //
 
 #include<memory>
+#include<cstring>
+
 #include "cellular-evolution/cevo/ind_data.h"
-#include "cellular-evolution/cevo/individual.h"
+//#include "cellular-evolution/cevo/individual.h"
+#include "cellular-evolution/utilities/random.h"
+
 #include "cellular-evolution/cevo/pop_config.h"
 #include "cellular-evolution/floor_planning/rectangle.h"
 #include "cellular-evolution/floor_planning/fp_data.h"
 #include "cellular-evolution/utilities/bitmap.hpp"
 
-class FpIndividual : public Individual {
+template<typename Individual>
+class Population;
+
+class FpIndividual {
 public:
 
     FpIndividual(int scWidth, int scHeight, int squares, std::shared_ptr<PopConfig> &cfg) {
-
-        scWidth_ = scWidth;
-        scHeight_ = scHeight;
-
-        if (!bmp_) {
-            bmp_ = std::make_shared<Bitmap>(scWidth_, scHeight_);
-        }
-
-        cfg_ = cfg;
-        genom_ = new Rectangle [squares];
-        genom_len_ = squares;
+        genom_ = new Rectangle[squares];
 
         // Expensive operation, will be called only once
         if (!init_) {
+            cfg_ = cfg;
             flip_prob_ = cfg_->reg.getFloat("flipprob")[0];
             switch_prob_ = cfg_->reg.getFloat("switchprob")[0];
+            genom_len_ = squares;
+            scWidth_ = scWidth;
+            scHeight_ = scHeight;
+            bmp_ = std::make_shared<Bitmap>(scWidth_, scHeight_);
             init_ = true;
         }
     }
 
-    Individual *makeBlank() override {
-        return new FpIndividual(scWidth_, scHeight_, genom_len_, cfg_);
+    FpIndividual(int squares) {
+        if (!init_) {
+            genom_len_ = squares;
+        }
+
+        genom_ = new Rectangle[genom_len_];
+    }
+
+    ~FpIndividual() {
+        delete[]genom_;
     }
 
     bool overlap2D(float ax1, float ay1, float ax2, float ay2, float bx1, float by1, float bx2, float by2) {
         return !(bx2 <= ax1 || ax2 <= bx1 || by2 <= ay1 || ay2 <= by1);
     }
 
-    void randomize(std::shared_ptr<IndData> &data, Random &rnd) override {
+    void randomize(std::shared_ptr<IndData> &data, Random &rnd) {
 
         int maxX = scWidth_;
         int maxY = scHeight_;
@@ -96,15 +106,15 @@ public:
         }
     }
 
-    std::shared_ptr<Individual> fromFile(std::string filename) override {
+    std::shared_ptr<FpIndividual> fromFile(std::string filename) {
         throw std::runtime_error("Not supported yet.");
     }
 
-    void toFile(std::string filename) override {
+    void toFile(std::string filename) {
         throw std::runtime_error("Not supported yet.");
     }
 
-    void mutate(float amount, float probability, Random rnd) override {
+    void mutate(float amount, float probability, Random rnd) {
 
         /*flip_prob_ += (float) rnd.nextGaussian() * probability;
         switch_prob_ += (float) rnd.nextGaussian() * probability;
@@ -114,7 +124,7 @@ public:
         for (int i = 0; i < genom_len_; i++) {
             // Move
             if (rnd.nextFloat() < probability) {
-                float mutX = (float) rnd.nextFloat(-2.0, 2.0) * amount;
+                float mutX = rnd.nextFloat(-2.0, 2.0) * amount;
                 if (genom_[i].x1 + mutX >= scWidth_ || genom_[i].x1 + mutX < 0) {
                     genom_[i].x1 -= mutX;
                     genom_[i].x2 -= mutX;
@@ -122,7 +132,7 @@ public:
                     genom_[i].x1 += mutX;
                     genom_[i].x2 += mutX;
                 }
-                float mutY = (float) (rnd.nextFloat(-2.0, 2.0) * amount);
+                float mutY = (rnd.nextFloat(-2.0, 2.0) * amount);
                 if (genom_[i].y1 + mutY >= scHeight_ || genom_[i].y1 + mutY < 0) {
                     genom_[i].y1 -= mutY;
                     genom_[i].y2 -= mutY;
@@ -148,56 +158,50 @@ public:
         }
     }
 
-    void crossoverTo(Individual *secondOne, Individual *ind, Random &rnd) override {
-        //FpIndividual cInd = (FpIndividual) ind;
-        //FpIndividual cSecondOne = (FpIndividual) secondOne;
+    void crossoverTo(FpIndividual *second_one, FpIndividual *ind, Random &rnd) {
 
-        FpIndividual *cInd = dynamic_cast<FpIndividual *>(ind);
-        FpIndividual *cSecondOne = dynamic_cast<FpIndividual *>(secondOne);
-
-        /*float ratio = rnd.nextFloat();
-        cInd.flip_prob_ = ratio * flip_prob_ + (1 - ratio) * cSecondOne.flip_prob_;
-        ratio = rnd.nextFloat();
-        cInd.switch_prob_ = ratio * switch_prob_ + (1 - ratio) * cSecondOne.switch_prob_;
-        ratio = rnd.nextFloat();
-        cInd.mut_prob_ = ratio * mut_prob_ + (1 - ratio) * cSecondOne.mut_prob_;
-        ratio = rnd.nextFloat();
-        cInd.mut_amount_ = ratio * mut_amount_ + (1 - ratio) * cSecondOne.mut_amount_;*/
         for (int i = 0; i < genom_len_; i++) {
             if (rnd.nextBoolean()) {
-                cInd->genom_[i].x1 = genom_[i].x1;
-                cInd->genom_[i].x2 = genom_[i].x2;
-                cInd->genom_[i].y1 = genom_[i].y1;
-                cInd->genom_[i].y2 = genom_[i].y2;
+                ind->genom_[i].x1 = genom_[i].x1;
+                ind->genom_[i].x2 = genom_[i].x2;
+                ind->genom_[i].y1 = genom_[i].y1;
+                ind->genom_[i].y2 = genom_[i].y2;
             } else {
-                cInd->genom_[i].x1 = cSecondOne->genom_[i].x1;
-                cInd->genom_[i].x2 = cSecondOne->genom_[i].x2;
-                cInd->genom_[i].y1 = cSecondOne->genom_[i].y1;
-                cInd->genom_[i].y2 = cSecondOne->genom_[i].y2;
+                ind->genom_[i].x1 = second_one->genom_[i].x1;
+                ind->genom_[i].x2 = second_one->genom_[i].x2;
+                ind->genom_[i].y1 = second_one->genom_[i].y1;
+                ind->genom_[i].y2 = second_one->genom_[i].y2;
             }
         }
     }
 
-    void mutateTo(float amount, float probability, Individual *ind, Random &rnd) override {
+    void mutateTo(float amount, float probability, FpIndividual *ind, Random &rnd) {
         copyTo(ind);
         ind->mutate(amount, probability, rnd);
     }
 
-    void copyTo(Individual *ind) override {
-        FpIndividual *fpInd = dynamic_cast<FpIndividual *>(ind);
+    void copyTo(FpIndividual *ind) {
 
-        for (int i = 0; i < genom_len_; i++) {
-            genom_[i].copyTo(&fpInd->genom_[i]);
-        }
+        // Copies only things that are necessary
+        std::memcpy(ind->genom_, genom_, genom_len_ * sizeof *genom_);
 
-        fpInd->fitness = fitness;
-        fpInd->colX = colX;
-        fpInd->colY = colY;
-        /*fpInd.flip_prob_=flip_prob_;
-        fpInd.switch_prob_=switch_prob_;
-        fpInd.mut_prob_=mut_prob_;
-        fpInd.mut_amount_=mut_amount_;*/
+        // No need to copy fitness and color because it will be calculated again
+        /*
+ind->fitness = fitness;
+ind->colX = colX;
+ind->colY = colY;
+*/
+
     }
+
+
+    void DeepCopyTo(FpIndividual *ind) {
+        copyTo(ind);
+        ind->fitness = fitness;
+        ind->colX = colX;
+        ind->colY = colY;
+    }
+
 
     void moveToCenter() {
 
@@ -226,7 +230,7 @@ public:
 
     }
 
-    void countFitness(std::shared_ptr<IndData> &data) override {
+    void countFitness(std::shared_ptr<IndData> &data) {
         std::shared_ptr<FpData> fp_data = std::dynamic_pointer_cast<FpData>(data);
 
         moveToCenter();
@@ -270,7 +274,7 @@ public:
         fitness -= (maxX - minX) * (maxY - minY);
     }
 
-    void countColor() override {
+    void countColor() {
         colX = 0;
         colY = 0;
 
@@ -285,14 +289,15 @@ public:
         }
     }
 
-    Individual *clone() override {
-        FpIndividual *fpInd = new FpIndividual(scWidth_, scHeight_, genom_len_, cfg_);
-        copyTo(fpInd);
+    std::shared_ptr<FpIndividual> clone() {
+        std::shared_ptr<FpIndividual> fpInd = std::make_shared<FpIndividual>(scWidth_, scHeight_, genom_len_, cfg_);
+        DeepCopyTo(fpInd.get());
 
         return fpInd;
     }
 
-    std::string toString(std::shared_ptr<IndData> &data) override {
+
+    std::string toString(std::shared_ptr<IndData> &data) {
         std::string res = "";
 
         for (int i = 0; i < genom_len_; i++) {
@@ -350,19 +355,41 @@ public:
 
     }
 
-    uint16_t scWidth_, scHeight_;
+    float getFitness() {
+        return fitness;
+    }
 
     Rectangle *genom_;
-    uint8_t genom_len_;
+    float fitness;
+    float colX;
+    float colY;
 
+    static uint16_t scWidth_, scHeight_;
+    static uint8_t genom_len_;
     static bool init_;
     static float flip_prob_;
     static float switch_prob_;
     static float mut_prob_;
     static float mut_amount_;
     static std::shared_ptr<PopConfig> cfg_;
-
     static std::shared_ptr<Bitmap> bmp_;
+
+    friend class Population<FpIndividual>;
+
+private:
+
+    // Unsafe but fast methods that can lead to memleaks when misused.
+    FpIndividual *UnsafeClone() {
+        FpIndividual *fpInd = new FpIndividual(scWidth_, scHeight_, genom_len_, cfg_);
+        DeepCopyTo(fpInd);
+
+        return fpInd;
+    }
+
+    FpIndividual *makeBlank() {
+        return new FpIndividual(scWidth_, scHeight_, genom_len_, cfg_);
+    }
+
 
 };
 
@@ -372,5 +399,9 @@ float FpIndividual::flip_prob_;
 float FpIndividual::switch_prob_;
 float FpIndividual::mut_prob_;
 float FpIndividual::mut_amount_;
+uint8_t FpIndividual::genom_len_ = 0;
+uint16_t FpIndividual::scWidth_;
+uint16_t FpIndividual::scHeight_;
+
 bool FpIndividual::init_;
 std::shared_ptr<PopConfig> FpIndividual::cfg_ = 0;
