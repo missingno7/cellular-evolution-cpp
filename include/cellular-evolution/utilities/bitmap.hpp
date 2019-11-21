@@ -40,6 +40,20 @@ public:
     }
 
     void fillRect(int x1, int y1, int x2, int y2, unsigned char r, unsigned char g, unsigned char b) {
+        if(x1>x2)
+        {
+            int tmp=x2;
+            x2=x1;
+            x1=tmp;
+        }
+
+        if(y1>y2)
+        {
+            int tmp=y2;
+            y2=y1;
+            y1=tmp;
+        }
+
         for (int i = x1; i <= x2; i++) {
             for (int j = y1; j <= y2; j++) {
                 SetPixel(i, j, r, g, b);
@@ -49,6 +63,22 @@ public:
     }
 
     void  drawRect(int x1, int y1, int x2, int y2, unsigned char r, unsigned char g, unsigned char b) {
+
+        if(x1>x2)
+        {
+            int tmp=x2;
+            x2=x1;
+            x1=tmp;
+        }
+
+        if(y1>y2)
+        {
+            int tmp=y2;
+            y2=y1;
+            y1=tmp;
+        }
+
+
         for (int i = x1; i <= x2; i++) {
                 SetPixel(i, y1, r, g, b);
             }
@@ -64,8 +94,57 @@ public:
         for (int i = y1; i <= y2; i++) {
             SetPixel(x2, i, r, g, b);
         }
+    }
+
+    void  drawLine(int x1, int y1, int x2, int y2, unsigned char r, unsigned char g, unsigned char b) {
+
+if(abs(x1-x2)>abs(y1-y2))
+{
+        if(x1>x2)
+        {
+            int tmp=x2;
+            x2=x1;
+            x1=tmp;
+
+            tmp=y2;
+            y2=y1;
+            y1=tmp;
+        }
+
+        int dx=x2-x1;
+        int dy=y2-y1;
 
 
+    for(int x=x1;x<=x2;x++)
+    {
+        int y=y1+dy*(x-x1)/dx;
+        SetPixel(x,y,r,g,b);
+    }
+
+}
+else
+{
+        if(y1>y2)
+        {
+            int tmp=x2;
+            x2=x1;
+            x1=tmp;
+
+            tmp=y2;
+            y2=y1;
+            y1=tmp;
+        }
+
+        int dx=x2-x1;
+        int dy=y2-y1;
+
+
+        for(int y=y1;y<=y2;y++)
+        {
+            int x=x1+dx*(y-y1)/dy;
+            SetPixel(x,y,r,g,b);
+        }
+}
     }
 
     void SetPixel(int x, int y, unsigned char r, unsigned char g, unsigned char b) {

@@ -33,7 +33,7 @@ public:
 
 
     // Function that evaluate queue of commands, consumer thread
-    void consume() {
+    void Consume() {
         ThrTask val;
         Random rnd;
 
@@ -54,8 +54,8 @@ public:
             switch (val.act) {
                 // Initialize population
                 case INIT:
-                 for (int i = val.from; i < val.to; i++) {
-                       m_templateInd->DeepCopyTo(&m_currGenInds[i]);
+                    for (int i = val.from; i < val.to; i++) {
+                        m_templateInd->DeepCopyTo(&m_currGenInds[i]);
                     }
                     break;
 
@@ -79,27 +79,28 @@ public:
                     for (int i = val.from; i < val.to; i++) {
                         if (rnd.nextFloat() < m_cfg->crossrate) {
 
-                           // int first_ind=roulette(prepareD13(i / m_popHeight, i % m_popHeight,inds),13,rnd);
-                           // int second_ind=roulette(prepareD13(i / m_popHeight, i % m_popHeight,inds),13,rnd);
+                            // int first_ind=roulette(prepareD13(i / m_popHeight, i % m_popHeight,inds),13,rnd);
+                            // int second_ind=roulette(prepareD13(i / m_popHeight, i % m_popHeight,inds),13,rnd);
 
-                             //int first_ind=tournament(NRands(prepareL5(i / m_popHeight, i % m_popHeight,inds),5,4,rnd),4);
-                             //int second_ind=tournament(NRands(prepareL5(i / m_popHeight, i % m_popHeight,inds),5,4,rnd),4);
+                            //int first_ind=tournament(NRands(prepareL5(i / m_popHeight, i % m_popHeight,inds),5,4,rnd),4);
+                            //int second_ind=tournament(NRands(prepareL5(i / m_popHeight, i % m_popHeight,inds),5,4,rnd),4);
 
-                            dualTournament(prepareL5(i / m_popHeight, i % m_popHeight,inds),5, first_ind, second_ind);
+                            dualTournament(prepareL5(i / m_popHeight, i % m_popHeight, inds), 5, first_ind, second_ind);
 
                             if (second_ind != -1) {
-                                m_currGenInds[first_ind].crossoverTo(&m_currGenInds[second_ind], &m_nextGenInds[i], rnd);
+                                m_currGenInds[first_ind].crossoverTo(&m_currGenInds[second_ind], &m_nextGenInds[i],
+                                                                     rnd);
                             } else {
                                 m_currGenInds[first_ind].mutateTo(rnd.nextFloat() * m_cfg->mutamount, m_cfg->mutprob,
-                                                    &m_nextGenInds[i],
-                                                    rnd);
+                                                                  &m_nextGenInds[i],
+                                                                  rnd);
                             }
                         } else {
-                            //int first_ind=tournament(prepareL5(i / m_popHeight, i % m_popHeight,inds),5);
-                            int first_ind=tournament(NRands(prepareL5(i / m_popHeight, i % m_popHeight,inds),5,4,rnd),4);
+                            int first_ind = tournament(prepareL5(i / m_popHeight, i % m_popHeight, inds), 5);
+                            //int first_ind=tournament(NRands(prepareL5(i / m_popHeight, i % m_popHeight,inds),5,4,rnd),4);
                             m_currGenInds[first_ind].mutateTo(rnd.nextFloat() * m_cfg->mutamount,
-                                                                                     m_cfg->mutprob, &m_nextGenInds[i],
-                                                                                     rnd);
+                                                              m_cfg->mutprob, &m_nextGenInds[i],
+                                                              rnd);
                         }
 
                         m_nextGenInds[i].countFitness(m_indData); // TRAIN AND TEST SPLIT
@@ -136,44 +137,38 @@ public:
         }
 
         ClearTasks();
-        int step = m_inds_cnt / (m_number_of_threads_ * 128);
+        int step = m_inds_cnt / (m_number_of_threads_ * cluster_size);
 
-        if(!m_cfg->gennew)
-        {
-        int from = 0;
-        while (from + step < m_inds_cnt) {
-            ThrTask tsk;
-            tsk.from = from;
-            tsk.to = from + step;
-            tsk.act = ThrAction::INIT;
-            m_taskList.emplace(std::move(tsk));
-            from += step;
+        if (!m_cfg->gennew) {
+            int from = 0;
+            while (from + step < m_inds_cnt) {
+                ThrTask tsk;
+                tsk.from = from;
+                tsk.to = from + step;
+                tsk.act = ThrAction::INIT;
+                m_taskList.emplace(std::move(tsk));
+                from += step;
+            }
+
+            if (from != m_inds_cnt) {
+                ThrTask tsk;
+                tsk.from = from;
+                tsk.to = m_inds_cnt;
+                tsk.act = ThrAction::INIT;
+                m_taskList.emplace(std::move(tsk));
+            }
+
+            m_threads.clear();
+            for (int i = 0; i < m_number_of_threads_; i++) {
+                m_threads.emplace_back(std::thread(&Population<Individual>::Consume, this));
+            }
+
+            for (int i = 0; i < m_number_of_threads_; i++) {
+                // t1 finishes before t2
+                m_threads[i].join();
+            }
         }
 
-        if (from != m_inds_cnt) {
-            ThrTask tsk;
-            tsk.from = from;
-            tsk.to = m_inds_cnt;
-            tsk.act = ThrAction::INIT;
-            m_taskList.emplace(std::move(tsk));
-        }
-
-        m_threads.clear();
-        for (int i = 0; i < m_number_of_threads_; i++) {
-            m_threads.emplace_back(std::thread(&Population<Individual>::consume, this));
-
-
-            // Start both threads
-            //m_threads[i].start();
-
-        }
-
-        for (int i = 0; i < m_number_of_threads_; i++) {
-            // t1 finishes before t2
-            m_threads[i].join();
-        }
-        }
-        
         m_gensCount = 0;
         //rnd = new Random();
     }
@@ -181,7 +176,7 @@ public:
     void nextGen() {
 
         ClearTasks();
-        int step = m_inds_cnt / (m_number_of_threads_ * 128);
+        int step = m_inds_cnt / (m_number_of_threads_ * cluster_size);
 
         int from = 0;
         while (from + step < m_inds_cnt) {
@@ -203,7 +198,7 @@ public:
 
         m_threads.clear();
         for (int i = 0; i < m_number_of_threads_; i++) {
-            m_threads.emplace_back(std::thread(&Population<Individual>::consume, this));
+            m_threads.emplace_back(std::thread(&Population<Individual>::Consume, this));
         }
 
         for (int i = 0; i < m_number_of_threads_; i++) {
@@ -221,7 +216,7 @@ public:
     void Randomize() {
 
         ClearTasks();
-        int step = m_inds_cnt / (m_number_of_threads_ * 128);
+        int step = m_inds_cnt / (m_number_of_threads_ * cluster_size);
 
         int from = 0;
         while (from + step < m_inds_cnt) {
@@ -243,7 +238,7 @@ public:
 
         m_threads.clear();
         for (int i = 0; i < m_number_of_threads_; i++) {
-            m_threads.emplace_back(std::thread(&Population<Individual>::consume, this));
+            m_threads.emplace_back(std::thread(&Population<Individual>::Consume, this));
         }
 
         for (int i = 0; i < m_number_of_threads_; i++) {
@@ -288,21 +283,15 @@ public:
     }
 
     void paintPop(std::string imgName) {
-
-        //System.out.println("PAINTIN");
         int red, green, blue;
         int l, a, b;
-
 
         Individual *best = getBest();
         Individual *worst = getWorst();
         float max = best->fitness;
         float min = worst->fitness;
 
-        /*float max = 255;
-        float min = 0;*/
         float diff = max - min;
-
 
         float max_x = m_currGenInds[0].colX;
         float min_x = m_currGenInds[0].colX;
@@ -342,63 +331,57 @@ public:
         image_->Write(imgName);
     }
 
-
-    int TranslateCoords(int x, int y)
-    {
-        if(x<0)
-        {
-            x=x+m_popWidth;
-        }else if(x>=m_popWidth)
-        {
-            x=x-m_popWidth;
+    /////////////////////////////////
+    // Selection related functions //
+    /////////////////////////////////
+    int TranslateCoords(int x, int y) {
+        if (x < 0) {
+            x = x + m_popWidth;
+        } else if (x >= m_popWidth) {
+            x = x - m_popWidth;
         }
 
-        if(y<0)
-        {
-            y=y+m_popHeight;
-        }else if(y>=m_popHeight)
-        {
-            y=y-m_popHeight;
+        if (y < 0) {
+            y = y + m_popHeight;
+        } else if (y >= m_popHeight) {
+            y = y - m_popHeight;
         }
 
         return x * m_popHeight + y;
     }
 
-    int *prepareL5(int x, int y, int *inds)
-    {
-        inds[0]=TranslateCoords(x,y);
-        inds[1]=TranslateCoords(x-1,y);
-        inds[2]=TranslateCoords(x+1,y);
-        inds[3]=TranslateCoords(x,y-1);
-        inds[4]=TranslateCoords(x,y+1);
+    int *prepareL5(int x, int y, int *inds) {
+        inds[0] = TranslateCoords(x, y);
+        inds[1] = TranslateCoords(x - 1, y);
+        inds[2] = TranslateCoords(x + 1, y);
+        inds[3] = TranslateCoords(x, y - 1);
+        inds[4] = TranslateCoords(x, y + 1);
         return inds;
     }
 
 
-    int *prepareD13(int x, int y, int *inds)
-    {
-        inds[0]=TranslateCoords(x,y);
-        inds[1]=TranslateCoords(x-1,y);
-        inds[2]=TranslateCoords(x+1,y);
-        inds[3]=TranslateCoords(x,y-1);
-        inds[4]=TranslateCoords(x,y+1);
-        inds[5]=TranslateCoords(x-2,y);
-        inds[6]=TranslateCoords(x+2,y);
-        inds[7]=TranslateCoords(x,y-2);
-        inds[8]=TranslateCoords(x,y+2);
-        inds[9]=TranslateCoords(x-1,y-1);
-        inds[10]=TranslateCoords(x+1,y+1);
-        inds[11]=TranslateCoords(x+1,y-1);
-        inds[12]=TranslateCoords(x-1,y+1);
+    int *prepareD13(int x, int y, int *inds) {
+        inds[0] = TranslateCoords(x, y);
+        inds[1] = TranslateCoords(x - 1, y);
+        inds[2] = TranslateCoords(x + 1, y);
+        inds[3] = TranslateCoords(x, y - 1);
+        inds[4] = TranslateCoords(x, y + 1);
+        inds[5] = TranslateCoords(x - 2, y);
+        inds[6] = TranslateCoords(x + 2, y);
+        inds[7] = TranslateCoords(x, y - 2);
+        inds[8] = TranslateCoords(x, y + 2);
+        inds[9] = TranslateCoords(x - 1, y - 1);
+        inds[10] = TranslateCoords(x + 1, y + 1);
+        inds[11] = TranslateCoords(x + 1, y - 1);
+        inds[12] = TranslateCoords(x - 1, y + 1);
 
         return inds;
     }
 
 
-    int *NRands(int *inds, int size, int n, Random &rnd)
-    {
+    int *NRands(int *inds, int size, int n, Random &rnd) {
         int next;
-        for(int i=0;i<n;i++) {
+        for (int i = 0; i < n; i++) {
             next = rnd.nextInt(i, size - 1);
 
             int tmp = inds[i];
@@ -413,11 +396,9 @@ public:
         //System.out.println(x+", "+y);
         int bestInd = inds[0];
 
-        for(int i=1;i<size;i++)
-        {
-            if(m_currGenInds[inds[i]].fitness>m_currGenInds[bestInd].fitness)
-            {
-                bestInd=inds[i];
+        for (int i = 1; i < size; i++) {
+            if (m_currGenInds[inds[i]].fitness > m_currGenInds[bestInd].fitness) {
+                bestInd = inds[i];
             }
         }
 
@@ -427,28 +408,25 @@ public:
 
     int roulette(int *inds, int size, Random &rnd) {
         //System.out.println(x+", "+y);
-        int bestInd = inds[size-1];
+        int bestInd = inds[size - 1];
 
-        float fit_sum=0;
-        for(int i=0;i<size;i++)
-        {
-            fit_sum+=1.0/m_currGenInds[inds[i]].fitness;
+        float fit_sum = 0;
+        for (int i = 0; i < size; i++) {
+            fit_sum += 1.0 / m_currGenInds[inds[i]].fitness;
         }
 
-       /* for(int i=0;i<size;i++) {
-            std::cout << (1.0 / m_currGenInds[inds[i]].fitness)/fit_sum << std::endl;
-        }
-        std::cout<<"--"<<std::endl;*/
+        /* for(int i=0;i<size;i++) {
+             std::cout << (1.0 / m_currGenInds[inds[i]].fitness)/fit_sum << std::endl;
+         }
+         std::cout<<"--"<<std::endl;*/
 
-        float val=rnd.nextFloat(0.0,1.0);
+        float val = rnd.nextFloat(0.0, 1.0);
 
-        float prob_sum=0;
-        for(int i=0;i<size-1;i++)
-        {
-            prob_sum+=(1.0/m_currGenInds[inds[i]].fitness)/fit_sum;
-            if (prob_sum>=val)
-            {
-                bestInd=inds[i];
+        float prob_sum = 0;
+        for (int i = 0; i < size - 1; i++) {
+            prob_sum += (1.0 / m_currGenInds[inds[i]].fitness) / fit_sum;
+            if (prob_sum >= val) {
+                bestInd = inds[i];
                 break;
             }
         }
@@ -460,23 +438,22 @@ public:
         ind_1 = inds[0];
         ind_2 = -1;
 
-        for(int i=1;i<size;i++)
-        {
+        for (int i = 1; i < size; i++) {
 
-        int another_ind=inds[i];
-        if (m_currGenInds[another_ind].fitness > m_currGenInds[ind_1].fitness) {
-            ind_2 = ind_1;
-            ind_1 = another_ind;
-        } else if (m_currGenInds[another_ind].fitness < m_currGenInds[ind_1].fitness) {
+            int another_ind = inds[i];
+            if (m_currGenInds[another_ind].fitness > m_currGenInds[ind_1].fitness) {
+                ind_2 = ind_1;
+                ind_1 = another_ind;
+            } else if (m_currGenInds[another_ind].fitness < m_currGenInds[ind_1].fitness) {
 
-            if (ind_2 != -1) {
-                if (m_currGenInds[another_ind].fitness > m_currGenInds[ind_2].fitness) {
+                if (ind_2 != -1) {
+                    if (m_currGenInds[another_ind].fitness > m_currGenInds[ind_2].fitness) {
+                        ind_2 = another_ind;
+                    }
+                } else {
                     ind_2 = another_ind;
                 }
-            } else {
-                ind_2 = another_ind;
             }
-        }
         }
 
     }
@@ -511,4 +488,6 @@ public:
 
     std::queue<ThrTask> m_taskList;
     std::mutex task_list_mutex_;
+
+    int cluster_size=128;
 };

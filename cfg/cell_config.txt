@@ -7,7 +7,7 @@ flipprob 0.04
 switchprob 0.04
 gennew true
 drawpop true
-squares 15
+squares 20
 threads 8
 
 
