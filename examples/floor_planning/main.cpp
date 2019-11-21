@@ -1,6 +1,6 @@
 #include <iostream>
 #include <fstream>
-#include "cellular-evolution/floor_planning/fp_individual.h"
+#include "fp_individual.h"
 #include "cellular-evolution/cevo/population.h"
 #include "cellular-evolution/utilities/random.h"
 

@@ -54,12 +54,16 @@ public:
         //if(cInd.val<prev)System.out.println(prev+","+cInd.val);
     }
 
-    void copyTo(TestInd *ind) {
+    void DeepCopyTo(TestInd *ind) {
         TestInd *cInd = dynamic_cast<TestInd *>(ind);
         cInd->val_ = val_;
         cInd->fitness = fitness;
         cInd->colX = colX;
         cInd->colY = colY;
+    }
+
+    void copyTo(TestInd *ind) {
+        DeepCopyTo(ind);
     }
 
     void countFitness(std::shared_ptr<IndData> &data) {

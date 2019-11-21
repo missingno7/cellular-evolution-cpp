@@ -415,11 +415,6 @@ public:
             fit_sum += 1.0 / m_currGenInds[inds[i]].fitness;
         }
 
-        /* for(int i=0;i<size;i++) {
-             std::cout << (1.0 / m_currGenInds[inds[i]].fitness)/fit_sum << std::endl;
-         }
-         std::cout<<"--"<<std::endl;*/
-
         float val = rnd.nextFloat(0.0, 1.0);
 
         float prob_sum = 0;

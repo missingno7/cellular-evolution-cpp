@@ -11,8 +11,8 @@
 #include "cellular-evolution/utilities/random.h"
 
 #include "cellular-evolution/cevo/pop_config.h"
-#include "cellular-evolution/floor_planning/rectangle.h"
-#include "cellular-evolution/floor_planning/fp_data.h"
+#include "rectangle.h"
+#include "fp_data.h"
 #include "cellular-evolution/utilities/bitmap.hpp"
 
 template<typename Individual>

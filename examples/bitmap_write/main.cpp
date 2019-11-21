@@ -2,7 +2,7 @@
 #include <fstream>
 #include "cellular-evolution/utilities/bitmap.hpp"
 #include "cellular-evolution/utilities/random.h"
-#include "cellular-evolution/floor_planning/fp_individual.h"
+#include "../floor_planning/fp_individual.h"
 
 
 void DrawCrossBox1(int x1, int y1, int x2, int y2, Bitmap &bmp, int fr=255, int fg=0, int fb=0, int br=255, int bg=255, int bb=0)
