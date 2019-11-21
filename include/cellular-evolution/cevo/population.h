@@ -37,6 +37,8 @@ public:
         ThrTask val;
         Random rnd;
 
+        int inds[13];
+
         while (m_taskList.size() != 0) {
             {
                 std::lock_guard<std::mutex> l(task_list_mutex_);
@@ -76,7 +78,14 @@ public:
 
                     for (int i = val.from; i < val.to; i++) {
                         if (rnd.nextFloat() < m_cfg->crossrate) {
-                            dualTournamentL5(i / m_popHeight, i % m_popHeight, first_ind, second_ind);
+
+                           // int first_ind=roulette(prepareD13(i / m_popHeight, i % m_popHeight,inds),13,rnd);
+                           // int second_ind=roulette(prepareD13(i / m_popHeight, i % m_popHeight,inds),13,rnd);
+
+                             //int first_ind=tournament(NRands(prepareL5(i / m_popHeight, i % m_popHeight,inds),5,4,rnd),4);
+                             //int second_ind=tournament(NRands(prepareL5(i / m_popHeight, i % m_popHeight,inds),5,4,rnd),4);
+
+                            dualTournament(prepareL5(i / m_popHeight, i % m_popHeight,inds),5, first_ind, second_ind);
 
                             if (second_ind != -1) {
                                 m_currGenInds[first_ind].crossoverTo(&m_currGenInds[second_ind], &m_nextGenInds[i], rnd);
@@ -86,7 +95,9 @@ public:
                                                     rnd);
                             }
                         } else {
-                            m_currGenInds[tournamentL5(i / m_popHeight, i % m_popHeight)].mutateTo(rnd.nextFloat() * m_cfg->mutamount,
+                            //int first_ind=tournament(prepareL5(i / m_popHeight, i % m_popHeight,inds),5);
+                            int first_ind=tournament(NRands(prepareL5(i / m_popHeight, i % m_popHeight,inds),5,4,rnd),4);
+                            m_currGenInds[first_ind].mutateTo(rnd.nextFloat() * m_cfg->mutamount,
                                                                                      m_cfg->mutprob, &m_nextGenInds[i],
                                                                                      rnd);
                         }
@@ -353,51 +364,106 @@ public:
         return x * m_popHeight + y;
     }
 
-  /*  void prepareL5(int *inds)
+    int *prepareL5(int x, int y, int *inds)
     {
-        inds[0]=
-    }*/
+        inds[0]=TranslateCoords(x,y);
+        inds[1]=TranslateCoords(x-1,y);
+        inds[2]=TranslateCoords(x+1,y);
+        inds[3]=TranslateCoords(x,y-1);
+        inds[4]=TranslateCoords(x,y+1);
+        return inds;
+    }
 
 
-    int tournamentL5(int x, int y) {
+    int *prepareD13(int x, int y, int *inds)
+    {
+        inds[0]=TranslateCoords(x,y);
+        inds[1]=TranslateCoords(x-1,y);
+        inds[2]=TranslateCoords(x+1,y);
+        inds[3]=TranslateCoords(x,y-1);
+        inds[4]=TranslateCoords(x,y+1);
+        inds[5]=TranslateCoords(x-2,y);
+        inds[6]=TranslateCoords(x+2,y);
+        inds[7]=TranslateCoords(x,y-2);
+        inds[8]=TranslateCoords(x,y+2);
+        inds[9]=TranslateCoords(x-1,y-1);
+        inds[10]=TranslateCoords(x+1,y+1);
+        inds[11]=TranslateCoords(x+1,y-1);
+        inds[12]=TranslateCoords(x-1,y+1);
+
+        return inds;
+    }
+
+
+    int *NRands(int *inds, int size, int n, Random &rnd)
+    {
+        int next;
+        for(int i=0;i<n;i++) {
+            next = rnd.nextInt(i, size - 1);
+
+            int tmp = inds[i];
+            inds[i] = inds[next];
+            inds[next] = tmp;
+        }
+        return inds;
+    }
+
+
+    int tournament(int *inds, int size) {
         //System.out.println(x+", "+y);
-        int bestInd = TranslateCoords(x,y);
-        //System.out.println(xpopsize+",,"+ypopsize);
-        int xa, ya;
+        int bestInd = inds[0];
 
-
-        int another_ind= TranslateCoords(x-1,y);
-        if(m_currGenInds[another_ind].fitness>m_currGenInds[bestInd].fitness)
+        for(int i=1;i<size;i++)
         {
-            bestInd=another_ind;
-        }
-
-        another_ind= TranslateCoords(x+1,y);
-        if(m_currGenInds[another_ind].fitness>m_currGenInds[bestInd].fitness)
-        {
-            bestInd=another_ind;
-        }
-
-        another_ind= TranslateCoords(x,y-1);
-        if(m_currGenInds[another_ind].fitness>m_currGenInds[bestInd].fitness)
-        {
-            bestInd=another_ind;
-        }
-
-        another_ind= TranslateCoords(x,y+1);
-        if(m_currGenInds[another_ind].fitness>m_currGenInds[bestInd].fitness)
-        {
-            bestInd=another_ind;
+            if(m_currGenInds[inds[i]].fitness>m_currGenInds[bestInd].fitness)
+            {
+                bestInd=inds[i];
+            }
         }
 
         return bestInd;
     }
 
-    void dualTournamentL5(int x, int y, int &ind_1, int &ind_2) {
-        ind_1 = TranslateCoords(x,y);
+
+    int roulette(int *inds, int size, Random &rnd) {
+        //System.out.println(x+", "+y);
+        int bestInd = inds[size-1];
+
+        float fit_sum=0;
+        for(int i=0;i<size;i++)
+        {
+            fit_sum+=1.0/m_currGenInds[inds[i]].fitness;
+        }
+
+       /* for(int i=0;i<size;i++) {
+            std::cout << (1.0 / m_currGenInds[inds[i]].fitness)/fit_sum << std::endl;
+        }
+        std::cout<<"--"<<std::endl;*/
+
+        float val=rnd.nextFloat(0.0,1.0);
+
+        float prob_sum=0;
+        for(int i=0;i<size-1;i++)
+        {
+            prob_sum+=(1.0/m_currGenInds[inds[i]].fitness)/fit_sum;
+            if (prob_sum>=val)
+            {
+                bestInd=inds[i];
+                break;
+            }
+        }
+
+        return bestInd;
+    }
+
+    void dualTournament(int *inds, int size, int &ind_1, int &ind_2) {
+        ind_1 = inds[0];
         ind_2 = -1;
 
-        int another_ind= TranslateCoords(x-1,y);
+        for(int i=1;i<size;i++)
+        {
+
+        int another_ind=inds[i];
         if (m_currGenInds[another_ind].fitness > m_currGenInds[ind_1].fitness) {
             ind_2 = ind_1;
             ind_1 = another_ind;
@@ -411,52 +477,8 @@ public:
                 ind_2 = another_ind;
             }
         }
-
-        another_ind= TranslateCoords(x+1,y);
-        if (m_currGenInds[another_ind].fitness > m_currGenInds[ind_1].fitness) {
-            ind_2 = ind_1;
-            ind_1 = another_ind;
-        } else if (m_currGenInds[another_ind].fitness < m_currGenInds[ind_1].fitness) {
-
-            if (ind_2 != -1) {
-                if (m_currGenInds[another_ind].fitness > m_currGenInds[ind_2].fitness) {
-                    ind_2 = another_ind;
-                }
-            } else {
-                ind_2 = another_ind;
-            }
         }
 
-        another_ind= TranslateCoords(x,y-1);
-        if (m_currGenInds[another_ind].fitness > m_currGenInds[ind_1].fitness) {
-            ind_2 = ind_1;
-            ind_1 = another_ind;
-        } else if (m_currGenInds[another_ind].fitness < m_currGenInds[ind_1].fitness) {
-
-            if (ind_2 != -1) {
-                if (m_currGenInds[another_ind].fitness > m_currGenInds[ind_2].fitness) {
-                    ind_2 = another_ind;
-                }
-            } else {
-                ind_2 = another_ind;
-            }
-        }
-
-
-        another_ind= TranslateCoords(x,y+1);
-        if (m_currGenInds[another_ind].fitness > m_currGenInds[ind_1].fitness) {
-            ind_2 = ind_1;
-            ind_1 = another_ind;
-        } else if (m_currGenInds[another_ind].fitness < m_currGenInds[ind_1].fitness) {
-
-            if (ind_2 != -1) {
-                if (m_currGenInds[another_ind].fitness > m_currGenInds[ind_2].fitness) {
-                    ind_2 = another_ind;
-                }
-            } else {
-                ind_2 = another_ind;
-            }
-        }
     }
 
     int getGen() {

@@ -4,6 +4,7 @@
 //
 
 #include<random>
+#include <time.h>
 
 class Random {
 
@@ -11,8 +12,8 @@ public:
 
     Random()
     {
-        generator_.seed(seed);
-        seed++;
+        generator_.seed(time(NULL)+seed_);
+        seed_++;
     }
 
     int nextInt(int min, int max) {
@@ -27,6 +28,13 @@ public:
         return val;
     }
 
+    float nextNormalFloat(float mean = 0.0, float std_dev = 1.0) {
+        std::normal_distribution<float> distribution(mean, std_dev);
+        float val = distribution(generator_);
+        return val;
+    }
+
+
     bool nextBoolean()
     {
         return nextInt(0,1);
@@ -34,7 +42,7 @@ public:
 
     std::default_random_engine generator_;
 
-    static int seed;
+    static uint64_t seed_;
 
 };
-int Random::seed = 0;
+uint64_t Random::seed_ = 0;

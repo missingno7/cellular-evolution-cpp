@@ -131,16 +131,16 @@ public:
         for (int i = 0; i < genom_len_; i++) {
             // Move
             if (rnd.nextFloat() < probability) {
-                float mutX = rnd.nextFloat(-2.0, 2.0) * amount;
-                if (genom_[i].x1 + mutX >= scWidth_ || genom_[i].x1 + mutX < 0) {
+                float mutX = rnd.nextNormalFloat(0.0, 1.0) * amount;
+                if (genom_[i].x2 + mutX >= scWidth_ || genom_[i].x1 + mutX < 0) {
                     genom_[i].x1 -= mutX;
                     genom_[i].x2 -= mutX;
                 } else {
                     genom_[i].x1 += mutX;
                     genom_[i].x2 += mutX;
                 }
-                float mutY = (rnd.nextFloat(-2.0, 2.0) * amount);
-                if (genom_[i].y1 + mutY >= scHeight_ || genom_[i].y1 + mutY < 0) {
+                float mutY = (rnd.nextNormalFloat(0.0, 1.0) * amount);
+                if (genom_[i].y2 + mutY >= scHeight_ || genom_[i].y1 + mutY < 0) {
                     genom_[i].y1 -= mutY;
                     genom_[i].y2 -= mutY;
                 } else {
@@ -155,12 +155,19 @@ public:
             //Switch
             if (rnd.nextFloat() < switch_prob_) {
                 int sw = rnd.nextInt(0, genom_len_ - 1);
+
                 int tmpx = genom_[i].x1 - genom_[sw].x1;
                 genom_[i].x1 = genom_[i].x1 - tmpx;
                 genom_[i].x2 = genom_[i].x2 - tmpx;
+                genom_[sw].x1 = genom_[sw].x1 + tmpx;
+                genom_[sw].x2 = genom_[sw].x2 + tmpx;
+
+
                 int tmpy = genom_[i].y1 - genom_[sw].y1;
                 genom_[i].y1 = genom_[i].y1 - tmpy;
                 genom_[i].y2 = genom_[i].y2 - tmpy;
+                genom_[sw].y1 = genom_[sw].y1 + tmpy;
+                genom_[sw].y2 = genom_[sw].y2 + tmpy;
             }
         }
     }
@@ -168,16 +175,42 @@ public:
     void crossoverTo(FpIndividual *second_one, FpIndividual *ind, Random &rnd) {
 
         for (int i = 0; i < genom_len_; i++) {
+
+            int resx,resy;
+            if((genom_[i].x1)>(second_one->genom_[i].x1))
+            {
+                resx=rnd.nextInt(second_one->genom_[i].x1,genom_[i].x1);
+            }
+            else
+            {
+                resx=rnd.nextInt(genom_[i].x1, second_one->genom_[i].x1);
+            }
+
+
+            if((genom_[i].y1)>(second_one->genom_[i].y1))
+            {
+                resy=rnd.nextInt(second_one->genom_[i].y1,genom_[i].y1);
+            }
+            else
+            {
+                resy=rnd.nextInt(genom_[i].y1, second_one->genom_[i].y1);
+            }
+
+
+
             if (rnd.nextBoolean()) {
-                ind->genom_[i].x1 = genom_[i].x1;
-                ind->genom_[i].x2 = genom_[i].x2;
-                ind->genom_[i].y1 = genom_[i].y1;
-                ind->genom_[i].y2 = genom_[i].y2;
+                ind->genom_[i].x2 = resx + (genom_[i].x2-genom_[i].x1);
+                ind->genom_[i].x1=resx;
+
+                ind->genom_[i].y2 = resy + (genom_[i].y2-genom_[i].y1);
+                ind->genom_[i].y1=resy;
             } else {
-                ind->genom_[i].x1 = second_one->genom_[i].x1;
-                ind->genom_[i].x2 = second_one->genom_[i].x2;
-                ind->genom_[i].y1 = second_one->genom_[i].y1;
-                ind->genom_[i].y2 = second_one->genom_[i].y2;
+
+                ind->genom_[i].x2 = resx + (second_one->genom_[i].x2-second_one->genom_[i].x1);
+                ind->genom_[i].x1=resx;
+
+                ind->genom_[i].y2 = resy + (second_one->genom_[i].y2-second_one->genom_[i].y1);
+                ind->genom_[i].y1=resy;
             }
         }
     }
