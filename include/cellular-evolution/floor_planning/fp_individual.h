@@ -45,6 +45,13 @@ public:
         genom_ = new Rectangle[genom_len_];
     }
 
+    FpIndividual()
+    {
+        // Only pre-initialised individual can be constructed like that
+        assert(genom_len_!=0);
+        genom_ = new Rectangle[genom_len_];
+    }
+
     ~FpIndividual() {
         delete[]genom_;
     }

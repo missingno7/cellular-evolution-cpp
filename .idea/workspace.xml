@@ -17,11 +17,6 @@
   <component name="ChangeListManager">
     <list default="true" id="18aa0adb-a839-4a50-a63f-cd93c2ea04ad" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cfg/cell_config.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cfg/cell_config.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/examples/evolution_simple/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/examples/evolution_simple/main.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/examples/evolution_simple/test_ind.h" beforeDir="false" afterPath="$PROJECT_DIR$/examples/evolution_simple/test_ind.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/examples/floor_planning/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/examples/floor_planning/main.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/include/cellular-evolution/cevo/individual.h" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/include/cellular-evolution/cevo/population.h" beforeDir="false" afterPath="$PROJECT_DIR$/include/cellular-evolution/cevo/population.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/include/cellular-evolution/floor_planning/fp_individual.h" beforeDir="false" afterPath="$PROJECT_DIR$/include/cellular-evolution/floor_planning/fp_individual.h" afterDir="false" />
     </list>
@@ -36,17 +31,14 @@
   <component name="ClangdSettings">
     <option name="formatViaClangd" value="false" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Release" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Debug" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="600">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/examples/floor_planning/main.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="345">
-              <caret line="40" column="31" lean-forward="true" selection-start-line="40" selection-start-column="31" selection-end-line="40" selection-end-column="31" />
-              <folding>
-                <element signature="e#0#19#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="30">
+              <caret line="2" selection-start-line="2" selection-end-line="2" />
             </state>
           </provider>
         </entry>
@@ -54,7 +46,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/examples/evolution_simple/main.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="899">
+            <state relative-caret-position="555">
               <caret line="37" column="17" selection-start-line="37" selection-start-column="17" selection-end-line="37" selection-end-column="17" />
             </state>
           </provider>
@@ -63,7 +55,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/include/cellular-evolution/utilities/random.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="203">
+            <state relative-caret-position="105">
               <caret line="7" column="6" selection-start-line="7" selection-start-column="6" selection-end-line="7" selection-end-column="6" />
             </state>
           </provider>
@@ -72,7 +64,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file:///usr/include/c++/7/bits/shared_ptr.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="345">
+            <state relative-caret-position="10530">
               <caret line="702" column="3" selection-start-line="702" selection-start-column="3" selection-end-line="702" selection-end-column="3" />
             </state>
           </provider>
@@ -81,7 +73,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/include/cellular-evolution/cevo/pop_config.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="470">
+            <state relative-caret-position="1335">
               <caret line="89" selection-start-line="89" selection-end-line="89" />
             </state>
           </provider>
@@ -90,7 +82,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/include/cellular-evolution/varireg/varireg.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="454">
+            <state relative-caret-position="1380">
               <caret line="92" selection-start-line="92" selection-end-line="92" />
             </state>
           </provider>
@@ -99,22 +91,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/include/cellular-evolution/utilities/bitmap.hpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="87">
+            <state relative-caret-position="269">
               <caret line="71" selection-start-line="71" selection-end-line="71" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/include/cellular-evolution/floor_planning/fp_individual.h">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1218">
-              <caret line="59" selection-start-line="59" selection-end-line="59" />
-              <folding>
-                <element signature="e#52#68#0" expanded="true" />
-                <element signature="e#165#213#0" expanded="true" />
-                <element signature="e#454#475#0" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -122,7 +100,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/examples/evolution_simple/test_ind.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="319">
+            <state relative-caret-position="1080">
               <caret line="72" column="28" selection-start-line="72" selection-start-column="28" selection-end-line="72" selection-end-column="28" />
               <folding>
                 <element signature="e#52#97#0" expanded="true" />
@@ -134,12 +112,24 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/include/cellular-evolution/cevo/population.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-6782">
-              <caret line="181" selection-start-line="181" selection-end-line="181" />
+            <state relative-caret-position="210">
+              <caret line="395" column="26" selection-start-line="395" selection-start-column="26" selection-end-line="395" selection-end-column="26" />
               <folding>
                 <element signature="e#52#100#0" expanded="true" />
                 <element signature="e#203#248#0" expanded="true" />
-                <element signature="e#504#522#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/include/cellular-evolution/floor_planning/fp_individual.h">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="660">
+              <caret line="49" column="71" selection-start-line="49" selection-start-column="71" selection-end-line="49" selection-end-column="71" />
+              <folding>
+                <element signature="e#52#68#0" expanded="true" />
+                <element signature="e#454#475#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -149,9 +139,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>filesize</find>
-      <find>img</find>
-      <find>fitness</find>
       <find>indii</find>
       <find>moveToCenter</find>
       <find>padding_</find>
@@ -176,9 +163,16 @@
       <find>`</find>
       <find>clone</find>
       <find>rnd</find>
+      <find>init</find>
+      <find>cfg-&gt;</find>
+      <find>INIT</find>
+      <find>]-&gt;</find>
+      <find>dualTournamentL5</find>
+      <find>deepcopy</find>
     </findStrings>
     <replaceStrings>
       <replace>TestInd</replace>
+      <replace>m_currGenInds[i].</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -194,9 +188,9 @@
         <option value="$PROJECT_DIR$/include/cellular-evolution/cevo/individual.h" />
         <option value="$PROJECT_DIR$/examples/evolution_simple/main.cpp" />
         <option value="$PROJECT_DIR$/examples/evolution_simple/test_ind.h" />
-        <option value="$PROJECT_DIR$/include/cellular-evolution/floor_planning/fp_individual.h" />
-        <option value="$PROJECT_DIR$/include/cellular-evolution/cevo/population.h" />
         <option value="$PROJECT_DIR$/examples/floor_planning/main.cpp" />
+        <option value="$PROJECT_DIR$/include/cellular-evolution/cevo/population.h" />
+        <option value="$PROJECT_DIR$/include/cellular-evolution/floor_planning/fp_individual.h" />
       </list>
     </option>
   </component>
@@ -214,7 +208,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -281,6 +274,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -355,29 +349,30 @@
       <workItem from="1573839742472" duration="3368000" />
       <workItem from="1574163208834" duration="1481000" />
       <workItem from="1574180310317" duration="5682000" />
-      <workItem from="1574245686522" duration="10864000" />
+      <workItem from="1574245686522" duration="11497000" />
+      <workItem from="1574332618031" duration="1797000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="18027000" />
+    <option name="totallyTimeSpent" value="20457000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="134" y="35" width="3706" height="2125" extended-state="6" />
+    <frame x="1987" y="25" width="2493" height="1415" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.14925373" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.15038823" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32925898" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.4470145" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.3071544" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.44634527" />
+      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.30715397" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Database Changes" order="7" />
-      <window_info anchor="bottom" id="Messages" order="8" sideWeight="0.49979943" weight="0.49973103" />
+      <window_info anchor="bottom" id="Messages" order="8" sideWeight="0.49979943" weight="0.3934681" />
       <window_info anchor="bottom" id="Terminal" order="9" weight="0.32970452" />
       <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.50020057" side_tool="true" weight="0.36363637" />
       <window_info anchor="bottom" id="Version Control" order="11" />
@@ -519,54 +514,45 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/include/cellular-evolution/varireg/varireg.h">
+    <entry file="file://$PROJECT_DIR$/include/cellular-evolution/cevo/individual.h" />
+    <entry file="file://$PROJECT_DIR$/examples/evolution_simple/main.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="454">
-          <caret line="92" selection-start-line="92" selection-end-line="92" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/include/cellular-evolution/cevo/pop_config.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="470">
-          <caret line="89" selection-start-line="89" selection-end-line="89" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/include/cellular-evolution/utilities/bitmap.hpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="87">
-          <caret line="71" selection-start-line="71" selection-end-line="71" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///usr/include/c++/7/bits/shared_ptr.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="345">
-          <caret line="702" column="3" selection-start-line="702" selection-start-column="3" selection-end-line="702" selection-end-column="3" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/include/cellular-evolution/cevo/individual.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1102">
-          <caret line="38" column="27" selection-start-line="38" selection-start-column="27" selection-end-line="38" selection-end-column="27" />
-          <folding>
-            <element signature="e#52#69#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="555">
+          <caret line="37" column="17" selection-start-line="37" selection-start-column="17" selection-end-line="37" selection-end-column="17" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/include/cellular-evolution/utilities/random.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="203">
+        <state relative-caret-position="105">
           <caret line="7" column="6" selection-start-line="7" selection-start-column="6" selection-end-line="7" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/include/c++/7/bits/shared_ptr.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="10530">
+          <caret line="702" column="3" selection-start-line="702" selection-start-column="3" selection-end-line="702" selection-end-column="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/include/cellular-evolution/cevo/pop_config.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1335">
+          <caret line="89" selection-start-line="89" selection-end-line="89" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/include/cellular-evolution/varireg/varireg.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1380">
+          <caret line="92" selection-start-line="92" selection-end-line="92" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/examples/evolution_simple/test_ind.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="319">
+        <state relative-caret-position="1080">
           <caret line="72" column="28" selection-start-line="72" selection-start-column="28" selection-end-line="72" selection-end-column="28" />
           <folding>
             <element signature="e#52#97#0" expanded="true" />
@@ -574,43 +560,38 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/include/cellular-evolution/floor_planning/fp_individual.h">
+    <entry file="file://$PROJECT_DIR$/examples/floor_planning/main.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1218">
-          <caret line="59" selection-start-line="59" selection-end-line="59" />
-          <folding>
-            <element signature="e#52#68#0" expanded="true" />
-            <element signature="e#165#213#0" expanded="true" />
-            <element signature="e#454#475#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="30">
+          <caret line="2" selection-start-line="2" selection-end-line="2" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/include/cellular-evolution/cevo/population.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-6782">
-          <caret line="181" selection-start-line="181" selection-end-line="181" />
+        <state relative-caret-position="210">
+          <caret line="395" column="26" selection-start-line="395" selection-start-column="26" selection-end-line="395" selection-end-column="26" />
           <folding>
             <element signature="e#52#100#0" expanded="true" />
             <element signature="e#203#248#0" expanded="true" />
-            <element signature="e#504#522#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/examples/evolution_simple/main.cpp">
+    <entry file="file://$PROJECT_DIR$/include/cellular-evolution/utilities/bitmap.hpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="899">
-          <caret line="37" column="17" selection-start-line="37" selection-start-column="17" selection-end-line="37" selection-end-column="17" />
+        <state relative-caret-position="269">
+          <caret line="71" selection-start-line="71" selection-end-line="71" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/examples/floor_planning/main.cpp">
+    <entry file="file://$PROJECT_DIR$/include/cellular-evolution/floor_planning/fp_individual.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="345">
-          <caret line="40" column="31" lean-forward="true" selection-start-line="40" selection-start-column="31" selection-end-line="40" selection-end-column="31" />
+        <state relative-caret-position="660">
+          <caret line="49" column="71" selection-start-line="49" selection-start-column="71" selection-end-line="49" selection-end-column="71" />
           <folding>
-            <element signature="e#0#19#0" expanded="true" />
+            <element signature="e#52#68#0" expanded="true" />
+            <element signature="e#454#475#0" expanded="true" />
           </folding>
         </state>
       </provider>

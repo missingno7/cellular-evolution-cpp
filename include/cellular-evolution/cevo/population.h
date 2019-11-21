@@ -52,19 +52,18 @@ public:
             switch (val.act) {
                 // Initialize population
                 case INIT:
-                    for (int i = val.from; i < val.to; i++) {
-                        m_currGenInds[i] = m_templateInd->UnsafeClone();
-                        m_nextGenInds[i] = m_templateInd->makeBlank(); // Temporary can be blank
+                 for (int i = val.from; i < val.to; i++) {
+                       m_templateInd->DeepCopyTo(&m_currGenInds[i]);
                     }
                     break;
 
                     // Randomize each initialized individual
                 case RANDOMIZE:
                     for (int i = val.from; i < val.to; i++) {
-                        m_currGenInds[i]->randomize(m_indData, rnd);
-                        m_currGenInds[i]->countFitness(m_indData);
+                        m_currGenInds[i].randomize(m_indData, rnd);
+                        m_currGenInds[i].countFitness(m_indData);
                         if (m_cfg->drawpop) {
-                            m_currGenInds[i]->countColor();
+                            m_currGenInds[i].countColor();
                         }
                     }
 
@@ -72,29 +71,29 @@ public:
 
                     // Next generation - copy the best to new population and mutate them.
                 case NEXTGEN:
-                    Individual *first_ind = NULL;
-                    Individual *second_ind = NULL;
+                    int first_ind = -1;
+                    int second_ind = -1;
 
                     for (int i = val.from; i < val.to; i++) {
                         if (rnd.nextFloat() < m_cfg->crossrate) {
                             dualTournamentL5(i / m_popHeight, i % m_popHeight, first_ind, second_ind);
 
-                            if (second_ind != NULL) {
-                                first_ind->crossoverTo(second_ind, m_nextGenInds[i], rnd);
+                            if (second_ind != -1) {
+                                m_currGenInds[first_ind].crossoverTo(&m_currGenInds[second_ind], &m_nextGenInds[i], rnd);
                             } else {
-                                first_ind->mutateTo(rnd.nextFloat() * m_cfg->mutamount, m_cfg->mutprob,
-                                                    m_nextGenInds[i],
+                                m_currGenInds[first_ind].mutateTo(rnd.nextFloat() * m_cfg->mutamount, m_cfg->mutprob,
+                                                    &m_nextGenInds[i],
                                                     rnd);
                             }
                         } else {
-                            tournamentL5(i / m_popHeight, i % m_popHeight)->mutateTo(rnd.nextFloat() * m_cfg->mutamount,
-                                                                                     m_cfg->mutprob, m_nextGenInds[i],
+                            m_currGenInds[tournamentL5(i / m_popHeight, i % m_popHeight)].mutateTo(rnd.nextFloat() * m_cfg->mutamount,
+                                                                                     m_cfg->mutprob, &m_nextGenInds[i],
                                                                                      rnd);
                         }
 
-                        m_nextGenInds[i]->countFitness(m_indData); // TRAIN AND TEST SPLIT
+                        m_nextGenInds[i].countFitness(m_indData); // TRAIN AND TEST SPLIT
                         if (m_cfg->drawpop) {
-                            m_nextGenInds[i]->countColor();
+                            m_nextGenInds[i].countColor();
                         }
                     }
                     break;
@@ -117,8 +116,8 @@ public:
         m_templateInd = srcInd;
 
 
-        m_currGenInds = new Individual *[m_popWidth * m_popHeight];
-        m_nextGenInds = new Individual *[m_popWidth * m_popHeight];
+        m_currGenInds = new Individual[m_popWidth * m_popHeight];
+        m_nextGenInds = new Individual[m_popWidth * m_popHeight];
 
         srcInd->countFitness(data);
         if (cfg->drawpop) {
@@ -128,6 +127,8 @@ public:
         ClearTasks();
         int step = m_inds_cnt / (m_number_of_threads_ * 128);
 
+        if(!m_cfg->gennew)
+        {
         int from = 0;
         while (from + step < m_inds_cnt) {
             ThrTask tsk;
@@ -160,7 +161,8 @@ public:
             // t1 finishes before t2
             m_threads[i].join();
         }
-
+        }
+        
         m_gensCount = 0;
         //rnd = new Random();
     }
@@ -198,7 +200,7 @@ public:
             m_threads[i].join();
         }
 
-        Individual **tmp = m_currGenInds;
+        Individual *tmp = m_currGenInds;
         m_currGenInds = m_nextGenInds;
         m_nextGenInds = tmp;
 
@@ -240,12 +242,12 @@ public:
     }
 
     Individual *getBest() {
-        Individual *best = m_currGenInds[0];
+        Individual *best = &m_currGenInds[0];
 
         for (int i = 1; i < m_inds_cnt; i++) {
 
-            if (best->fitness < m_currGenInds[i]->fitness) {
-                best = m_currGenInds[i];
+            if (best->fitness < m_currGenInds[i].fitness) {
+                best = &m_currGenInds[i];
             }
         }
 
@@ -253,12 +255,12 @@ public:
     }
 
     Individual *getWorst() {
-        Individual *worst = m_currGenInds[0];
+        Individual *worst = &m_currGenInds[0];
 
         for (int i = 0; i < m_inds_cnt; i++) {
 
-            if (worst->fitness > m_currGenInds[i]->fitness) {
-                worst = m_currGenInds[i];
+            if (worst->fitness > m_currGenInds[i].fitness) {
+                worst = &m_currGenInds[i];
             }
         }
 
@@ -269,7 +271,7 @@ public:
         float avgFit = 0;
 
         for (int i = 0; i < m_inds_cnt; i++) {
-            avgFit += m_currGenInds[i]->fitness;
+            avgFit += m_currGenInds[i].fitness;
         }
         return avgFit / (m_cfg->xpopsize * m_cfg->ypopsize);
     }
@@ -291,17 +293,17 @@ public:
         float diff = max - min;
 
 
-        float max_x = m_currGenInds[0]->colX;
-        float min_x = m_currGenInds[0]->colX;
+        float max_x = m_currGenInds[0].colX;
+        float min_x = m_currGenInds[0].colX;
 
-        float max_y = m_currGenInds[0]->colY;
-        float min_y = m_currGenInds[0]->colY;
+        float max_y = m_currGenInds[0].colY;
+        float min_y = m_currGenInds[0].colY;
 
         for (int i = 1; i < m_inds_cnt; i++) {
-            if (m_currGenInds[i]->colX > max_x)max_x = m_currGenInds[i]->colX;
-            if (m_currGenInds[i]->colY > max_y)max_y = m_currGenInds[i]->colY;
-            if (m_currGenInds[i]->colX < min_x)min_x = m_currGenInds[i]->colX;
-            if (m_currGenInds[i]->colY < min_y)min_y = m_currGenInds[i]->colY;
+            if (m_currGenInds[i].colX > max_x)max_x = m_currGenInds[i].colX;
+            if (m_currGenInds[i].colY > max_y)max_y = m_currGenInds[i].colY;
+            if (m_currGenInds[i].colX < min_x)min_x = m_currGenInds[i].colX;
+            if (m_currGenInds[i].colY < min_y)min_y = m_currGenInds[i].colY;
         }
         float diff_x = max_x - min_x;
         float diff_y = max_y - min_y;
@@ -313,9 +315,9 @@ public:
             int xx = i / m_popHeight;
             int yy = i % m_popHeight;
 
-            int pix_intensity = static_cast<int>(((m_currGenInds[i]->fitness - min) * 100.0) / diff);
-            int pix_color_x = static_cast<int> (((m_currGenInds[i]->colX - min_x) * 100.0) / diff_x);
-            int pix_color_y = static_cast<int> (((m_currGenInds[i]->colY - min_y) * 100.0) / diff_y);
+            int pix_intensity = static_cast<int>(((m_currGenInds[i].fitness - min) * 100.0) / diff);
+            int pix_color_x = static_cast<int> (((m_currGenInds[i].colX - min_x) * 100.0) / diff_x);
+            int pix_color_y = static_cast<int> (((m_currGenInds[i].colY - min_y) * 100.0) / diff_y);
 
             l = pix_intensity;
             a = pix_color_x - 50;
@@ -329,137 +331,130 @@ public:
         image_->Write(imgName);
     }
 
-    Individual *tournamentL5(int x, int y) {
+
+    int TranslateCoords(int x, int y)
+    {
+        if(x<0)
+        {
+            x=x+m_popWidth;
+        }else if(x>=m_popWidth)
+        {
+            x=x-m_popWidth;
+        }
+
+        if(y<0)
+        {
+            y=y+m_popHeight;
+        }else if(y>=m_popHeight)
+        {
+            y=y-m_popHeight;
+        }
+
+        return x * m_popHeight + y;
+    }
+
+  /*  void prepareL5(int *inds)
+    {
+        inds[0]=
+    }*/
+
+
+    int tournamentL5(int x, int y) {
         //System.out.println(x+", "+y);
-        Individual *bestInd = m_currGenInds[x * m_popHeight + y];
+        int bestInd = TranslateCoords(x,y);
         //System.out.println(xpopsize+",,"+ypopsize);
         int xa, ya;
 
-        xa = x - 1;
-        if (xa < 0) {
-            xa += m_cfg->xpopsize;
+
+        int another_ind= TranslateCoords(x-1,y);
+        if(m_currGenInds[another_ind].fitness>m_currGenInds[bestInd].fitness)
+        {
+            bestInd=another_ind;
         }
 
-        if (m_currGenInds[xa * m_popHeight + y]->fitness > bestInd->fitness) {
-            bestInd = m_currGenInds[xa * m_popHeight + y];
+        another_ind= TranslateCoords(x+1,y);
+        if(m_currGenInds[another_ind].fitness>m_currGenInds[bestInd].fitness)
+        {
+            bestInd=another_ind;
         }
 
-        xa = x + 1;
-
-        if (xa >= m_cfg->xpopsize) {
-            xa -= m_cfg->xpopsize;
+        another_ind= TranslateCoords(x,y-1);
+        if(m_currGenInds[another_ind].fitness>m_currGenInds[bestInd].fitness)
+        {
+            bestInd=another_ind;
         }
 
-        if (m_currGenInds[xa * m_popHeight + y]->fitness > bestInd->fitness) {
-            bestInd = m_currGenInds[xa * m_popHeight + y];
-        }
-
-        ya = y - 1;
-
-        if (ya < 0) {
-            ya += m_cfg->ypopsize;
-        }
-
-        if (m_currGenInds[x * m_popHeight + ya]->fitness > bestInd->fitness) {
-            bestInd = m_currGenInds[x * m_popHeight + ya];
-        }
-
-        ya = y + 1;
-
-        if (ya >= m_cfg->ypopsize) {
-            ya -= m_cfg->ypopsize;
-        }
-
-        if (m_currGenInds[x * m_popHeight + ya]->fitness > bestInd->fitness) {
-            bestInd = m_currGenInds[x * m_popHeight + ya];
+        another_ind= TranslateCoords(x,y+1);
+        if(m_currGenInds[another_ind].fitness>m_currGenInds[bestInd].fitness)
+        {
+            bestInd=another_ind;
         }
 
         return bestInd;
     }
 
-    void dualTournamentL5(int x, int y, Individual *&ind_1, Individual *&ind_2) {
-        ind_1 = m_currGenInds[x * m_popHeight + y];
-        ind_2 = NULL;
+    void dualTournamentL5(int x, int y, int &ind_1, int &ind_2) {
+        ind_1 = TranslateCoords(x,y);
+        ind_2 = -1;
 
-        //System.out.println(xpopsize+",,"+ypopsize);
-        int xa, ya;
-
-        xa = x - 1;
-        if (xa < 0) {
-            xa += m_cfg->xpopsize;
-        }
-
-        if (m_currGenInds[xa * m_popHeight + y]->fitness > ind_1->fitness) {
+        int another_ind= TranslateCoords(x-1,y);
+        if (m_currGenInds[another_ind].fitness > m_currGenInds[ind_1].fitness) {
             ind_2 = ind_1;
-            ind_1 = m_currGenInds[xa * m_popHeight + y];
-        } else if (m_currGenInds[xa * m_popHeight + y]->fitness < ind_1->fitness) {
+            ind_1 = another_ind;
+        } else if (m_currGenInds[another_ind].fitness < m_currGenInds[ind_1].fitness) {
 
-            if (ind_2 != NULL) {
-                if (m_currGenInds[xa * m_popHeight + y]->fitness > ind_2->fitness) {
-                    ind_2 = m_currGenInds[xa * m_popHeight + y];
+            if (ind_2 != -1) {
+                if (m_currGenInds[another_ind].fitness > m_currGenInds[ind_2].fitness) {
+                    ind_2 = another_ind;
                 }
             } else {
-                ind_2 = m_currGenInds[xa * m_popHeight + y];
+                ind_2 = another_ind;
             }
         }
 
-        xa = x + 1;
-
-        if (xa >= m_cfg->xpopsize) {
-            xa -= m_cfg->xpopsize;
-        }
-
-        if (m_currGenInds[xa * m_popHeight + y]->fitness > ind_1->fitness) {
+        another_ind= TranslateCoords(x+1,y);
+        if (m_currGenInds[another_ind].fitness > m_currGenInds[ind_1].fitness) {
             ind_2 = ind_1;
-            ind_1 = m_currGenInds[xa * m_popHeight + y];
-        } else if (m_currGenInds[xa * m_popHeight + y]->fitness < ind_1->fitness) {
+            ind_1 = another_ind;
+        } else if (m_currGenInds[another_ind].fitness < m_currGenInds[ind_1].fitness) {
 
-            if (ind_2 != NULL) {
-                if (m_currGenInds[xa * m_popHeight + y]->fitness > ind_2->fitness) {
-                    ind_2 = m_currGenInds[xa * m_popHeight + y];
+            if (ind_2 != -1) {
+                if (m_currGenInds[another_ind].fitness > m_currGenInds[ind_2].fitness) {
+                    ind_2 = another_ind;
                 }
             } else {
-                ind_2 = m_currGenInds[xa * m_popHeight + y];
+                ind_2 = another_ind;
             }
         }
 
-        ya = y - 1;
-
-        if (ya < 0) {
-            ya += m_cfg->ypopsize;
-        }
-
-        if (m_currGenInds[x * m_popHeight + ya]->fitness > ind_1->fitness) {
+        another_ind= TranslateCoords(x,y-1);
+        if (m_currGenInds[another_ind].fitness > m_currGenInds[ind_1].fitness) {
             ind_2 = ind_1;
-            ind_1 = m_currGenInds[x * m_popHeight + ya];
-        } else if (m_currGenInds[x * m_popHeight + ya]->fitness < ind_1->fitness) {
+            ind_1 = another_ind;
+        } else if (m_currGenInds[another_ind].fitness < m_currGenInds[ind_1].fitness) {
 
-            if (ind_2 != NULL) {
-                if (m_currGenInds[x * m_popHeight + ya]->fitness > ind_2->fitness) {
-                    ind_2 = m_currGenInds[x * m_popHeight + ya];
+            if (ind_2 != -1) {
+                if (m_currGenInds[another_ind].fitness > m_currGenInds[ind_2].fitness) {
+                    ind_2 = another_ind;
                 }
             } else {
-                ind_2 = m_currGenInds[x * m_popHeight + ya];
+                ind_2 = another_ind;
             }
         }
 
-        ya = y + 1;
 
-        if (ya >= m_cfg->ypopsize) {
-            ya -= m_cfg->ypopsize;
-        }
-
-        if (m_currGenInds[x * m_popHeight + ya]->fitness > ind_1->fitness) {
+        another_ind= TranslateCoords(x,y+1);
+        if (m_currGenInds[another_ind].fitness > m_currGenInds[ind_1].fitness) {
             ind_2 = ind_1;
-            ind_1 = m_currGenInds[x * m_popHeight + ya];
-        } else if (m_currGenInds[x * m_popHeight + ya]->fitness < ind_1->fitness) {
+            ind_1 = another_ind;
+        } else if (m_currGenInds[another_ind].fitness < m_currGenInds[ind_1].fitness) {
 
-            if (ind_2 != NULL) {
-                if (m_currGenInds[x * m_popHeight + ya]->fitness > ind_2->fitness) {
-                    ind_2 = m_currGenInds[x * m_popHeight + ya];
+            if (ind_2 != -1) {
+                if (m_currGenInds[another_ind].fitness > m_currGenInds[ind_2].fitness) {
+                    ind_2 = another_ind;
                 }
             } else {
-                ind_2 = m_currGenInds[x * m_popHeight + ya];
+                ind_2 = another_ind;
             }
         }
     }
@@ -475,8 +470,8 @@ public:
     }
 
     std::shared_ptr<Individual> m_templateInd;
-    Individual **m_currGenInds;
-    Individual **m_nextGenInds;
+    Individual *m_currGenInds;
+    Individual *m_nextGenInds;
     int m_inds_cnt;
     int m_popWidth, m_popHeight;
 
