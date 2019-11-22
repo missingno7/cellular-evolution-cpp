@@ -11,3 +11,4 @@ add_executable(bitmap-write-example examples/bitmap_write/main.cpp  examples/bit
 add_executable(evolution-example examples/evolution_simple/main.cpp examples/evolution_simple/main.cpp examples/evolution_simple/test_ind_data.h examples/evolution_simple/test_ind.h)
 add_executable(variable-register-example examples/vari_reg_example/main.cpp)
 add_executable(floor-planning-example examples/floor_planning/main.cpp)
+add_executable(salesman-example examples/salesman/main.cpp)

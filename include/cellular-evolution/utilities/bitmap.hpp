@@ -98,6 +98,10 @@ public:
 
     void  drawLine(int x1, int y1, int x2, int y2, unsigned char r, unsigned char g, unsigned char b) {
 
+        assert(!(x1==x2 && y1==y2));
+
+        if(x1==x2 && y1==y2)return;
+
 if(abs(x1-x2)>abs(y1-y2))
 {
         if(x1>x2)

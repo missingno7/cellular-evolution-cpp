@@ -131,10 +131,10 @@ public:
         m_currGenInds = new Individual[m_popWidth * m_popHeight];
         m_nextGenInds = new Individual[m_popWidth * m_popHeight];
 
-        srcInd->countFitness(data);
-        if (cfg->drawpop) {
-            srcInd->countColor();
-        }
+        //srcInd->countFitness(data);
+        //if (cfg->drawpop) {
+        //    srcInd->countColor();
+        //}
 
         ClearTasks();
         int step = m_inds_cnt / (m_number_of_threads_ * cluster_size);

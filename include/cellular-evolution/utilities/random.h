@@ -5,6 +5,8 @@
 
 #include<random>
 #include <time.h>
+#include <mutex>
+
 
 class Random {
 
@@ -12,25 +14,40 @@ public:
 
     Random()
     {
-        generator_.seed(time(NULL)+seed_);
-        seed_++;
+        {
+            std::lock_guard<std::mutex> l(seed_mutex_);
+            seed_+=time(NULL);
+            generator_.seed(seed_);
+        }
     }
 
     int nextInt(int min, int max) {
         std::uniform_int_distribution<int> distribution(min, max);
-        int val = distribution(generator_);
+        int val;
+        {
+            //std::lock_guard<std::mutex> l(seed_mutex_);
+        val = distribution(generator_);
+        }
         return val;
     }
 
     float nextFloat(float min = 0.0, float max = 1.0) {
         std::uniform_real_distribution<float> distribution(min, max);
-        float val = distribution(generator_);
+        float val;
+        {
+            //std::lock_guard<std::mutex> l(seed_mutex_);
+            val = distribution(generator_);
+        }
         return val;
     }
 
     float nextNormalFloat(float mean = 0.0, float std_dev = 1.0) {
         std::normal_distribution<float> distribution(mean, std_dev);
-        float val = distribution(generator_);
+        float val;
+        {
+            //std::lock_guard<std::mutex> l(seed_mutex_);
+        val = distribution(generator_);
+        }
         return val;
     }
 
@@ -44,5 +61,10 @@ public:
 
     static uint64_t seed_;
 
+    static std::mutex seed_mutex_;
+
+
 };
-uint64_t Random::seed_ = 0;
+uint64_t Random::seed_=0;
+std::mutex Random::seed_mutex_;
+//std::default_random_engine Random::generator_;

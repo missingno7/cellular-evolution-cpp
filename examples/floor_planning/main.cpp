@@ -18,7 +18,7 @@ int main() {
 
     cfg->LoadConfig("../cfg/cell_config.txt");
 
-    std::shared_ptr<FpData> fpData = std::make_shared<FpData>("squares.txt", cfg);
+    std::shared_ptr<FpData> fpData = std::make_shared<FpData>(cfg);
     std::shared_ptr<IndData> tstData = fpData;
     int perfectFitness = fpData->getPerfection();
 
