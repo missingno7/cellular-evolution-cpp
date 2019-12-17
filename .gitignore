@@ -21,6 +21,7 @@ bazel-*
 .idea/
 *.osm
 tags
+.idea/
 
 *.gz
 *.so

@@ -74,7 +74,6 @@ public:
         mut_prob_ = rnd.nextFloat();
         mut_amount_ = (float) rnd.nextGaussian();*/
 
-
         for (int i = 0; i < genom_len_; i++) {
             bool again;
             bool flip;
@@ -121,7 +120,7 @@ public:
         throw std::runtime_error("Not supported yet.");
     }
 
-    void mutate(float amount, float probability, Random rnd) {
+    void mutate(float amount, float probability, Random &rnd) {
 
         /*flip_prob_ += (float) rnd.nextGaussian() * probability;
         switch_prob_ += (float) rnd.nextGaussian() * probability;
@@ -226,14 +225,7 @@ public:
         std::memcpy(ind->genom_, genom_, genom_len_ * sizeof *genom_);
 
         // No need to copy fitness and color because it will be calculated again
-        /*
-ind->fitness = fitness;
-ind->colX = colX;
-ind->colY = colY;
-*/
-
     }
-
 
     void DeepCopyTo(FpIndividual *ind) {
         copyTo(ind);
@@ -241,7 +233,6 @@ ind->colY = colY;
         ind->colX = colX;
         ind->colY = colY;
     }
-
 
     void moveToCenter() {
 

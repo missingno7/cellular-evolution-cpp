@@ -21,7 +21,7 @@ int squares;
         delete []height;
     }
 
-FpData(std::string filename, std::shared_ptr<PopConfig> cfg) {
+FpData(std::shared_ptr<PopConfig> cfg) {
 scWidth = 1000;
 scHeight = 1000;
 
