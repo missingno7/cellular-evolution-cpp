@@ -7,30 +7,21 @@
 #include <memory>
 
 int main() {
-
     std::string indPath = "out/";
 
-    std::shared_ptr<PopConfig> cfg=std::make_shared<PopConfig>();
+    std::shared_ptr<PopConfig> cfg = std::make_shared<PopConfig>();
 
 
     cfg->reg.newInt("tstint");
-
     cfg->LoadConfig("config.txt");
-
     std::vector<int> tstint = cfg->reg.getInt("tstint");
-
     std::cout << tstint.size() << " - " << tstint[1] << std::endl;
 
-
     std::shared_ptr<TestInd> tstInd = std::make_shared<TestInd>();
-    //std::dynamic_pointer_cast<tstInd>(tstInd)->val_ = 3;
-
     std::shared_ptr<IndData> tstData = std::make_shared<TestIndData>();
-
 
     Population<TestInd> pop(tstInd, tstData, cfg);
     pop.Randomize();
-
 
     for (int i = 0; i < 100; i++) {
         TestInd *bestInd = pop.getBest();
@@ -41,7 +32,6 @@ int main() {
         if (cfg->drawpop)pop.paintPop(indPath + "GEN" + std::to_string(i) + ".bmp");
         pop.nextGen();
     }
-
 
     return 0;
 }

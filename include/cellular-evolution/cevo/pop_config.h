@@ -9,6 +9,7 @@
 #include <fstream>
 #include <sstream>
 #include <iterator>
+#include <thread>
 
 class PopConfig {
 public:
@@ -25,7 +26,7 @@ public:
     void LoadConfig(std::string filename) {
         std::string cvsSplitBy = " ";
 
-        threads = 16;
+        threads = std::thread::hardware_concurrency();
         std::cout << "Detected threads: " << threads << std::endl;
 
         std::ifstream infile(filename);
@@ -42,22 +43,16 @@ public:
 
             if (strVals[0] == "xpopsize") {
                 xpopsize = std::stoi(strVals[1]);
-                //System.out.println("xpopsize = " + xpopsize);
             } else if (strVals[0] == "ypopsize") {
                 ypopsize = std::stoi(strVals[1]);
-                //System.out.println("ypopsize = " + xpopsize);
             } else if (strVals[0] == "threads") {
                 threads = std::stoi(strVals[1]);
-                //System.out.println("threads = " + threads);
             } else if (strVals[0] == "crossrate") {
                 crossrate = std::stof(strVals[1]);
-                //System.out.println("crossrate = " + crossrate);
             } else if (strVals[0] == "mutamount") {
                 mutamount = std::stof(strVals[1]);
-                //System.out.println("mutamount = " + mutamount);
             } else if (strVals[0] == "mutprob") {
                 mutprob = std::stof(strVals[1]);
-                //System.out.println("mutprob = " + mutprob);
             } else if (strVals[0] == "mutprob") {
                 if (strVals[1] == "true") {
                     mutprob = true;
@@ -134,26 +129,11 @@ public:
                         }
                     }
                 }
-
-                std::cout << strVals[0] << " = ";
-                for (int i = 1; i < strVals.size(); i++) {
-                    if (i != strVals.size() - 1) {
-                        std::cout << strVals[i] << ", ";
-                    } else {
-                        std::cout << strVals[i];
-                    }
-                }
-                std::cout << std::endl;
-
             }
         }
-
-
     }
 
-
 public:
-
     VariReg reg;
     int xpopsize = 512;
     int ypopsize = 512;
@@ -165,8 +145,4 @@ public:
     bool gennew = true;
     bool drawpop = true;
 
-/*
-    // static variable single_instance of type Singleton
-private static PopConfig single_instance = null;
-*/
 };

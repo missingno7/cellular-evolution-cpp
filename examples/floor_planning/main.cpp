@@ -22,7 +22,8 @@ int main() {
     std::shared_ptr<IndData> tstData = fpData;
     int perfectFitness = fpData->getPerfection();
 
-    std::shared_ptr<FpIndividual> tstInd = std::make_shared<FpIndividual>(fpData->scWidth, fpData->scHeight, fpData->squares,cfg);
+    std::shared_ptr<FpIndividual> tstInd = std::make_shared<FpIndividual>(fpData->scWidth, fpData->scHeight,
+                                                                          fpData->squares, cfg);
 
     Population<FpIndividual> pop(tstInd, tstData, cfg);
 
@@ -43,11 +44,13 @@ int main() {
             }
         }
 
-        std::cout<<"GENERATION " << pop.getGen()<<std::endl;
-        std::cout<<bestInd->toString(tstData)<<std::endl;
-        std::cout<<"GEN BEST FITNESS: " << std::to_string((perfectFitness * 100) / - (bestInd->getFitness())) << " %"<<std::endl;
-        std::cout<<"AVG FITNESS: " << std::to_string( (perfectFitness * 100 / -pop.avgFitness())) << " %"<<std::endl;
-        std::cout<<"ALLBEST FITNESS: " <<  std::to_string(perfectFitness * 100 / -bestOne->getFitness()) << " %"<<std::endl;
+        std::cout << "GENERATION " << pop.getGen() << std::endl;
+        std::cout << bestInd->toString(tstData) << std::endl;
+        std::cout << "GEN BEST FITNESS: " << std::to_string((perfectFitness * 100) / -(bestInd->getFitness())) << " %"
+                  << std::endl;
+        std::cout << "AVG FITNESS: " << std::to_string((perfectFitness * 100 / -pop.avgFitness())) << " %" << std::endl;
+        std::cout << "ALLBEST FITNESS: " << std::to_string(perfectFitness * 100 / -bestOne->getFitness()) << " %"
+                  << std::endl;
 
         pop.nextGen();
     }

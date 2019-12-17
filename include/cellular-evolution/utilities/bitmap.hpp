@@ -14,10 +14,8 @@ public:
         const int pad = (4 - (3 * width_) % 4) % 4, filesize = 54 + (3 * width_ + pad) *
                                                                     height_; // horizontal line must be a multiple of 4 bytes long, header is 54 bytes
 
-
-        for (int i = 29; i<54;i++)
-        {
-            header_[i]=0;
+        for (int i = 29; i < 54; i++) {
+            header_[i] = 0;
         }
 
         for (int i = 0; i < 4; i++) {
@@ -40,18 +38,16 @@ public:
     }
 
     void fillRect(int x1, int y1, int x2, int y2, unsigned char r, unsigned char g, unsigned char b) {
-        if(x1>x2)
-        {
-            int tmp=x2;
-            x2=x1;
-            x1=tmp;
+        if (x1 > x2) {
+            int tmp = x2;
+            x2 = x1;
+            x1 = tmp;
         }
 
-        if(y1>y2)
-        {
-            int tmp=y2;
-            y2=y1;
-            y1=tmp;
+        if (y1 > y2) {
+            int tmp = y2;
+            y2 = y1;
+            y1 = tmp;
         }
 
         for (int i = x1; i <= x2; i++) {
@@ -62,26 +58,24 @@ public:
 
     }
 
-    void  drawRect(int x1, int y1, int x2, int y2, unsigned char r, unsigned char g, unsigned char b) {
+    void drawRect(int x1, int y1, int x2, int y2, unsigned char r, unsigned char g, unsigned char b) {
 
-        if(x1>x2)
-        {
-            int tmp=x2;
-            x2=x1;
-            x1=tmp;
+        if (x1 > x2) {
+            int tmp = x2;
+            x2 = x1;
+            x1 = tmp;
         }
 
-        if(y1>y2)
-        {
-            int tmp=y2;
-            y2=y1;
-            y1=tmp;
+        if (y1 > y2) {
+            int tmp = y2;
+            y2 = y1;
+            y1 = tmp;
         }
 
 
         for (int i = x1; i <= x2; i++) {
-                SetPixel(i, y1, r, g, b);
-            }
+            SetPixel(i, y1, r, g, b);
+        }
 
         for (int i = x1; i <= x2; i++) {
             SetPixel(i, y2, r, g, b);
@@ -96,64 +90,57 @@ public:
         }
     }
 
-    void  drawLine(int x1, int y1, int x2, int y2, unsigned char r, unsigned char g, unsigned char b) {
+    void drawLine(int x1, int y1, int x2, int y2, unsigned char r, unsigned char g, unsigned char b) {
 
-        assert(!(x1==x2 && y1==y2));
+        assert(!(x1 == x2 && y1 == y2));
 
-        if(x1==x2 && y1==y2)return;
+        if (x1 == x2 && y1 == y2)return;
 
-if(abs(x1-x2)>abs(y1-y2))
-{
-        if(x1>x2)
-        {
-            int tmp=x2;
-            x2=x1;
-            x1=tmp;
+        if (abs(x1 - x2) > abs(y1 - y2)) {
+            if (x1 > x2) {
+                int tmp = x2;
+                x2 = x1;
+                x1 = tmp;
 
-            tmp=y2;
-            y2=y1;
-            y1=tmp;
+                tmp = y2;
+                y2 = y1;
+                y1 = tmp;
+            }
+
+            int dx = x2 - x1;
+            int dy = y2 - y1;
+
+
+            for (int x = x1; x <= x2; x++) {
+                int y = y1 + dy * (x - x1) / dx;
+                SetPixel(x, y, r, g, b);
+            }
+
+        } else {
+            if (y1 > y2) {
+                int tmp = x2;
+                x2 = x1;
+                x1 = tmp;
+
+                tmp = y2;
+                y2 = y1;
+                y1 = tmp;
+            }
+
+            int dx = x2 - x1;
+            int dy = y2 - y1;
+
+
+            for (int y = y1; y <= y2; y++) {
+                int x = x1 + dx * (y - y1) / dy;
+                SetPixel(x, y, r, g, b);
+            }
         }
-
-        int dx=x2-x1;
-        int dy=y2-y1;
-
-
-    for(int x=x1;x<=x2;x++)
-    {
-        int y=y1+dy*(x-x1)/dx;
-        SetPixel(x,y,r,g,b);
-    }
-
-}
-else
-{
-        if(y1>y2)
-        {
-            int tmp=x2;
-            x2=x1;
-            x1=tmp;
-
-            tmp=y2;
-            y2=y1;
-            y1=tmp;
-        }
-
-        int dx=x2-x1;
-        int dy=y2-y1;
-
-
-        for(int y=y1;y<=y2;y++)
-        {
-            int x=x1+dx*(y-y1)/dy;
-            SetPixel(x,y,r,g,b);
-        }
-}
     }
 
     void SetPixel(int x, int y, unsigned char r, unsigned char g, unsigned char b) {
-        assert(x>=0 && x<width_);
-        assert(y>=0 && y<height_);
+        assert(x >= 0 && x < width_);
+        assert(y >= 0 && y < height_);
 
         img[3 * (x + y * width_)] = b;
         img[3 * (x + y * width_) + 1] = g;

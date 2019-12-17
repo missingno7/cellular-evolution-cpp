@@ -4,7 +4,6 @@
 #include "cellular-evolution/utilities/random.h"
 #include "../floor_planning/fp_individual.h"
 
-
 void DrawCrossBox1(int x1, int y1, int x2, int y2, Bitmap &bmp, int fr=255, int fg=0, int fb=0, int br=255, int bg=255, int bb=0)
 {
     bmp.fillRect(x1,y1,x2,y2,br,bg,bb);
@@ -20,7 +19,6 @@ void DrawCrossBox2(int x1, int y1, int x2, int y2, Bitmap &bmp, int fr=255, int 
     bmp.drawLine(x2,y2,x1,y1,fr, fg, fb);
     bmp.drawLine(x2,y1,x1,y2,fr, fg, fb);
 }
-
 
 int main() {
 

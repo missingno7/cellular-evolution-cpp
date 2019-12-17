@@ -33,7 +33,6 @@ public:
         items_.insert(std::make_pair(name, std::make_shared<VBool>()));
     }
 
-
     std::shared_ptr<Variable> getVar(std::string name) const {
         auto item = items_.find(name);
         if (item == items_.end()) {

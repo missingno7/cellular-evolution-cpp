@@ -6,7 +6,6 @@
 #include "cellular-evolution/cevo/population.h"
 
 
-
 int main() {
 
 
@@ -26,7 +25,8 @@ int main() {
     std::shared_ptr<SaData> sa_data = std::make_shared<SaData>(cfg);
     std::shared_ptr<IndData> tstData = sa_data;
 
-    std::shared_ptr<SaIndividual> tstInd = std::make_shared<SaIndividual>(sa_data->scWidth_, sa_data->scHeight_, sa_data->cities_,cfg);
+    std::shared_ptr<SaIndividual> tstInd = std::make_shared<SaIndividual>(sa_data->scWidth_, sa_data->scHeight_,
+                                                                          sa_data->cities_, cfg);
 
     Population<SaIndividual> pop(tstInd, tstData, cfg);
 
@@ -47,11 +47,11 @@ int main() {
             }
         }
 
-        std::cout<<"GENERATION " << pop.getGen()<<std::endl;
-        std::cout<<bestInd->toString(tstData)<<std::endl;
-        std::cout<<"GEN BEST FITNESS: " << bestInd->getFitness() <<std::endl;
-        std::cout<<"AVG FITNESS: " <<  pop.avgFitness() <<std::endl;
-        std::cout<<"ALLBEST FITNESS: " <<  bestOne->getFitness()<<std::endl;
+        std::cout << "GENERATION " << pop.getGen() << std::endl;
+        std::cout << bestInd->toString(tstData) << std::endl;
+        std::cout << "GEN BEST FITNESS: " << bestInd->getFitness() << std::endl;
+        std::cout << "AVG FITNESS: " << pop.avgFitness() << std::endl;
+        std::cout << "ALLBEST FITNESS: " << bestOne->getFitness() << std::endl;
 
         pop.nextGen();
     }

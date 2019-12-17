@@ -12,11 +12,10 @@ class Random {
 
 public:
 
-    Random()
-    {
+    Random() {
         {
             std::lock_guard<std::mutex> l(seed_mutex_);
-            seed_+=time(NULL);
+            seed_ += time(NULL);
             generator_.seed(seed_);
         }
     }
@@ -25,8 +24,7 @@ public:
         std::uniform_int_distribution<int> distribution(min, max);
         int val;
         {
-            //std::lock_guard<std::mutex> l(seed_mutex_);
-        val = distribution(generator_);
+            val = distribution(generator_);
         }
         return val;
     }
@@ -35,7 +33,6 @@ public:
         std::uniform_real_distribution<float> distribution(min, max);
         float val;
         {
-            //std::lock_guard<std::mutex> l(seed_mutex_);
             val = distribution(generator_);
         }
         return val;
@@ -45,26 +42,19 @@ public:
         std::normal_distribution<float> distribution(mean, std_dev);
         float val;
         {
-            //std::lock_guard<std::mutex> l(seed_mutex_);
-        val = distribution(generator_);
+            val = distribution(generator_);
         }
         return val;
     }
 
-
-    bool nextBoolean()
-    {
-        return nextInt(0,1);
+    bool nextBoolean() {
+        return nextInt(0, 1);
     }
 
     std::default_random_engine generator_;
-
     static uint64_t seed_;
-
     static std::mutex seed_mutex_;
-
-
 };
-uint64_t Random::seed_=0;
+
+uint64_t Random::seed_ = 0;
 std::mutex Random::seed_mutex_;
-//std::default_random_engine Random::generator_;

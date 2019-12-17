@@ -45,10 +45,9 @@ public:
         genom_ = new Rectangle[genom_len_];
     }
 
-    FpIndividual()
-    {
+    FpIndividual() {
         // Only pre-initialised individual can be constructed like that
-        assert(genom_len_!=0);
+        assert(genom_len_ != 0);
         genom_ = new Rectangle[genom_len_];
     }
 
@@ -175,41 +174,34 @@ public:
 
         for (int i = 0; i < genom_len_; i++) {
 
-            int resx,resy;
-            if((genom_[i].x1)>(second_one->genom_[i].x1))
-            {
-                resx=rnd.nextInt(second_one->genom_[i].x1,genom_[i].x1);
-            }
-            else
-            {
-                resx=rnd.nextInt(genom_[i].x1, second_one->genom_[i].x1);
+            int resx, resy;
+            if ((genom_[i].x1) > (second_one->genom_[i].x1)) {
+                resx = rnd.nextInt(second_one->genom_[i].x1, genom_[i].x1);
+            } else {
+                resx = rnd.nextInt(genom_[i].x1, second_one->genom_[i].x1);
             }
 
 
-            if((genom_[i].y1)>(second_one->genom_[i].y1))
-            {
-                resy=rnd.nextInt(second_one->genom_[i].y1,genom_[i].y1);
+            if ((genom_[i].y1) > (second_one->genom_[i].y1)) {
+                resy = rnd.nextInt(second_one->genom_[i].y1, genom_[i].y1);
+            } else {
+                resy = rnd.nextInt(genom_[i].y1, second_one->genom_[i].y1);
             }
-            else
-            {
-                resy=rnd.nextInt(genom_[i].y1, second_one->genom_[i].y1);
-            }
-
 
 
             if (rnd.nextBoolean()) {
-                ind->genom_[i].x2 = resx + (genom_[i].x2-genom_[i].x1);
-                ind->genom_[i].x1=resx;
+                ind->genom_[i].x2 = resx + (genom_[i].x2 - genom_[i].x1);
+                ind->genom_[i].x1 = resx;
 
-                ind->genom_[i].y2 = resy + (genom_[i].y2-genom_[i].y1);
-                ind->genom_[i].y1=resy;
+                ind->genom_[i].y2 = resy + (genom_[i].y2 - genom_[i].y1);
+                ind->genom_[i].y1 = resy;
             } else {
 
-                ind->genom_[i].x2 = resx + (second_one->genom_[i].x2-second_one->genom_[i].x1);
-                ind->genom_[i].x1=resx;
+                ind->genom_[i].x2 = resx + (second_one->genom_[i].x2 - second_one->genom_[i].x1);
+                ind->genom_[i].x1 = resx;
 
-                ind->genom_[i].y2 = resy + (second_one->genom_[i].y2-second_one->genom_[i].y1);
-                ind->genom_[i].y1=resy;
+                ind->genom_[i].y2 = resy + (second_one->genom_[i].y2 - second_one->genom_[i].y1);
+                ind->genom_[i].y1 = resy;
             }
         }
     }
@@ -327,7 +319,6 @@ public:
         return fpInd;
     }
 
-
     std::string toString(std::shared_ptr<IndData> &data) {
         std::string res = "";
 
@@ -377,13 +368,9 @@ public:
 
             bmp_->drawRect((int) genom_[i].x1, (int) genom_[i].y1, (int) genom_[i].x2, (int) genom_[i].y2, 255, 0,
                            0);
-
-            //g.drawRect((int) genom_[i].x1, (int) genom_[i].y1, (int) genom_[i].x2 - genom_[i].x1, (int) genom_[i].y2 - genom_[i].y1);
-            //g.drawString(Integer.toString(i), ((genom_[i].x1 + genom_[i].x2) / 2 - strWidth / 2), (((genom_[i].y1 + genom_[i].y2) / 2) + 4));
         }
 
         bmp_->Write(filename);
-
     }
 
     float getFitness() {
