@@ -68,7 +68,6 @@ public:
 
     }
 
-
     void randomize(std::shared_ptr<IndData> &data, Random &rnd) {
 
         std::shared_ptr<SaData> fp_data = std::dynamic_pointer_cast<SaData>(data);
@@ -90,7 +89,6 @@ public:
     void toFile(std::string filename) {
         throw std::runtime_error("Not supported yet.");
     }
-
 
     void reversePart(int from, int to) {
         if (from == to) {
@@ -118,11 +116,9 @@ public:
             }
 
         } while ((frmi - 1) != toi && frmi != toi);
-
     }
 
     void shiftMultiple(int from, int to, bool forward, int cnt) {
-
         if (forward) {
             for (int i = cnt - 1; i >= 0; i--) {
 
@@ -140,11 +136,8 @@ public:
                 int toi = (to + i) % genom_len_;
 
                 shift(frmi, toi, false);
-
             }
-
         }
-
     }
 
     void shift(int from, int to, bool forward) {
@@ -171,8 +164,8 @@ public:
             } while (i != to);
 
         } else {
-            // backwards
 
+            // backwards
             int i = from;
             do {
 
@@ -187,10 +180,8 @@ public:
 
                 i = next;
             } while (i != to);
-
         }
     }
-
 
     void mutate(float amount, float probability, Random &rnd) {
 
@@ -207,7 +198,6 @@ public:
                 genom_[i] = genom_[swapWith];
                 genom_[swapWith] = tmp;
             }
-
         }
 
         if (rnd.nextFloat() < shiftprob_) {
@@ -234,16 +224,11 @@ public:
         for (int i = 0; i < genom_len_; i++) {
             myarray[i] = false;
         }
-        //Arrays.fill(myarray, false);
 
-        // System.out.println("STARTFOR");
-        int crossPoint = rnd.nextInt(genom_len_);
+        int crossPoint = rnd.nextInt(0, genom_len_ - 1);
         int i = crossPoint;
 
         do {
-            //System.out.println(i);
-            //for (int i=0; i<genom_len_ ; i++) {
-
             if ((!myarray[genom_[i]] && !myarray[second_one->genom_[i]])) {
                 if (rnd.nextBoolean()) {
                     ind->genom_[i] = genom_[i];
@@ -253,12 +238,9 @@ public:
 
             } else if (myarray[genom_[i]] && myarray[second_one->genom_[i]]) {
 
-                //int ic=0;
                 do {
-                    ind->genom_[i] = rnd.nextInt(genom_len_);
-                    //ic++;
+                    ind->genom_[i] = rnd.nextInt(0, genom_len_ - 1);
                 } while (myarray[ind->genom_[i]]);
-                //System.out.println(ic);
 
             } else if (myarray[genom_[i]] && !myarray[second_one->genom_[i]]) {
                 ind->genom_[i] = second_one->genom_[i];
@@ -283,10 +265,8 @@ public:
     void copyTo(SaIndividual *ind) {
         // Copies only things that are necessary
         std::memcpy(ind->genom_, genom_, genom_len_ * sizeof(*genom_));
-
         // No need to copy fitness and color because it will be calculated again
     }
-
 
     void DeepCopyTo(SaIndividual *ind) {
         copyTo(ind);
@@ -295,14 +275,11 @@ public:
         ind->colY = colY;
     }
 
-
     float distance(float x1, float y1, float x2, float y2) {
         float x = (x2 - x1);
         float y = (y2 - y1);
         return (x * x) + (y * y);
-
     }
-
 
     void countFitness(std::shared_ptr<IndData> &data) {
         std::shared_ptr<SaData> sa_data = std::dynamic_pointer_cast<SaData>(data);
@@ -347,7 +324,6 @@ public:
                 }
             }
         }
-
     }
 
     std::shared_ptr<SaIndividual> clone() {
@@ -356,7 +332,6 @@ public:
 
         return fpInd;
     }
-
 
     std::string toString(std::shared_ptr<IndData> &data) {
         std::string res = "";
@@ -410,15 +385,12 @@ public:
     static bool init_;
     static float shiftprob_;
     static float revprob_;
-    static float mut_prob_;
-    static float mut_amount_;
     static std::shared_ptr<PopConfig> cfg_;
     static std::shared_ptr<Bitmap> bmp_;
 
     friend class Population<SaIndividual>;
 
 private:
-
     // Unsafe but fast methods that can lead to memleaks when misused.
     SaIndividual *UnsafeClone() {
         SaIndividual *fpInd = new SaIndividual(scWidth_, scHeight_, genom_len_, cfg_);
@@ -430,8 +402,6 @@ private:
     SaIndividual *makeBlank() {
         return new SaIndividual(scWidth_, scHeight_, genom_len_, cfg_);
     }
-
-
 };
 
 std::shared_ptr<Bitmap> SaIndividual::bmp_ = 0;
