@@ -143,6 +143,6 @@ public:
     float crossrate = 0.5;
     int threads = 16;
     bool gennew = true;
-    bool drawpop = true;
+    bool drawpop = false;
 
 };
