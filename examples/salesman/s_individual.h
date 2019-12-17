@@ -281,17 +281,10 @@ public:
     }
 
     void copyTo(SaIndividual *ind) {
-
         // Copies only things that are necessary
         std::memcpy(ind->genom_, genom_, genom_len_ * sizeof(*genom_));
 
         // No need to copy fitness and color because it will be calculated again
-        /*
-ind->fitness = fitness;
-ind->colX = colX;
-ind->colY = colY;
-*/
-
     }
 
 
@@ -401,54 +394,6 @@ ind->colY = colY;
         bmp_->drawRect((int) (x1 - 1), (int) (y1 - 1), (int) x1 + 3, (int) (y1 + 3), 255, 0, 0);
 
         bmp_->Write(filename);
-
-        /*
-
-        // bounding box surface
-        uint16_t maxX = genom_[0].x2;
-        uint16_t maxY = genom_[0].y2;
-        uint16_t minX = genom_[0].x1;
-        uint16_t minY = genom_[0].y2;
-
-        for (int i = 1; i < genom_len_; i++) {
-            if (maxX < genom_[i].x2) {
-                maxX = genom_[i].x2;
-            }
-
-            if (minX > genom_[i].x1) {
-                minX = genom_[i].x1;
-            }
-
-            if (maxY < genom_[i].y2) {
-                maxY = genom_[i].y2;
-            }
-
-            if (minY > genom_[i].y1) {
-                minY = genom_[i].y1;
-            }
-        }
-
-
-        bmp_->clear(0, 0, 0);
-
-        // Bounding box
-        bmp_->fillRect((int) minX, (int) minY, (int) (
-                maxX), (int) (maxY), 96, 0, 0);
-
-        for (int i = 0; i < genom_len_; i++) {
-
-            bmp_->fillRect((int) genom_[i].x1, (int) genom_[i].y1, (int) genom_[i].x2, (int) genom_[i].y2, 255, 255,
-                           255);
-
-            bmp_->drawRect((int) genom_[i].x1, (int) genom_[i].y1, (int) genom_[i].x2, (int) genom_[i].y2, 255, 0,
-                           0);
-
-            //g.drawRect((int) genom_[i].x1, (int) genom_[i].y1, (int) genom_[i].x2 - genom_[i].x1, (int) genom_[i].y2 - genom_[i].y1);
-            //g.drawString(Integer.toString(i), ((genom_[i].x1 + genom_[i].x2) / 2 - strWidth / 2), (((genom_[i].y1 + genom_[i].y2) / 2) + 4));
-        }
-
-        bmp_->Write(filename);*/
-
     }
 
     float getFitness() {
@@ -493,8 +438,6 @@ std::shared_ptr<Bitmap> SaIndividual::bmp_ = 0;
 
 float SaIndividual::shiftprob_;
 float SaIndividual::revprob_;
-float SaIndividual::mut_prob_;
-float SaIndividual::mut_amount_;
 uint8_t SaIndividual::genom_len_ = 0;
 uint16_t SaIndividual::scWidth_;
 uint16_t SaIndividual::scHeight_;

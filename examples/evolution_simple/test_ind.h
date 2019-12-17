@@ -16,7 +16,6 @@ public:
 
     void randomize(std::shared_ptr<IndData> &data, Random &rnd) {
         val_ = rnd.nextInt(-1000, 1000);
-        //std::cout<<val_<<std::endl;
     }
 
     std::shared_ptr<TestInd> fromFile(std::string filename) {
@@ -49,9 +48,6 @@ public:
 
         int prev = cInd->val_;
         cInd->val_ = val_ + (int) ((rnd.nextFloat(-1000, 1000)) * amount);
-
-
-        //if(cInd.val<prev)System.out.println(prev+","+cInd.val);
     }
 
     void DeepCopyTo(TestInd *ind) {
@@ -107,12 +103,9 @@ public:
         return fitness;
     }
 
-
     float fitness;
     float colX;
     float colY;
 
-
     int val_;
-
 };

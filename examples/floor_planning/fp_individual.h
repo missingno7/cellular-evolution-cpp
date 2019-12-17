@@ -68,11 +68,6 @@ public:
 
         int attempts = 0;
 
-        /*flip_prob_ = rnd.nextFloat();
-        switch_prob_ = rnd.nextFloat();
-        mut_prob_ = rnd.nextFloat();
-        mut_amount_ = (float) rnd.nextGaussian();*/
-
         for (int i = 0; i < genom_len_; i++) {
             bool again;
             bool flip;
@@ -120,12 +115,6 @@ public:
     }
 
     void mutate(float amount, float probability, Random &rnd) {
-
-        /*flip_prob_ += (float) rnd.nextGaussian() * probability;
-        switch_prob_ += (float) rnd.nextGaussian() * probability;
-        mut_prob_ += (float) rnd.nextGaussian() * probability;
-        mut_amount_ += (float) rnd.nextGaussian() * amount;*/
-
         for (int i = 0; i < genom_len_; i++) {
             // Move
             if (rnd.nextFloat() < probability) {
@@ -387,8 +376,6 @@ public:
     static bool init_;
     static float flip_prob_;
     static float switch_prob_;
-    static float mut_prob_;
-    static float mut_amount_;
     static std::shared_ptr<PopConfig> cfg_;
     static std::shared_ptr<Bitmap> bmp_;
 
@@ -415,8 +402,6 @@ std::shared_ptr<Bitmap> FpIndividual::bmp_ = 0;
 
 float FpIndividual::flip_prob_;
 float FpIndividual::switch_prob_;
-float FpIndividual::mut_prob_;
-float FpIndividual::mut_amount_;
 uint8_t FpIndividual::genom_len_ = 0;
 uint16_t FpIndividual::scWidth_;
 uint16_t FpIndividual::scHeight_;
