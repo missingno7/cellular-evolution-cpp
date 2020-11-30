@@ -82,7 +82,7 @@ public:
         std::dynamic_pointer_cast<VLong>(item->second)->setVal(val);
     }
 
-    std::vector<int> getInt(std::string name) {
+    std::vector<int> getInt(std::string name) const{
         auto item = items_.find(name);
         if (item == items_.end()) {
             throw std::runtime_error("Value does not exist.");
@@ -90,7 +90,7 @@ public:
         return std::dynamic_pointer_cast<VInteger>(item->second)->getVal();
     }
 
-    std::vector<bool> getBool(std::string name) {
+    std::vector<bool> getBool(std::string name) const{
         auto item = items_.find(name);
         if (item == items_.end()) {
             throw std::runtime_error("Value does not exist.");
@@ -98,7 +98,7 @@ public:
         return std::dynamic_pointer_cast<VBool>(item->second)->getVal();
     }
 
-    std::vector<float> getFloat(std::string name) {
+    std::vector<float> getFloat(std::string name) const{
         auto item = items_.find(name);
         if (item == items_.end()) {
             throw std::runtime_error("Value does not exist.");
@@ -106,7 +106,7 @@ public:
         return std::dynamic_pointer_cast<VFloat>(item->second)->getVal();
     }
 
-    std::vector<double> getDouble(std::string name) {
+    std::vector<double> getDouble(std::string name) const{
         auto item = items_.find(name);
         if (item == items_.end()) {
             throw std::runtime_error("Value does not exist.");
@@ -114,7 +114,7 @@ public:
         return std::dynamic_pointer_cast<VDouble>(item->second)->getVal();
     }
 
-    std::vector<long> getLong(std::string name) {
+    std::vector<long> getLong(std::string name) const{
         auto item = items_.find(name);
         if (item == items_.end()) {
             throw std::runtime_error("Value does not exist.");

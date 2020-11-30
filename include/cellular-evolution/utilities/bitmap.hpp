@@ -8,30 +8,52 @@
 class Bitmap {
 public:
 
-    Bitmap(int width, int height)
-            : width_(width), height_(height) {
-        img = new unsigned char[3 * width * height]();
-        const int pad = (4 - (3 * width_) % 4) % 4, filesize = 54 + (3 * width_ + pad) *
-                                                                    height_; // horizontal line must be a multiple of 4 bytes long, header is 54 bytes
+    Bitmap() {
+
+    }
+
+    Bitmap(Bitmap const &bmp) {
+        if (bmp._img != nullptr) {
+            init(bmp._width, bmp._height);
+        }
+    }
+
+
+    Bitmap(int width, int height) {
+        init(width, height);
+    }
+
+    void init(int width, int height) {
+        if (_img != nullptr) {
+            delete[] _img;
+        }
+
+        _width = width;
+        _height = height;
+        _img = new unsigned char[3 * width * height]();
+        const int pad = (4 - (3 * _width) % 4) % 4, filesize = 54 + (3 * _width + pad) *
+                                                                    _height; // horizontal line must be a multiple of 4 bytes long, header is 54 bytes
 
         for (int i = 29; i < 54; i++) {
-            header_[i] = 0;
+            _header[i] = 0;
         }
 
         for (int i = 0; i < 4; i++) {
-            header_[2 + i] = (unsigned char) ((filesize >> (8 * i)) & 255);
-            header_[18 + i] = (unsigned char) ((width_ >> (8 * i)) & 255);
-            header_[22 + i] = (unsigned char) ((height_ >> (8 * i)) & 255);
+            _header[2 + i] = (unsigned char) ((filesize >> (8 * i)) & 255);
+            _header[18 + i] = (unsigned char) ((_width >> (8 * i)) & 255);
+            _header[22 + i] = (unsigned char) ((_height >> (8 * i)) & 255);
         }
     }
 
     ~Bitmap() {
-        delete[] img;
+        if (_img != nullptr) {
+            delete[] _img;
+        }
     }
 
     void clear(unsigned char r, unsigned char g, unsigned char b) {
-        for (int i = 0; i < width_; i++) {
-            for (int j = 0; j < height_; j++) {
+        for (int i = 0; i < _width; i++) {
+            for (int j = 0; j < _height; j++) {
                 SetPixel(i, j, r, g, b);
             }
         }
@@ -139,35 +161,35 @@ public:
     }
 
     void SetPixel(int x, int y, unsigned char r, unsigned char g, unsigned char b) {
-        assert(x >= 0 && x < width_);
-        assert(y >= 0 && y < height_);
+        assert(x >= 0 && x < _width);
+        assert(y >= 0 && y < _height);
 
-        img[3 * (x + y * width_)] = b;
-        img[3 * (x + y * width_) + 1] = g;
-        img[3 * (x + y * width_) + 2] = r;
+        _img[3 * (x + y * _width)] = b;
+        _img[3 * (x + y * _width) + 1] = g;
+        _img[3 * (x + y * _width) + 2] = r;
     }
 
     void Write(const std::string path) {
         std::ofstream file(path, std::ios::out | std::ios::binary);
-        file.write(header_, 54);
-        for (int i = height_ - 1; i >= 0; i--) {
-            file.write((char *) (img + 3 * width_ * i), 3 * width_);
-            file.write(padding_, pad_);
+        file.write(_header, 54);
+        for (int i = _height - 1; i >= 0; i--) {
+            file.write((char *) (_img + 3 * _width * i), 3 * _width);
+            file.write(_padding, _pad);
         }
         file.close();
     }
 
 private:
 
-    int width_;
-    int height_;
-    unsigned char *img;
+    int _width = 0;
+    int _height = 0;
+    unsigned char *_img = nullptr;
 
     // Internal bitmap parameters
-    char header_[54] = {'B', 'M', 0, 0, 0, 0, 0, 0, 0, 0, 54, 0, 0, 0, 40, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 24,
+    char _header[54] = {'B', 'M', 0, 0, 0, 0, 0, 0, 0, 0, 54, 0, 0, 0, 40, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 24,
                         0};
-    char padding_[3] = {0, 0, 0};
-    int pad_;
+    char _padding[3] = {0, 0, 0};
+    int _pad = 0;
 };
 
 
