@@ -361,7 +361,7 @@ public:
     }
 
     Rectangle *genom_ = nullptr;
-    uint8_t genom_len_;
+    uint16_t genom_len_;
     float fitness;
     float colX;
     float colY;

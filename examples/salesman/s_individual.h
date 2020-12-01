@@ -24,9 +24,6 @@ public:
 
     SaIndividual(SaData const &data) {
         genom_len_ = data.cities_;
-        scWidth_ = data.scWidth_;
-        scHeight_ = data.scHeight_;
-
         genom_ = new uint16_t[genom_len_];
     }
 
@@ -43,12 +40,10 @@ public:
         }
 
         if (genom_ == nullptr) {
-            genom_ = new uint16_t[genom_len_];
+            genom_ = new uint16_t[individual.genom_len_];
             genom_len_ = individual.genom_len_;
         }
 
-        scWidth_ = individual.scWidth_;
-        scHeight_ = individual.scHeight_;
         fitness = individual.fitness;
         colX = individual.colX;
         colY = individual.colY;
@@ -58,8 +53,6 @@ public:
 
     SaIndividual(SaIndividual const &individual) {
         genom_len_ = individual.genom_len_;
-        scWidth_ = individual.scWidth_;
-        scHeight_ = individual.scHeight_;
         fitness = individual.fitness;
         colX = individual.colX;
         colY = individual.colY;
@@ -96,8 +89,8 @@ public:
     }
 
     void randomize(SaData const &data, Random &rnd) {
-        int maxX = scWidth_;
-        int maxY = scHeight_;
+        int maxX = data.scWidth_;
+        int maxY = data.scHeight_;
 
         for (int i = 0; i < genom_len_; i++) {
             genom_[i] = i;
@@ -389,19 +382,12 @@ public:
     }
 
     uint16_t *genom_ = nullptr;
-    float fitness;
-    float colX;
-    float colY;
-
-    static uint16_t scWidth_, scHeight_;
-    static uint8_t genom_len_;
+    float fitness=0;
+    float colX=0;
+    float colY=0;
+    uint16_t genom_len_=0;
 
     friend class Population<SaIndividual, SaData>;
 
 private:
 };
-
-uint8_t SaIndividual::genom_len_ = 0;
-uint16_t SaIndividual::scWidth_ = 0;
-uint16_t SaIndividual::scHeight_ = 0;
-
