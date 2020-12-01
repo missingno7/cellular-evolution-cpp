@@ -121,7 +121,6 @@ public:
         m_number_of_threads_ = cfg.threads;
         m_drawpop = cfg.drawpop;
         m_crossrate = cfg.crossrate;
-        m_gennew = cfg.gennew;
         m_mutamount = cfg.mutamount;
         m_mutprob = cfg.mutprob;
 
@@ -165,7 +164,6 @@ public:
         }
 
         m_gensCount = 0;
-        //rnd = new Random();
     }
 
 
@@ -412,7 +410,6 @@ public:
 
 
     int roulette(int *inds, int size, Random &rnd) {
-        //System.out.println(x+", "+y);
         int bestInd = inds[size - 1];
 
         float fit_sum = 0;
@@ -479,7 +476,6 @@ public:
     float m_crossrate;
     float m_mutamount;
     float m_mutprob;
-    bool m_gennew;
 
     IndData m_indData;
 

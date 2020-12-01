@@ -21,7 +21,6 @@ class SaIndividual {
 public:
 
     SaIndividual() {
-
     }
 
     SaIndividual(SaData const &data) {
@@ -39,14 +38,22 @@ public:
     }
 
     SaIndividual &operator=(const SaIndividual &individual) {
-        genom_len_ = individual.genom_len_;
+
+        if (genom_len_ != individual.genom_len_ && genom_ != nullptr) {
+            delete[]genom_;
+        }
+
+        if (genom_ == nullptr) {
+            genom_ = new uint16_t[genom_len_];
+            genom_len_ = individual.genom_len_;
+        }
+
         scWidth_ = individual.scWidth_;
         scHeight_ = individual.scHeight_;
         fitness = individual.fitness;
         colX = individual.colX;
         colY = individual.colY;
 
-        genom_ = new uint16_t[genom_len_];
         std::memcpy(genom_, individual.genom_, genom_len_ * sizeof(*genom_));
     }
 
@@ -74,20 +81,18 @@ public:
 
     }
 
-    bool checkValidity()
-    {
+    bool checkValidity() {
         bool *test_gen = new bool[genom_len_]();
 
-        for (int i=0; i<genom_len_; i++)
-        {
-         if (test_gen[i]) {
-             delete []test_gen;
-             return false;
-         }
+        for (int i = 0; i < genom_len_; i++) {
+            if (test_gen[i]) {
+                delete[]test_gen;
+                return false;
+            }
             test_gen[i] = true;
         }
 
-        delete []test_gen;
+        delete[]test_gen;
         return true;
     }
 
