@@ -1,6 +1,4 @@
 #include <iostream>
-#include <fstream>
-#include "cellular-evolution/utilities/bitmap.hpp"
 #include "cellular-evolution/cevo/population.h"
 #include "cellular-evolution/cevo/pop_config.h"
 #include "test_ind.h"

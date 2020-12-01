@@ -1,14 +1,10 @@
 #include <iostream>
-#include <fstream>
 #include "sa_data.h"
 #include "s_individual.h"
 
 #include "cellular-evolution/cevo/population.h"
 
-
 int main() {
-
-
     std::string indPath = "./";
 
     PopConfig cfg;

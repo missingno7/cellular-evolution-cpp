@@ -6,7 +6,6 @@
 #include<memory>
 #include<cstring>
 
-#include "cellular-evolution/cevo/ind_data.h"
 #include "cellular-evolution/utilities/random.h"
 
 #include "cellular-evolution/cevo/pop_config.h"

@@ -1,9 +1,6 @@
 #include <iostream>
-#include <fstream>
 #include "fp_individual.h"
 #include "cellular-evolution/cevo/population.h"
-#include "cellular-evolution/utilities/random.h"
-
 
 int main() {
 
