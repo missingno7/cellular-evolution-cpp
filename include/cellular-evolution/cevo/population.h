@@ -86,7 +86,7 @@ public:
                             dualTournament(prepareL5(i / m_popHeight, i % m_popHeight, inds), 5, first_ind, second_ind);
 
                             if (second_ind != -1) {
-                                m_currGenInds[first_ind].crossoverTo(&m_currGenInds[second_ind], &m_nextGenInds[i],
+                                m_currGenInds[first_ind].crossoverTo(m_currGenInds[second_ind], m_nextGenInds[i],
                                                                      rnd);
                             } else {
                                 m_currGenInds[first_ind].mutateTo(rnd.nextFloat() * m_mutamount, m_mutprob,

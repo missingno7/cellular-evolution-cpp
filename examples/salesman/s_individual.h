@@ -242,7 +242,7 @@ public:
         }
     }
 
-    void crossoverTo(SaIndividual *second_one, SaIndividual *ind, Random &rnd) {
+    void crossoverTo(SaIndividual &second_one, SaIndividual &ind, Random &rnd) {
 
         //ind->cities[0] = 0;
         bool *myarray = new bool[genom_len_];
@@ -254,26 +254,26 @@ public:
         int i = crossPoint;
 
         do {
-            if ((!myarray[genom_[i]] && !myarray[second_one->genom_[i]])) {
+            if ((!myarray[genom_[i]] && !myarray[second_one.genom_[i]])) {
                 if (rnd.nextBoolean()) {
-                    ind->genom_[i] = genom_[i];
+                    ind.genom_[i] = genom_[i];
                 } else {
-                    ind->genom_[i] = second_one->genom_[i];
+                    ind.genom_[i] = second_one.genom_[i];
                 }
 
-            } else if (myarray[genom_[i]] && myarray[second_one->genom_[i]]) {
+            } else if (myarray[genom_[i]] && myarray[second_one.genom_[i]]) {
 
                 do {
-                    ind->genom_[i] = rnd.nextInt(0, genom_len_ - 1);
-                } while (myarray[ind->genom_[i]]);
+                    ind.genom_[i] = rnd.nextInt(0, genom_len_ - 1);
+                } while (myarray[ind.genom_[i]]);
 
-            } else if (myarray[genom_[i]] && !myarray[second_one->genom_[i]]) {
-                ind->genom_[i] = second_one->genom_[i];
+            } else if (myarray[genom_[i]] && !myarray[second_one.genom_[i]]) {
+                ind.genom_[i] = second_one.genom_[i];
 
-            } else if (!myarray[genom_[i]] && myarray[second_one->genom_[i]]) {
-                ind->genom_[i] = genom_[i];
+            } else if (!myarray[genom_[i]] && myarray[second_one.genom_[i]]) {
+                ind.genom_[i] = genom_[i];
             }
-            myarray[ind->genom_[i]] = true;
+            myarray[ind.genom_[i]] = true;
 
             i = (i + 1) % genom_len_;
         } while ((i % genom_len_) != crossPoint);

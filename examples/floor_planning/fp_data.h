@@ -3,12 +3,11 @@
 // Created by jiri on 14/11/19.
 //
 
-#include "cellular-evolution/cevo/ind_data.h"
 #include "cellular-evolution/cevo/pop_config.h"
 #include "cellular-evolution/utilities/bitmap.hpp"
 
 
-class FpData : public IndData {
+class FpData {
 public:
 
     int *width;

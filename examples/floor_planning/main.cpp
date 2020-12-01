@@ -7,7 +7,7 @@
 
 int main() {
 
-    std::string indPath = "out\\";
+    std::string indPath = "./";
 
     PopConfig cfg;
 
