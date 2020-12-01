@@ -234,44 +234,50 @@ public:
         }
     }
 
-    void crossoverTo(SaIndividual &second_one, SaIndividual &ind, Random &rnd) {
-
-        //ind->cities[0] = 0;
-        bool *myarray = new bool[genom_len_];
-        for (int i = 0; i < genom_len_; i++) {
-            myarray[i] = false;
-        }
+    void crossoverTo(SaIndividual const &second_one, SaIndividual &ind, Random &rnd) const {
+        bool *myarray = new bool[genom_len_]();
 
         int crossPoint = rnd.nextInt(0, genom_len_ - 1);
         int i = crossPoint;
 
         do {
-            if ((!myarray[genom_[i]] && !myarray[second_one.genom_[i]])) {
-                if (rnd.nextBoolean()) {
-                    ind.genom_[i] = genom_[i];
+
+            if (myarray[genom_[i]]) {
+                if (myarray[second_one.genom_[i]]) {
+                    // Both on list
+                    for (int j = 0; j < genom_len_; j++) {
+                        if (!myarray[j]) {
+                            ind.genom_[i] = j;
+                            break;
+                        }
+                    }
+
                 } else {
+                    // second not used
                     ind.genom_[i] = second_one.genom_[i];
                 }
 
-            } else if (myarray[genom_[i]] && myarray[second_one.genom_[i]]) {
+            } else {
+                if (myarray[second_one.genom_[i]]) {
+                    // first not used
+                    ind.genom_[i] = genom_[i];
+                } else {
+                    // None used
+                    if (rnd.nextBoolean()) {
+                        ind.genom_[i] = genom_[i];
+                    } else {
+                        ind.genom_[i] = second_one.genom_[i];
+                    }
+                }
 
-                do {
-                    ind.genom_[i] = rnd.nextInt(0, genom_len_ - 1);
-                } while (myarray[ind.genom_[i]]);
-
-            } else if (myarray[genom_[i]] && !myarray[second_one.genom_[i]]) {
-                ind.genom_[i] = second_one.genom_[i];
-
-            } else if (!myarray[genom_[i]] && myarray[second_one.genom_[i]]) {
-                ind.genom_[i] = genom_[i];
             }
+
             myarray[ind.genom_[i]] = true;
 
             i = (i + 1) % genom_len_;
         } while ((i % genom_len_) != crossPoint);
 
         delete[]myarray;
-
     }
 
     void mutateTo(float amount, float probability, SaIndividual &ind, Random &rnd, SaData const &data) {
@@ -382,10 +388,10 @@ public:
     }
 
     uint16_t *genom_ = nullptr;
-    float fitness=0;
-    float colX=0;
-    float colY=0;
-    uint16_t genom_len_=0;
+    float fitness = 0;
+    float colX = 0;
+    float colY = 0;
+    uint16_t genom_len_ = 0;
 
     friend class Population<SaIndividual, SaData>;
 

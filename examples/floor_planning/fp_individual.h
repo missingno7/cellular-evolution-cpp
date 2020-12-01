@@ -169,7 +169,7 @@ public:
         }
     }
 
-    void crossoverTo(FpIndividual &second_one, FpIndividual &ind, Random &rnd) {
+    void crossoverTo(FpIndividual const &second_one, FpIndividual &ind, Random &rnd) const{
 
         for (int i = 0; i < genom_len_; i++) {
 
