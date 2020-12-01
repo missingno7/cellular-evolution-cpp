@@ -20,8 +20,7 @@ class Population;
 class SaIndividual {
 public:
 
-    SaIndividual()
-    {
+    SaIndividual() {
 
     }
 
@@ -39,6 +38,17 @@ public:
         }
     }
 
+    SaIndividual &operator=(const SaIndividual &individual) {
+        genom_len_ = individual.genom_len_;
+        scWidth_ = individual.scWidth_;
+        scHeight_ = individual.scHeight_;
+        fitness = individual.fitness;
+        colX = individual.colX;
+        colY = individual.colY;
+
+        genom_ = new uint16_t[genom_len_];
+        std::memcpy(genom_, individual.genom_, genom_len_ * sizeof(*genom_));
+    }
 
     SaIndividual(SaIndividual const &individual) {
         genom_len_ = individual.genom_len_;
@@ -62,6 +72,23 @@ public:
             ar[i] = a;
         }
 
+    }
+
+    bool checkValidity()
+    {
+        bool *test_gen = new bool[genom_len_]();
+
+        for (int i=0; i<genom_len_; i++)
+        {
+         if (test_gen[i]) {
+             delete []test_gen;
+             return false;
+         }
+            test_gen[i] = true;
+        }
+
+        delete []test_gen;
+        return true;
     }
 
     void randomize(SaData const &data, Random &rnd) {
@@ -348,7 +375,7 @@ public:
         float y1 = data.y[genom_[0]];
         float y2 = data.y[genom_[genom_len_ - 1]];
         data.bmp_.drawLine((int) x1, (int) y1, (int) x2, (int) y2, 255, 255, 255);
-        data.bmp_.drawRect((int) (x1 - 1), (int) (y1 - 1), (int) x1 + 3, (int) (y1 + 3), 255, 0, 0);
+        data.bmp_.drawRect((int) (x2 - 1), (int) (y2 - 1), (int) x2 + 3, (int) (y2 + 3), 255, 0, 0);
 
         data.bmp_.Write(filename);
     }

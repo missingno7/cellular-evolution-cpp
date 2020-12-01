@@ -131,7 +131,6 @@ public:
                 }
             }
         }
-        threads=1;
 
     }
 

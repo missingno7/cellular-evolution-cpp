@@ -11,8 +11,6 @@ public:
 
     int *width;
     int *height;
-    int scWidth;
-    int scHeight;
     int squares;
 
     ~FpData() {
@@ -21,9 +19,6 @@ public:
     }
 
     FpData(std::shared_ptr<PopConfig> cfg) {
-        scWidth = 1000;
-        scHeight = 1000;
-
         squares = cfg->reg.getInt("squares")[0];
 
         width = new int[squares];

@@ -30,7 +30,7 @@ int main() {
     pop.Randomize();
 
     SaIndividual bestOne = pop.getBest();
-    std::cout<<bestOne.fitness<<std::endl;
+    std::cout << bestOne.fitness << std::endl;
 
     Bitmap bmp(sa_data.scWidth_, sa_data.scHeight_);
 

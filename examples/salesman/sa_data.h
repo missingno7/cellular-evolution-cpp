@@ -46,7 +46,7 @@ public:
     }
 
     ~SaData() {
-        if (x == nullptr) {
+        if (x != nullptr) {
             delete[]x;
             delete[]y;
         }

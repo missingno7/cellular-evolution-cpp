@@ -133,11 +133,6 @@ public:
         m_currGenInds = new Individual[m_popWidth * m_popHeight];
         m_nextGenInds = new Individual[m_popWidth * m_popHeight];
 
-        //srcInd->countFitness(data);
-        //if (cfg->drawpop) {
-        //    srcInd->countColor();
-        //}
-
         ClearTasks();
         int step = m_inds_cnt / (m_number_of_threads_ * cluster_size);
 
@@ -171,6 +166,16 @@ public:
 
         m_gensCount = 0;
         //rnd = new Random();
+    }
+
+
+    ~Population() {
+        if (m_currGenInds != nullptr) {
+            delete[]m_currGenInds;
+        }
+        if (m_nextGenInds != nullptr) {
+            delete[]m_nextGenInds;
+        }
     }
 
     void nextGen() {
@@ -251,6 +256,7 @@ public:
         int best = 0;
 
         for (int i = 1; i < m_inds_cnt; i++) {
+
             if (m_currGenInds[best].fitness < m_currGenInds[i].fitness) {
                 best = i;
             }
@@ -463,8 +469,8 @@ public:
     }
 
     Individual m_templateInd;
-    Individual *m_currGenInds;
-    Individual *m_nextGenInds;
+    Individual *m_currGenInds = nullptr;
+    Individual *m_nextGenInds = nullptr;
     int m_inds_cnt;
     int m_popWidth, m_popHeight;
 
