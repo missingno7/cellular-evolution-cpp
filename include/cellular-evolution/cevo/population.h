@@ -488,5 +488,5 @@ public:
     std::queue<ThrTask> m_taskList;
     std::mutex task_list_mutex_;
 
-    int cluster_size = 128;
+    int cluster_size = 256;
 };

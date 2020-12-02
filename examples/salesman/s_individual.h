@@ -49,6 +49,8 @@ public:
         colY = individual.colY;
 
         std::memcpy(genom_, individual.genom_, genom_len_ * sizeof(*genom_));
+
+        return *this;
     }
 
     SaIndividual(SaIndividual const &individual) {
