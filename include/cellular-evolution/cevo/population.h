@@ -5,9 +5,6 @@
 
 #include "cellular-evolution/utilities/random.h"
 #include "cellular-evolution/utilities/evo_utils.h"
-//#include "cellular-evolution/cevo/individual.h"
-#include "cellular-evolution/cevo/ind_data.h"
-
 #include "cellular-evolution/cevo/pop_config.h"
 #include "cellular-evolution/utilities/bitmap.hpp"
 #include <thread>
@@ -27,7 +24,7 @@ struct ThrTask {
     int from, to;
 };
 
-template<typename Individual>
+template<class Individual, class IndData>
 class Population {
 public:
 
@@ -55,7 +52,8 @@ public:
                 // Initialize population
                 case INIT:
                     for (int i = val.from; i < val.to; i++) {
-                        m_templateInd->DeepCopyTo(&m_currGenInds[i]);
+                        m_currGenInds[i] = m_templateInd;
+                        m_nextGenInds[i] = m_templateInd;
                     }
                     break;
 
@@ -64,7 +62,7 @@ public:
                     for (int i = val.from; i < val.to; i++) {
                         m_currGenInds[i].randomize(m_indData, rnd);
                         m_currGenInds[i].countFitness(m_indData);
-                        if (m_cfg->drawpop) {
+                        if (m_drawpop) {
                             m_currGenInds[i].countColor();
                         }
                     }
@@ -77,7 +75,7 @@ public:
                     int second_ind = -1;
 
                     for (int i = val.from; i < val.to; i++) {
-                        if (rnd.nextFloat() < m_cfg->crossrate) {
+                        if (rnd.nextFloat() < m_crossrate) {
 
                             // int first_ind=roulette(prepareD13(i / m_popHeight, i % m_popHeight,inds),13,rnd);
                             // int second_ind=roulette(prepareD13(i / m_popHeight, i % m_popHeight,inds),13,rnd);
@@ -88,23 +86,23 @@ public:
                             dualTournament(prepareL5(i / m_popHeight, i % m_popHeight, inds), 5, first_ind, second_ind);
 
                             if (second_ind != -1) {
-                                m_currGenInds[first_ind].crossoverTo(&m_currGenInds[second_ind], &m_nextGenInds[i],
+                                m_currGenInds[first_ind].crossoverTo(m_currGenInds[second_ind], m_nextGenInds[i],
                                                                      rnd);
                             } else {
-                                m_currGenInds[first_ind].mutateTo(rnd.nextFloat() * m_cfg->mutamount, m_cfg->mutprob,
-                                                                  &m_nextGenInds[i],
-                                                                  rnd);
+                                m_currGenInds[first_ind].mutateTo(rnd.nextFloat() * m_mutamount, m_mutprob,
+                                                                  m_nextGenInds[i],
+                                                                  rnd, m_indData);
                             }
                         } else {
                             int first_ind = tournament(prepareL5(i / m_popHeight, i % m_popHeight, inds), 5);
                             //int first_ind=tournament(NRands(prepareL5(i / m_popHeight, i % m_popHeight,inds),5,4,rnd),4);
-                            m_currGenInds[first_ind].mutateTo(rnd.nextFloat() * m_cfg->mutamount,
-                                                              m_cfg->mutprob, &m_nextGenInds[i],
-                                                              rnd);
+                            m_currGenInds[first_ind].mutateTo(rnd.nextFloat() * m_mutamount,
+                                                              m_mutprob, m_nextGenInds[i],
+                                                              rnd, m_indData);
                         }
 
                         m_nextGenInds[i].countFitness(m_indData); // TRAIN AND TEST SPLIT
-                        if (m_cfg->drawpop) {
+                        if (m_drawpop) {
                             m_nextGenInds[i].countColor();
                         }
                     }
@@ -114,16 +112,19 @@ public:
         }
     }
 
-    Population(std::shared_ptr<Individual> &srcInd, std::shared_ptr<IndData> &data, std::shared_ptr<PopConfig> &cfg) {
-        m_cfg = cfg;
+    Population(Individual const &srcInd, IndData const &data, PopConfig const &cfg) {
         m_indData = data;
 
-        m_popWidth = cfg->xpopsize;
-        m_popHeight = cfg->ypopsize;
+        m_popWidth = cfg.xpopsize;
+        m_popHeight = cfg.ypopsize;
         m_inds_cnt = m_popWidth * m_popHeight;
-        m_number_of_threads_ = cfg->threads;
+        m_number_of_threads_ = cfg.threads;
+        m_drawpop = cfg.drawpop;
+        m_crossrate = cfg.crossrate;
+        m_mutamount = cfg.mutamount;
+        m_mutprob = cfg.mutprob;
 
-        image_ = std::make_shared<Bitmap>(m_popWidth, m_popHeight);
+        image_.init(m_popWidth, m_popHeight);
 
         m_templateInd = srcInd;
 
@@ -131,46 +132,48 @@ public:
         m_currGenInds = new Individual[m_popWidth * m_popHeight];
         m_nextGenInds = new Individual[m_popWidth * m_popHeight];
 
-        //srcInd->countFitness(data);
-        //if (cfg->drawpop) {
-        //    srcInd->countColor();
-        //}
-
         ClearTasks();
         int step = m_inds_cnt / (m_number_of_threads_ * cluster_size);
 
-        if (!m_cfg->gennew) {
-            int from = 0;
-            while (from + step < m_inds_cnt) {
-                ThrTask tsk;
-                tsk.from = from;
-                tsk.to = from + step;
-                tsk.act = ThrAction::INIT;
-                m_taskList.emplace(std::move(tsk));
-                from += step;
-            }
+        int from = 0;
+        while (from + step < m_inds_cnt) {
+            ThrTask tsk;
+            tsk.from = from;
+            tsk.to = from + step;
+            tsk.act = ThrAction::INIT;
+            m_taskList.emplace(std::move(tsk));
+            from += step;
+        }
 
-            if (from != m_inds_cnt) {
-                ThrTask tsk;
-                tsk.from = from;
-                tsk.to = m_inds_cnt;
-                tsk.act = ThrAction::INIT;
-                m_taskList.emplace(std::move(tsk));
-            }
+        if (from != m_inds_cnt) {
+            ThrTask tsk;
+            tsk.from = from;
+            tsk.to = m_inds_cnt;
+            tsk.act = ThrAction::INIT;
+            m_taskList.emplace(std::move(tsk));
+        }
 
-            m_threads.clear();
-            for (int i = 0; i < m_number_of_threads_; i++) {
-                m_threads.emplace_back(std::thread(&Population<Individual>::Consume, this));
-            }
+        m_threads.clear();
+        for (int i = 0; i < m_number_of_threads_; i++) {
+            m_threads.emplace_back(std::thread(&Population<Individual, IndData>::Consume, this));
+        }
 
-            for (int i = 0; i < m_number_of_threads_; i++) {
-                // t1 finishes before t2
-                m_threads[i].join();
-            }
+        for (int i = 0; i < m_number_of_threads_; i++) {
+            // t1 finishes before t2
+            m_threads[i].join();
         }
 
         m_gensCount = 0;
-        //rnd = new Random();
+    }
+
+
+    ~Population() {
+        if (m_currGenInds != nullptr) {
+            delete[]m_currGenInds;
+        }
+        if (m_nextGenInds != nullptr) {
+            delete[]m_nextGenInds;
+        }
     }
 
     void nextGen() {
@@ -198,7 +201,7 @@ public:
 
         m_threads.clear();
         for (int i = 0; i < m_number_of_threads_; i++) {
-            m_threads.emplace_back(std::thread(&Population<Individual>::Consume, this));
+            m_threads.emplace_back(std::thread(&Population<Individual, IndData>::Consume, this));
         }
 
         for (int i = 0; i < m_number_of_threads_; i++) {
@@ -238,7 +241,7 @@ public:
 
         m_threads.clear();
         for (int i = 0; i < m_number_of_threads_; i++) {
-            m_threads.emplace_back(std::thread(&Population<Individual>::Consume, this));
+            m_threads.emplace_back(std::thread(&Population<Individual, IndData>::Consume, this));
         }
 
         for (int i = 0; i < m_number_of_threads_; i++) {
@@ -247,30 +250,30 @@ public:
         }
     }
 
-    Individual *getBest() {
-        Individual *best = &m_currGenInds[0];
+    Individual getBest() {
+        int best = 0;
 
         for (int i = 1; i < m_inds_cnt; i++) {
 
-            if (best->fitness < m_currGenInds[i].fitness) {
-                best = &m_currGenInds[i];
+            if (m_currGenInds[best].fitness < m_currGenInds[i].fitness) {
+                best = i;
             }
         }
 
-        return best;
+        return m_currGenInds[best];
     }
 
-    Individual *getWorst() {
-        Individual *worst = &m_currGenInds[0];
+    Individual getWorst() {
+        int worst = 0;
 
-        for (int i = 0; i < m_inds_cnt; i++) {
+        for (int i = 1; i < m_inds_cnt; i++) {
 
-            if (worst->fitness > m_currGenInds[i].fitness) {
-                worst = &m_currGenInds[i];
+            if (m_currGenInds[worst].fitness > m_currGenInds[i].fitness) {
+                worst = i;
             }
         }
 
-        return worst;
+        return m_currGenInds[worst];
     }
 
     float avgFitness() {
@@ -279,17 +282,17 @@ public:
         for (int i = 0; i < m_inds_cnt; i++) {
             avgFit += m_currGenInds[i].fitness;
         }
-        return avgFit / (m_cfg->xpopsize * m_cfg->ypopsize);
+        return avgFit / (m_popWidth * m_popHeight);
     }
 
     void paintPop(std::string imgName) {
         int red, green, blue;
         int l, a, b;
 
-        Individual *best = getBest();
-        Individual *worst = getWorst();
-        float max = best->fitness;
-        float min = worst->fitness;
+        Individual best = getBest();
+        Individual worst = getWorst();
+        float max = best.fitness;
+        float min = worst.fitness;
 
         float diff = max - min;
 
@@ -325,10 +328,10 @@ public:
 
             LABtoRGB(red, green, blue, l, a, b);
 
-            image_->SetPixel(xx, yy, red, green, blue);
+            image_.SetPixel(xx, yy, red, green, blue);
         }
 
-        image_->Write(imgName);
+        image_.Write(imgName);
     }
 
     /////////////////////////////////
@@ -407,7 +410,6 @@ public:
 
 
     int roulette(int *inds, int size, Random &rnd) {
-        //System.out.println(x+", "+y);
         int bestInd = inds[size - 1];
 
         float fit_sum = 0;
@@ -463,20 +465,22 @@ public:
         std::swap(m_taskList, empty);
     }
 
-    std::shared_ptr<Individual> m_templateInd;
-    Individual *m_currGenInds;
-    Individual *m_nextGenInds;
+    Individual m_templateInd;
+    Individual *m_currGenInds = nullptr;
+    Individual *m_nextGenInds = nullptr;
     int m_inds_cnt;
     int m_popWidth, m_popHeight;
 
     int m_gensCount;
+    bool m_drawpop;
+    float m_crossrate;
+    float m_mutamount;
+    float m_mutprob;
 
-    std::shared_ptr<PopConfig> m_cfg;
-    std::shared_ptr<IndData> m_indData;
+    IndData m_indData;
 
-    std::shared_ptr<Bitmap> image_;
+    Bitmap image_;
 
-    //Random rnd;
 
     std::vector<std::thread> m_threads;
     int m_number_of_threads_;
