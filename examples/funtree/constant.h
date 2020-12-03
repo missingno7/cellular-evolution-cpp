@@ -2,19 +2,21 @@
 //
 // Created by MissingNO on 02.12.2020.
 //
+#include <string>
 
-#include <expression.h>
+#include "expression.h"
 
 class Constant : public Expression
         {
         public:
+        Constant(float value);
+        float evaluate(float x);
+        Expression *clone();
+        std::string toString();
+        void mutate_value(Random &rnd);
 
-        Constant(float value)
-        {
-            _value=value;
-        }
 
-        private:
+private:
             float _value;
         };
 

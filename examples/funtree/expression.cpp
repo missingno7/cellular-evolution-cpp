@@ -1,0 +1,161 @@
+//
+// Created by jiri on 02/12/2020.
+//
+
+#include "expression.h"
+#include "constant.cpp"
+#include "tree_variable.cpp"
+#include "operation.cpp"
+
+#include "cellular-evolution/utilities/random.h"
+
+Expression::~Expression() {
+
+    if (_left != nullptr) {
+        delete _left;
+    }
+    if (_right != nullptr) {
+        delete _right;
+    }
+
+}
+
+
+Expression *Expression::makeRandom(Random &rnd, int min_depth, int max_depth, int current_depth) {
+
+    if (current_depth < min_depth) {
+        return new Operation(rnd.nextInt(0, Operation::n_types - 1),
+                             makeRandom(rnd, min_depth, max_depth, current_depth + 1),
+                             makeRandom(rnd, min_depth, max_depth, current_depth + 1));
+    } else if (current_depth < max_depth) {
+
+        int val = rnd.nextInt(0, 2);
+
+        switch (val) {
+            case 0:
+                return new Operation(rnd.nextInt(0, Operation::n_types - 1),
+                                     makeRandom(rnd, min_depth, max_depth, current_depth + 1),
+                                     makeRandom(rnd, min_depth, max_depth, current_depth + 1));
+            case 1:
+                return new TreeVariable(rnd.nextBoolean());
+            case 2:
+                return new Constant(rnd.nextFloat(-10, 10));
+        }
+
+    } else {
+
+        if (rnd.nextBoolean()) {
+            return new TreeVariable(rnd.nextBoolean());
+        } else {
+            return new Constant(rnd.nextFloat(-10, 10));
+        }
+    }
+
+
+}
+
+
+void Expression::mutate(Expression *&exp, Random &rnd) {
+    float CHANGE_PROB = 0.1;
+    float REPLACE_PROB = 0.1;
+    float MUTATE_PROB = 0.1;
+    float SWITCH_PROB = 0.1;
+
+    bool left_new = false;
+    bool right_new = false;
+
+    if (rnd.nextFloat(0.0, 1.0) < MUTATE_PROB) {
+        exp->mutate_value(rnd);
+    }
+
+    if (rnd.nextFloat(0.0, 1.0) < SWITCH_PROB) {
+        if (exp->_left != nullptr && exp->_right != nullptr) {
+            Expression *tmp = exp->_right;
+            exp->_right = exp->_left;
+            exp->_left = tmp;
+        }
+    }
+
+    if (rnd.nextFloat(0.0, 1.0) < CHANGE_PROB) {
+
+        Expression *left = exp->_left;
+        exp->_left = nullptr;
+        Expression *right = exp->_right;
+        exp->_right = nullptr;
+        delete exp;
+
+        int val = rnd.nextInt(0, 2);
+
+        switch (val) {
+
+            // Operation
+            case 0: {
+                if (left == nullptr) {
+                    left = makeRandom(rnd, 0, 2, 0);
+                    left_new = true;
+                }
+
+                if (right == nullptr) {
+                    right = makeRandom(rnd, 0, 2, 0);
+                    right_new = true;
+                }
+
+
+                exp = new Operation(rnd.nextInt(0, Operation::n_types - 1),
+                                    left,
+                                    right);
+                break;
+            }
+
+                // Variable
+            case 1: {
+                if (left != nullptr) {
+                    delete left;
+                }
+                if (right != nullptr) {
+                    delete right;
+                }
+                exp = new TreeVariable(rnd.nextBoolean());
+
+                break;
+            }
+
+                // Constant
+            case 2: {
+                if (left != nullptr) {
+                    delete left;
+                }
+                if (right != nullptr) {
+                    delete right;
+                }
+                exp = new Constant(rnd.nextFloat(-10, 10));
+
+                break;
+            }
+        }
+    }
+
+
+    if (rnd.nextFloat(0.0, 1.0) < REPLACE_PROB) {
+
+        if (!left_new && exp->_left != nullptr && rnd.nextBoolean()) {
+            delete (exp->_left);
+            exp->_left = makeRandom(rnd, 0, 2, 0);
+        }
+
+        if (!right_new && exp->_right != nullptr && rnd.nextBoolean()) {
+            delete (exp->_right);
+            exp->_right = makeRandom(rnd, 0, 2, 0);
+        }
+    }
+
+
+    if (exp->_left != nullptr && !left_new) {
+        mutate(exp->_left, rnd);
+    }
+
+    if (exp->_right != nullptr && !right_new) {
+        mutate(exp->_left, rnd);
+    }
+
+}
