@@ -280,7 +280,7 @@ public:
         float avgFit = 0;
 
         for (int i = 0; i < m_inds_cnt; i++) {
-            avgFit += m_currGenInds[i].fitness;
+            avgFit += m_currGenInds[i].getFitness();
         }
         return avgFit / (m_popWidth * m_popHeight);
     }
@@ -291,8 +291,8 @@ public:
 
         Individual best = getBest();
         Individual worst = getWorst();
-        float max = best.fitness;
-        float min = worst.fitness;
+        float max = best.getFitness();
+        float min = worst.getFitness();
 
         float diff = max - min;
 
@@ -318,7 +318,7 @@ public:
             int xx = i / m_popHeight;
             int yy = i % m_popHeight;
 
-            int pix_intensity = static_cast<int>(((m_currGenInds[i].fitness - min) * 100.0) / diff);
+            int pix_intensity = static_cast<int>(((m_currGenInds[i].getFitness() - min) * 100.0) / diff);
             int pix_color_x = static_cast<int> (((m_currGenInds[i].colX - min_x) * 100.0) / diff_x);
             int pix_color_y = static_cast<int> (((m_currGenInds[i].colY - min_y) * 100.0) / diff_y);
 
@@ -488,5 +488,5 @@ public:
     std::queue<ThrTask> m_taskList;
     std::mutex task_list_mutex_;
 
-    int cluster_size = 128;
+    int cluster_size = 256;
 };

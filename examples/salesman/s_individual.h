@@ -49,6 +49,8 @@ public:
         colY = individual.colY;
 
         std::memcpy(genom_, individual.genom_, genom_len_ * sizeof(*genom_));
+
+        return *this;
     }
 
     SaIndividual(SaIndividual const &individual) {
@@ -142,7 +144,6 @@ public:
                 int frmi = (from + i) % genom_len_;
                 int toi = (to + i) % genom_len_;
 
-                //System.out.println(frmi + " + " + toi);
                 shift(frmi, toi, true);
             }
         } else {
@@ -366,8 +367,6 @@ public:
             float x2 = data.x[genom_[i + 1]];
             float y1 = data.y[genom_[i]];
             float y2 = data.y[genom_[i + 1]];
-
-            std::cout << genom_[i] << "-" << genom_[i + 1] << std::endl;
 
             data.bmp_.drawLine((int) x1, (int) y1, (int) x2, (int) y2, 255, 255, 255);
             data.bmp_.drawRect((int) x1 - 1, (int) y1 - 1, (int) x1 + 3, (int) (y1 + 3), 255, 0, 0);

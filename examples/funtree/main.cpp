@@ -1,41 +1,41 @@
 #include <iostream>
-#include "sa_data.h"
-#include "s_individual.h"
-
 #include "cellular-evolution/cevo/population.h"
+#include "fun_individual.h"
+#include "fun_data.h"
+
 
 int main() {
     std::string indPath = "./";
 
     PopConfig cfg;
 
-    // Custom parameter
-    cfg.reg.newInt("cities");
+    std::string points_path = "../data/points.csv";
+    std::string config_path = "../cfg/func_config.txt";
+
     cfg.reg.newInt("scwidth");
     cfg.reg.newInt("scheight");
-    cfg.reg.newFloat("revprob");
-    cfg.reg.newFloat("shiftprob");
+    cfg.LoadConfig(config_path);
 
-    cfg.LoadConfig("../cfg/salesman_config.txt");
+    Random rnd;
 
-    SaData sa_data(cfg);
-    SaIndividual tstInd(sa_data);
+    FunData data(cfg,points_path);
+    FunIndividual ind(data);
 
-    Population<SaIndividual, SaData> pop(tstInd, sa_data, cfg);
+    Population<FunIndividual, FunData> pop(ind, data, cfg);
 
     pop.Randomize();
 
-    SaIndividual bestOne = pop.getBest();
-    std::cout << bestOne.fitness << std::endl;
+    FunIndividual bestOne = pop.getBest();
+    std::cout << bestOne.getFitness() << std::endl;
 
-    Bitmap bmp(sa_data.scWidth_, sa_data.scHeight_);
+    Bitmap bmp(data.scWidth, data.scHeight);
 
     while (true) {
-        SaIndividual bestInd = pop.getBest();
+        FunIndividual bestInd = pop.getBest();
 
         if (bestInd.getFitness() > bestOne.getFitness()) {
             bestOne = bestInd;
-            bestInd.Draw(sa_data, indPath + "IGEN" + std::to_string(pop.getGen()) + ".bmp");
+            bestInd.Draw(data, indPath + "IGEN" + std::to_string(pop.getGen()) + ".bmp");
 
             if (cfg.drawpop) {
                 pop.paintPop(indPath + "GEN" + std::to_string(pop.getGen()) + ".bmp");
@@ -43,11 +43,14 @@ int main() {
         }
 
         std::cout << "GENERATION " << pop.getGen() << std::endl;
-        std::cout << bestInd.toString(sa_data) << std::endl;
+        std::cout << bestInd.toString(data) << std::endl;
         std::cout << "GEN BEST FITNESS: " << bestInd.getFitness() << std::endl;
         std::cout << "AVG FITNESS: " << pop.avgFitness() << std::endl;
         std::cout << "ALLBEST FITNESS: " << bestOne.getFitness() << std::endl;
 
         pop.nextGen();
     }
+
+
+
 }

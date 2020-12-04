@@ -1,15 +1,13 @@
 xpopsize 1024
 ypopsize 128
-crossrate 0.1
+crossrate 0
 mutamount 5
 mutprob 0.005
-shiftprob 0.2
-revprob 0.2
 gennew true
-drawpop false
-cities 100
+drawpop true
+threads 12
 scwidth 500
 scheight 500
-threads 12
+
 
 
