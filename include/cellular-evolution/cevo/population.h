@@ -328,7 +328,7 @@ public:
 
             LABtoRGB(red, green, blue, l, a, b);
 
-            image_.SetPixel(xx, yy, red, green, blue);
+            image_.setPixel(xx, yy, red, green, blue);
         }
 
         image_.Write(imgName);
