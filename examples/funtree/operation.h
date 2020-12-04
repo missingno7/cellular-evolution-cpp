@@ -15,7 +15,7 @@ public:
     std::string toString();
     void mutate_value(Random &rnd);
 
-    static constexpr int n_types = 4;
+    static constexpr int n_types = 5;
 
 private:
     __int8_t _type = -1;

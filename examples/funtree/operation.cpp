@@ -25,6 +25,8 @@ float Operation::evaluate(float x) {
             return _left->evaluate(x) * _right->evaluate(x);
         case 3:
             return _left->evaluate(x) / _right->evaluate(x);
+        case 4:
+            return powf(_left->evaluate(x), _right->evaluate(x));
     }
 }
 
@@ -42,6 +44,8 @@ std::string Operation::toString() {
             return "(" + _left->toString() + "*" + _right->toString() + ")";
         case 3:
             return "(" + _left->toString() + "/" + _right->toString() + ")";
+        case 4:
+            return "(" + _left->toString() + "^" + _right->toString() + ")";
     }
 
 }

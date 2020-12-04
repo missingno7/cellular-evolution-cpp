@@ -1,23 +1,56 @@
 #include <iostream>
 #include "cellular-evolution/cevo/population.h"
-#include "expression.cpp"
+#include "fun_individual.h"
+#include "fun_data.h"
+
 
 int main() {
+    std::string indPath = "./";
+
+    PopConfig cfg;
+
+    std::string points_path = "../data/points.csv";
+    std::string config_path = "../cfg/func_config.txt";
+
+    cfg.reg.newInt("scwidth");
+    cfg.reg.newInt("scheight");
+    cfg.LoadConfig(config_path);
 
     Random rnd;
 
-    //Expression *exp = new Operation(0, new TreeVariable(rnd.nextBoolean()), new TreeVariable(rnd.nextBoolean()));
-    Expression *exp = Expression::makeRandom(rnd,2,5);
+    FunData data(cfg,points_path);
+    FunIndividual ind(data);
 
-    std::cout<< exp->toString()<<std::endl;
-    std::cout<< exp->evaluate(1)<<std::endl;
+    Population<FunIndividual, FunData> pop(ind, data, cfg);
 
-    for(int i=0 ; i<100 ; i++)
-    {
-    Expression::mutate(exp,rnd);
+    pop.Randomize();
 
-    std::cout<< exp->toString()<<std::endl;
-    std::cout<< exp->evaluate(1)<<std::endl;;
+    FunIndividual bestOne = pop.getBest();
+    std::cout << bestOne.fitness << std::endl;
+
+    Bitmap bmp(data.scWidth, data.scHeight);
+
+    while (true) {
+        FunIndividual bestInd = pop.getBest();
+
+        if (bestInd.getFitness() > bestOne.getFitness()) {
+            bestOne = bestInd;
+            bestInd.Draw(data, indPath + "IGEN" + std::to_string(pop.getGen()) + ".bmp");
+
+            if (cfg.drawpop) {
+                pop.paintPop(indPath + "GEN" + std::to_string(pop.getGen()) + ".bmp");
+            }
+        }
+
+        std::cout << "GENERATION " << pop.getGen() << std::endl;
+        std::cout << bestInd.toString(data) << std::endl;
+        std::cout << "GEN BEST FITNESS: " << bestInd.getFitness() << std::endl;
+        std::cout << "AVG FITNESS: " << pop.avgFitness() << std::endl;
+        std::cout << "ALLBEST FITNESS: " << bestOne.getFitness() << std::endl;
+
+        pop.nextGen();
     }
+
+
 
 }

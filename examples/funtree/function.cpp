@@ -4,7 +4,6 @@
 
 #include "function.h"
 
-
 Function::Function(__int8_t operation_type, Expression *left) {
     _left = left;
 
@@ -17,7 +16,7 @@ float Function::evaluate(float x) {
 
     switch (_type) {
         case 0:
-            return abs(_left->evaluate(x));
+            return fabsf(_left->evaluate(x));
     }
 }
 

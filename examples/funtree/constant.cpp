@@ -23,5 +23,5 @@ std::string Constant::toString() {
 
 void Constant::mutate_value(Random &rnd)
 {
- _value += rnd.nextFloat(-1,1);
+ _value += rnd.nextNormalFloat(0, 1);
 }

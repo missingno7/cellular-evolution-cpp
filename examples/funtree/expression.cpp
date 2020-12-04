@@ -53,7 +53,7 @@ Expression *Expression::makeRandom(Random &rnd, int min_depth, int max_depth, in
             case 1:
                 return new TreeVariable(rnd.nextBoolean());
             case 2:
-                return new Constant(rnd.nextFloat(-10, 10));
+                return new Constant(rnd.nextNormalFloat(0, 5));
             case 3:
                 return new Function(rnd.nextInt(0, Function::n_types - 1),
                                     makeRandom(rnd, min_depth, max_depth, current_depth + 1));
@@ -64,7 +64,7 @@ Expression *Expression::makeRandom(Random &rnd, int min_depth, int max_depth, in
         if (rnd.nextBoolean()) {
             return new TreeVariable(rnd.nextBoolean());
         } else {
-            return new Constant(rnd.nextFloat(-10, 10));
+            return new Constant(rnd.nextNormalFloat(0, 5));
         }
     }
 
@@ -147,7 +147,7 @@ void Expression::mutate(Expression *&exp, Random &rnd) {
                 if (right != nullptr) {
                     delete right;
                 }
-                exp = new Constant(rnd.nextFloat(-10, 10));
+                exp = new Constant(rnd.nextNormalFloat(0, 5));
 
                 break;
             }
