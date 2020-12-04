@@ -16,7 +16,7 @@ int main() {
     cfg.reg.newFloat("revprob");
     cfg.reg.newFloat("shiftprob");
 
-    cfg.LoadConfig("../cfg/cities_config.txt");
+    cfg.LoadConfig("../cfg/salesman_config.txt");
 
     SaData sa_data(cfg);
     SaIndividual tstInd(sa_data);

@@ -13,7 +13,7 @@ int main() {
     cfg.reg.newFloat("flipprob");
     cfg.reg.newFloat("switchprob");
 
-    cfg.LoadConfig("../cfg/cell_config.txt");
+    cfg.LoadConfig("../cfg/floor_plan_config.txt");
 
     FpData sa_data(cfg);
     int perfectFitness = sa_data.getPerfection();

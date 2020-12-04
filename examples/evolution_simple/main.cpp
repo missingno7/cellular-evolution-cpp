@@ -11,7 +11,7 @@ int main() {
 
 
     cfg.reg.newInt("tstint");
-    cfg.LoadConfig("../cfg/tst_config.txt");
+    cfg.LoadConfig("../cfg/evo_simple_config.txt");
     std::vector<int> tstint = cfg.reg.getInt("tstint");
     std::cout << tstint.size() << " - " << tstint[1] << std::endl;
 

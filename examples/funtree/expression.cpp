@@ -78,7 +78,7 @@ void Expression::mutate(Expression *&exp, Random &rnd) {
     float REPLACE_PROB = 0.02;
 
     // Change within same type
-    float MUTATE_PROB = 0.1;
+    float MUTATE_PROB = 0.02;
 
     // Switch left and right branches
     float SWITCH_PROB = 0.02;
