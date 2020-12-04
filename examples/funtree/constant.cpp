@@ -21,7 +21,10 @@ std::string Constant::toString() {
     return std::to_string(_value);
 }
 
-void Constant::mutate_value(Random &rnd)
-{
- _value += rnd.nextNormalFloat(0, 1);
+void Constant::mutate_value(Random &rnd) {
+    _value += rnd.nextNormalFloat(0, 1);
+}
+
+void Constant::countColor(float &col_x, float &col_y) {
+    col_x += _value;
 }

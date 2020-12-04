@@ -31,3 +31,11 @@ std::string TreeVariable::toString() {
 
 void TreeVariable::mutate_value(Random &rnd) {
 }
+
+void TreeVariable::countColor(float &col_x, float &col_y) {
+    if (_sign) {
+        col_y += 1.0;
+    } else {
+        col_y -= 1.0;
+    }
+}

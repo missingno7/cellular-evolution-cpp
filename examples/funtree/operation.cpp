@@ -54,3 +54,11 @@ void Operation::mutate_value(Random &rnd)
 {
     _type = rnd.nextInt(0,n_types-1);
 }
+
+void Operation::countColor(float &col_x, float &col_y) {
+    col_y += float(_type)-(float(n_types)/2.0);
+
+    _left->countColor(col_x,col_y);
+    _right->countColor(col_x,col_y);
+
+}

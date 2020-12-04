@@ -73,14 +73,15 @@ Expression *Expression::makeRandom(Random &rnd, int min_depth, int max_depth, in
 
 
 void Expression::mutate(Expression *&exp, Random &rnd) {
-    float CHANGE_PROB = 0.1;
-    float REPLACE_PROB = 0.1;
+    // Change type of current node
+    float CHANGE_PROB = 0.02;
+    float REPLACE_PROB = 0.02;
 
     // Change within same type
-    float MUTATE_PROB = 0.3;
+    float MUTATE_PROB = 0.1;
 
     // Switch left and right branches
-    float SWITCH_PROB = 0.1;
+    float SWITCH_PROB = 0.02;
 
     bool left_new = false;
     bool right_new = false;
@@ -110,12 +111,12 @@ void Expression::mutate(Expression *&exp, Random &rnd) {
             // Operation
             case 0: {
                 if (left == nullptr) {
-                    left = makeRandom(rnd, 0, 2, 0);
+                    left = makeRandom(rnd, 0, 4, 0);
                     left_new = true;
                 }
 
                 if (right == nullptr) {
-                    right = makeRandom(rnd, 0, 2, 0);
+                    right = makeRandom(rnd, 0, 4, 0);
                     right_new = true;
                 }
 
@@ -158,7 +159,7 @@ void Expression::mutate(Expression *&exp, Random &rnd) {
                 if (left == nullptr) {
                     if (right == nullptr) {
                         // Both null = make new
-                        new_node = makeRandom(rnd, 0, 2, 0);
+                        new_node = makeRandom(rnd, 0, 4, 0);
                         left_new = true;
                     } else {
                         // Only right not null - use right
@@ -192,12 +193,12 @@ void Expression::mutate(Expression *&exp, Random &rnd) {
 
         if (!left_new && exp->_left != nullptr && rnd.nextBoolean()) {
             delete (exp->_left);
-            exp->_left = makeRandom(rnd, 0, 2, 0);
+            exp->_left = makeRandom(rnd, 0, 4, 0);
         }
 
         if (!right_new && exp->_right != nullptr && rnd.nextBoolean()) {
             delete (exp->_right);
-            exp->_right = makeRandom(rnd, 0, 2, 0);
+            exp->_right = makeRandom(rnd, 0, 4, 0);
         }
     }
 

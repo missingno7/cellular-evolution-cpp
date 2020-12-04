@@ -16,6 +16,7 @@ public:
     virtual float evaluate(float x) = 0;
     virtual Expression *clone() = 0;
     virtual std::string toString() = 0;
+    virtual void countColor(float &col_x, float &col_y) = 0;
 
 
 protected:

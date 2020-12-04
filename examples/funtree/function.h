@@ -14,6 +14,7 @@ public:
     Expression *clone();
     std::string toString();
     void mutate_value(Random &rnd);
+    void countColor(float &col_x, float &col_y);
 
     static constexpr int n_types = 1;
 

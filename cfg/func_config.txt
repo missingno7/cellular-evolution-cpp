@@ -1,5 +1,5 @@
-xpopsize 512
-ypopsize 512
+xpopsize 1024
+ypopsize 128
 crossrate 0
 mutamount 5
 mutprob 0.005

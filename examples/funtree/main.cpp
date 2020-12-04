@@ -26,7 +26,7 @@ int main() {
     pop.Randomize();
 
     FunIndividual bestOne = pop.getBest();
-    std::cout << bestOne.fitness << std::endl;
+    std::cout << bestOne.getFitness() << std::endl;
 
     Bitmap bmp(data.scWidth, data.scHeight);
 

@@ -14,7 +14,7 @@ class Constant : public Expression
         Expression *clone();
         std::string toString();
         void mutate_value(Random &rnd);
-
+        void countColor(float &col_x, float &col_y);
 
 private:
             float _value;
