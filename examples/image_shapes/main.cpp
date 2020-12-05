@@ -11,10 +11,14 @@ int main() {
     //Bitmap bmp("../data/tst.jpg");
     //bmp.Write("out.bmp");
 
-    Bitmap bmp(512,512);
+    Bitmap bmp(1024,1024);
     Random rnd;
 
-    bmp.fillEllipse(10,10,500,500,rnd.nextInt(0,255),rnd.nextInt(0,255),rnd.nextInt(0,255));
+    bmp.fillEllipseXY(10,10,1000,1000,rnd.nextInt(0,255),rnd.nextInt(0,255),rnd.nextInt(0,255));
+
+
+
+    bmp.fillEllipseHole(500,500,200,200,100,150,255,255,0);
 
     bmp.Write("out.bmp");
 

@@ -142,8 +142,6 @@ public:
 
     void drawLine(int x1, int y1, int x2, int y2, unsigned char r, unsigned char g, unsigned char b) {
 
-        assert(!(x1 == x2 && y1 == y2));
-
         if (x1 == x2 && y1 == y2)return;
 
         if (abs(x1 - x2) > abs(y1 - y2)) {
@@ -236,30 +234,69 @@ public:
 
     }
 
+    void fillEllipse(int xc, int yc, int rx, int ry, unsigned char r, unsigned char g, unsigned char b) {
 
-    void fillEllipse(int x1, int y1, int x2, int y2, unsigned char r, unsigned char g, unsigned char b) {
+        for (int i = 0; i <= rx; i++) {
+            for (int j = 0; j <= ry; j++) {
 
-        int xc = (x1 + x2) / 2;
-        int yc = (y1 + y2) / 2;
-        int rx = (x2 - x1) / 2;
-        int ry = (y2 - y1) / 2;
+                float p = (pow((i), 2) / pow(rx, 2))
+                          + (pow((j), 2) / pow(ry, 2));
 
-        for (int i = x1; i < x2; i++) {
-            for (int j = y1; j < y2; j++) {
+                setPixel(xc + i, yc + j, r, g, b);
+                setPixel(xc - i, yc + j, r, g, b);
+                setPixel(xc + i, yc - j, r, g, b);
+                setPixel(xc - i, yc - j, r, g, b);
 
-                float p = (pow((i - xc), 2) / pow(rx, 2))
-                        + (pow((j - yc), 2) / pow(ry, 2));
-                if (p <= 1) {
-                    setPixel(i, j, r, g, b);
+                if (p > 1) {
+                    break;
                 }
-
             }
         }
     }
 
+
+    void fillEllipseXY(int x1, int y1, int x2, int y2, unsigned char r, unsigned char g, unsigned char b) {
+        int xc = (x1 + x2) / 2;
+        int yc = (y1 + y2) / 2;
+        int rx = (x2 - x1) / 2;
+        int ry = (y2 - y1) / 2;
+        fillEllipse(xc, yc, rx, ry, r, g, b);
+    }
+
+
+    void fillEllipseHole(int xc, int yc, int rx, int ry,int rxh,int ryh, unsigned char r, unsigned char g, unsigned char b) {
+
+        for (int i = 0; i <= rx; i++) {
+            for (int j = 0; j <= ry; j++) {
+
+                float p = (pow((i), 2) / pow(rx, 2))
+                          + (pow((j), 2) / pow(ry, 2));
+
+
+                float p2 = (pow((i), 2) / pow(rxh, 2))
+                           + (pow((j), 2) / pow(ryh, 2));
+
+
+                if (p2>1){
+                    setPixel(xc + i, yc + j, r, g, b);
+                    setPixel(xc - i, yc + j, r, g, b);
+                    setPixel(xc + i, yc - j, r, g, b);
+                    setPixel(xc - i, yc - j, r, g, b);
+                }
+
+                if (p > 1) {
+                    break;
+                }
+            }
+        }
+    }
+
+
     void setPixel(int x, int y, unsigned char r, unsigned char g, unsigned char b) {
-        assert(x >= 0 && x < _width);
-        assert(y >= 0 && y < _height);
+        if (x < 0 || x >= _width || y < 0 || y >= _height)
+        {
+        return;
+        }
 
         _img[3 * (x + y * _width)] = b;
         _img[3 * (x + y * _width) + 1] = g;
