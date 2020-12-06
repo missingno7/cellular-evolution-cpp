@@ -7,14 +7,11 @@
 int main() {
     std::string indPath = "./";
 
-    PopConfig cfg;
 
     std::string points_path = "../data/points.csv";
     std::string config_path = "../cfg/func_config.txt";
 
-    cfg.reg.newInt("scwidth");
-    cfg.reg.newInt("scheight");
-    cfg.LoadConfig(config_path);
+    PopConfig cfg(config_path);
 
     Random rnd;
 
@@ -37,7 +34,7 @@ int main() {
             bestOne = bestInd;
             bestInd.Draw(data, indPath + "IGEN" + std::to_string(pop.getGen()) + ".bmp");
 
-            if (cfg.drawpop) {
+            if (pop.m_drawpop) {
                 pop.paintPop(indPath + "GEN" + std::to_string(pop.getGen()) + ".bmp");
             }
         }

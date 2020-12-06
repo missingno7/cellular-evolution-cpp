@@ -7,16 +7,7 @@
 int main() {
     std::string indPath = "./";
 
-    PopConfig cfg;
-
-    // Custom parameter
-    cfg.reg.newInt("cities");
-    cfg.reg.newInt("scwidth");
-    cfg.reg.newInt("scheight");
-    cfg.reg.newFloat("revprob");
-    cfg.reg.newFloat("shiftprob");
-
-    cfg.LoadConfig("../cfg/salesman_config.txt");
+    PopConfig cfg("../cfg/salesman_config.txt");
 
     SaData sa_data(cfg);
     SaIndividual tstInd(sa_data);
@@ -37,7 +28,7 @@ int main() {
             bestOne = bestInd;
             bestInd.Draw(sa_data, indPath + "IGEN" + std::to_string(pop.getGen()) + ".bmp");
 
-            if (cfg.drawpop) {
+            if (pop.m_drawpop) {
                 pop.paintPop(indPath + "GEN" + std::to_string(pop.getGen()) + ".bmp");
             }
         }

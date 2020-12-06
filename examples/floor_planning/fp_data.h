@@ -30,13 +30,13 @@ public:
     }
 
     FpData(PopConfig const &cfg) {
-        squares = cfg.reg.getInt("squares")[0];
+        squares = cfg.getInt("squares")[0];
 
         scWidth = 1000;
         scHeight = 1000;
 
-        flip_prob_ = cfg.reg.getFloat("flipprob")[0];
-        switch_prob_ = cfg.reg.getFloat("switchprob")[0];
+        flip_prob_ = cfg.getFloat("flipprob")[0];
+        switch_prob_ = cfg.getFloat("switchprob")[0];
 
         bmp_.init(scWidth, scHeight);
 
