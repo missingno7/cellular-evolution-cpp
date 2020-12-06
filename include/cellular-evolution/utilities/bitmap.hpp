@@ -17,7 +17,14 @@ public:
 
     }
 
-    Bitmap(std::string const bitmap) {
+    Bitmap(std::string const filename)
+    {
+        loadFile(filename);
+    }
+
+
+    void loadFile(std::string const filename)
+    {
         int width, height, channels;
 
         unsigned char *res = stbi_load("../data/tst.jpg", &width, &height, &channels, 3);
@@ -37,8 +44,8 @@ public:
         }
 
         delete[]res;
-    }
 
+    }
 
     Bitmap(Bitmap const &bmp) {
         if (bmp._img != nullptr) {

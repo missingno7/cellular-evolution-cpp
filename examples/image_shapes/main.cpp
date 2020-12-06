@@ -4,22 +4,21 @@
 #include<iostream>
 #include"cellular-evolution/utilities/bitmap.hpp"
 #include"cellular-evolution/utilities/random.h"
+#include "shape.h"
+#include "img_data.h"
+#include "img_individual.h"
 
 
 int main() {
 
-    //Bitmap bmp("../data/tst.jpg");
-    //bmp.Write("out.bmp");
+    std::string bmp_filename("../data/tst.jpg");
 
-    Bitmap bmp(1024,1024);
+    PopConfig cfg("../cfg/img_config.txt");
+    ImgData data(cfg, bmp_filename);
+
     Random rnd;
 
-    bmp.fillEllipseXY(10,10,1000,1000,rnd.nextInt(0,255),rnd.nextInt(0,255),rnd.nextInt(0,255));
+    ImgIndividual ind(rnd,data);
 
-
-
-    bmp.fillEllipseHole(500,500,200,200,100,150,255,255,0);
-
-    bmp.Write("out.bmp");
 
 }
