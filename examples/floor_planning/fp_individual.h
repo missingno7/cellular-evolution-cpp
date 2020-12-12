@@ -169,7 +169,7 @@ public:
         }
     }
 
-    void crossoverTo(FpIndividual const &second_one, FpIndividual &ind, Random &rnd) const{
+    void crossoverTo(FpIndividual const &second_one, FpIndividual &ind, Random &rnd, FpData const &data) const{
 
         for (int i = 0; i < genom_len_; i++) {
 
@@ -287,7 +287,7 @@ public:
         fitness -= (maxX - minX) * (maxY - minY);
     }
 
-    void countColor() {
+    void countColor(FpData const &data) {
         colX = 0;
         colY = 0;
 

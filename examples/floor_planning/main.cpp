@@ -6,14 +6,7 @@ int main() {
 
     std::string indPath = "./";
 
-    PopConfig cfg;
-
-    // Custom parameter
-    cfg.reg.newInt("squares");
-    cfg.reg.newFloat("flipprob");
-    cfg.reg.newFloat("switchprob");
-
-    cfg.LoadConfig("../cfg/floor_plan_config.txt");
+    PopConfig cfg("../cfg/floor_plan_config.txt");
 
     FpData sa_data(cfg);
     int perfectFitness = sa_data.getPerfection();
@@ -34,7 +27,7 @@ int main() {
             bestOne = bestInd;
             bestInd.Draw(sa_data, indPath + "IGEN" + std::to_string(pop.getGen()) + ".bmp");
 
-            if (cfg.drawpop) {
+            if (pop.m_drawpop) {
                 pop.paintPop(indPath + "GEN" + std::to_string(pop.getGen()) + ".bmp");
             }
         }

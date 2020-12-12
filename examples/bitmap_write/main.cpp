@@ -28,7 +28,7 @@ int main() {
 
     for (int i = 0; i < width; i++) {
         for (int j = 0; j < height; j++) {
-            bmp.SetPixel(i, j, rnd.nextInt(0, 64), rnd.nextInt(0, 64), rnd.nextInt(0, 64));
+            bmp.setPixel(i, j, rnd.nextInt(0, 64), rnd.nextInt(0, 64), rnd.nextInt(0, 64));
         }
     }
 

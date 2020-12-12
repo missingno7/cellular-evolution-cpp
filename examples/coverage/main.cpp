@@ -1,43 +1,48 @@
+//
+// Created by jiri on 12/12/2020.
+//
+
 #include <iostream>
+#include <algorithm>
+
+#include "cellular-evolution/utilities/random.h"
+
+#include "coverage_data.h"
+#include "coverage_ind.h"
 #include "cellular-evolution/cevo/population.h"
-#include "fun_individual.h"
-#include "fun_data.h"
 
 
 int main() {
-    std::string indPath = "./";
 
-    PopConfig cfg;
-
-    std::string points_path = "../data/points.csv";
-    std::string config_path = "../cfg/func_config.txt";
-
-    cfg.reg.newInt("scwidth");
-    cfg.reg.newInt("scheight");
-    cfg.LoadConfig(config_path);
 
     Random rnd;
 
-    FunData data(cfg,points_path);
-    FunIndividual ind(data);
+    std::string indPath = "./";
 
-    Population<FunIndividual, FunData> pop(ind, data, cfg);
+    PopConfig cfg("../cfg/coverage_config.txt");
+
+    CoverageData data(rnd, cfg);
+
+    CoverageIndividual template_ind(data);
+
+
+    Population<CoverageIndividual, CoverageData> pop(template_ind, data, cfg);
 
     pop.Randomize();
 
-    FunIndividual bestOne = pop.getBest();
-    std::cout << bestOne.getFitness() << std::endl;
+    CoverageIndividual bestOne = pop.getWorst();
 
-    Bitmap bmp(data.scWidth, data.scHeight);
+
+
 
     while (true) {
-        FunIndividual bestInd = pop.getBest();
+        CoverageIndividual bestInd = pop.getBest();
 
         if (bestInd.getFitness() > bestOne.getFitness()) {
             bestOne = bestInd;
             bestInd.Draw(data, indPath + "IGEN" + std::to_string(pop.getGen()) + ".bmp");
 
-            if (cfg.drawpop) {
+            if (pop.m_drawpop) {
                 pop.paintPop(indPath + "GEN" + std::to_string(pop.getGen()) + ".bmp");
             }
         }
@@ -52,5 +57,5 @@ int main() {
     }
 
 
-
+    return 0;
 }

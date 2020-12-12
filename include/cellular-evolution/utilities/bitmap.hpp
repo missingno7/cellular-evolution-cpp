@@ -4,6 +4,12 @@
 //
 
 #include<cassert>
+#include<fstream>
+#include<cstring>
+
+#define STB_IMAGE_IMPLEMENTATION
+
+#include"stb/stb_image.h"
 
 class Bitmap {
 public:
@@ -12,10 +18,45 @@ public:
 
     }
 
+    Bitmap(std::string const filename) {
+        loadFile(filename);
+    }
+
+    void loadFile(std::string const filename) {
+        int width, height, channels;
+
+        unsigned char *res = stbi_load("../data/tst.jpg", &width, &height, &channels, 3);
+
+        assert (res != nullptr);
+        init(width, height);
+
+        // Swapping _img for res is not possible because res is in RGB colors, but _img must be in BGR
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                int r = res[3 * (i + j * _width)];
+                int g = res[3 * (i + j * _width) + 1];
+                int b = res[3 * (i + j * _width) + 2];
+
+                setPixel(i, j, r, g, b);
+            }
+        }
+
+        delete[]res;
+
+    }
+
     Bitmap(Bitmap const &bmp) {
-        if (bmp._img != nullptr) {
+        init(bmp._width, bmp._height);
+        std::memcpy(_img, bmp._img, 3 * _width * _height * sizeof(*_img));
+    }
+
+
+    Bitmap &operator=(const Bitmap &bmp) {
+        if (bmp._width != _width || bmp._height != _height) {
             init(bmp._width, bmp._height);
         }
+
+        std::memcpy(_img, bmp._img, 3 * _width * _height * sizeof(*_img));
     }
 
 
@@ -54,7 +95,7 @@ public:
     void clear(unsigned char r, unsigned char g, unsigned char b) {
         for (int i = 0; i < _width; i++) {
             for (int j = 0; j < _height; j++) {
-                SetPixel(i, j, r, g, b);
+                setPixel(i, j, r, g, b);
             }
         }
     }
@@ -74,7 +115,7 @@ public:
 
         for (int i = x1; i <= x2; i++) {
             for (int j = y1; j <= y2; j++) {
-                SetPixel(i, j, r, g, b);
+                setPixel(i, j, r, g, b);
             }
         }
 
@@ -96,25 +137,23 @@ public:
 
 
         for (int i = x1; i <= x2; i++) {
-            SetPixel(i, y1, r, g, b);
+            setPixel(i, y1, r, g, b);
         }
 
         for (int i = x1; i <= x2; i++) {
-            SetPixel(i, y2, r, g, b);
+            setPixel(i, y2, r, g, b);
         }
 
         for (int i = y1; i <= y2; i++) {
-            SetPixel(x1, i, r, g, b);
+            setPixel(x1, i, r, g, b);
         }
 
         for (int i = y1; i <= y2; i++) {
-            SetPixel(x2, i, r, g, b);
+            setPixel(x2, i, r, g, b);
         }
     }
 
     void drawLine(int x1, int y1, int x2, int y2, unsigned char r, unsigned char g, unsigned char b) {
-
-        assert(!(x1 == x2 && y1 == y2));
 
         if (x1 == x2 && y1 == y2)return;
 
@@ -135,7 +174,7 @@ public:
 
             for (int x = x1; x <= x2; x++) {
                 int y = y1 + dy * (x - x1) / dx;
-                SetPixel(x, y, r, g, b);
+                setPixel(x, y, r, g, b);
             }
 
         } else {
@@ -155,14 +194,122 @@ public:
 
             for (int y = y1; y <= y2; y++) {
                 int x = x1 + dx * (y - y1) / dy;
-                SetPixel(x, y, r, g, b);
+                setPixel(x, y, r, g, b);
             }
         }
     }
 
-    void SetPixel(int x, int y, unsigned char r, unsigned char g, unsigned char b) {
-        assert(x >= 0 && x < _width);
-        assert(y >= 0 && y < _height);
+    void drawEllipse(int x1, int y1, int x2, int y2, unsigned char r, unsigned char g, unsigned char b) {
+        // Doesn't work correctly for large ellipses
+        // bmp.fillEllipse(10,10,442,442,255,255,0);
+
+        int rx = (x2 - x1) / 2;
+        int ry = (y2 - y1) / 2;
+        int xc = (x2 + x1) / 2;
+        int yc = (y2 + y1) / 2;
+
+        //Region 1
+        float p = ry * ry - rx * rx * ry + rx * rx / 4.0;
+        int x = 0;
+        int y = ry;
+
+        while (2.0 * ry * ry * x <= 2.0 * rx * rx * y) {
+            if (p < 0) {
+                x++;
+                p = p + 2 * ry * ry * x + ry * ry;
+            } else {
+                x++;
+                y--;
+                p = p + 2 * ry * ry * x - 2 * rx * rx * y - ry * ry;
+            }
+            setPixel(xc + x, yc + y, 255, 255, 0);
+            setPixel(xc + x, yc - y, 255, 255, 0);
+            setPixel(xc - x, yc + y, 255, 255, 0);
+            setPixel(xc - x, yc - y, 255, 255, 0);
+        }
+
+        //Region 2
+        p = ry * ry * (x + 0.5) * (x + 0.5) + rx * rx * (y - 1) * (y - 1) - rx * rx * ry * ry;
+        while (y > 0) {
+            if (p <= 0) {
+                x++;
+                y--;
+                p = p + 2 * ry * ry * x - 2 * rx * rx * y + rx * rx;
+            } else {
+                y--;
+                p = p - 2 * rx * rx * y + rx * rx;
+            }
+            setPixel(xc + x, yc + y, 255, 255, 0);
+            setPixel(xc + x, yc - y, 255, 255, 0);
+            setPixel(xc - x, yc + y, 255, 255, 0);
+            setPixel(xc - x, yc - y, 255, 255, 0);
+        }
+
+    }
+
+    void fillEllipse(int xc, int yc, int rx, int ry, unsigned char r, unsigned char g, unsigned char b) {
+
+        for (int i = 0; i <= rx; i++) {
+            for (int j = 0; j <= ry; j++) {
+
+                float p = (pow((i), 2) / pow(rx, 2))
+                          + (pow((j), 2) / pow(ry, 2));
+
+                setPixel(xc + i, yc + j, r, g, b);
+                setPixel(xc - i, yc + j, r, g, b);
+                setPixel(xc + i, yc - j, r, g, b);
+                setPixel(xc - i, yc - j, r, g, b);
+
+                if (p > 1) {
+                    break;
+                }
+            }
+        }
+    }
+
+
+    void fillEllipseXY(int x1, int y1, int x2, int y2, unsigned char r, unsigned char g, unsigned char b) {
+        int xc = (x1 + x2) / 2;
+        int yc = (y1 + y2) / 2;
+        int rx = (x2 - x1) / 2;
+        int ry = (y2 - y1) / 2;
+        fillEllipse(xc, yc, rx, ry, r, g, b);
+    }
+
+
+    void fillEllipseHole(int xc, int yc, int rx, int ry, int rxh, int ryh, unsigned char r, unsigned char g,
+                         unsigned char b) {
+
+        for (int i = 0; i <= rx; i++) {
+            for (int j = 0; j <= ry; j++) {
+
+                float p = (pow((i), 2) / pow(rx, 2))
+                          + (pow((j), 2) / pow(ry, 2));
+
+
+                float p2 = (pow((i), 2) / pow(rxh, 2))
+                           + (pow((j), 2) / pow(ryh, 2));
+
+
+                if (p2 > 1) {
+                    setPixel(xc + i, yc + j, r, g, b);
+                    setPixel(xc - i, yc + j, r, g, b);
+                    setPixel(xc + i, yc - j, r, g, b);
+                    setPixel(xc - i, yc - j, r, g, b);
+                }
+
+                if (p > 1) {
+                    break;
+                }
+            }
+        }
+    }
+
+
+    void setPixel(int x, int y, unsigned char r, unsigned char g, unsigned char b) {
+        if (x < 0 || x >= _width || y < 0 || y >= _height) {
+            return;
+        }
 
         _img[3 * (x + y * _width)] = b;
         _img[3 * (x + y * _width) + 1] = g;
@@ -177,6 +324,18 @@ public:
             file.write(_padding, _pad);
         }
         file.close();
+    }
+
+    inline unsigned char getRaw(int i) {
+        return _img[i];
+    }
+
+    inline int getWidth() const {
+        return _width;
+    }
+
+    inline int getHeight() const {
+        return _height;
     }
 
 private:

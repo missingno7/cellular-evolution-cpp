@@ -7,12 +7,9 @@
 int main() {
     std::string indPath = "./";
 
-    PopConfig cfg;
+    PopConfig cfg("../cfg/evo_simple_config.txt");
 
-
-    cfg.reg.newInt("tstint");
-    cfg.LoadConfig("../cfg/evo_simple_config.txt");
-    std::vector<int> tstint = cfg.reg.getInt("tstint");
+    std::vector<int> tstint = cfg.getInt("tstint");
     std::cout << tstint.size() << " - " << tstint[1] << std::endl;
 
     TestIndData tst_data;
@@ -27,7 +24,7 @@ int main() {
         std::cout << bestInd.toString(tst_data) << std::endl;
         std::cout << "BEST FITNESS: " << std::to_string(bestInd.getFitness()) << std::endl;
         std::cout << "AVG FITNESS: " << std::to_string(pop.avgFitness()) << std::endl;
-        if (cfg.drawpop)pop.paintPop(indPath + "GEN" + std::to_string(i) + ".bmp");
+        if (pop.m_drawpop)pop.paintPop(indPath + "GEN" + std::to_string(i) + ".bmp");
         pop.nextGen();
     }
 

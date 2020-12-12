@@ -1,32 +1,38 @@
 #include <iostream>
-#include "sa_data.h"
-#include "s_individual.h"
-
 #include "cellular-evolution/cevo/population.h"
+#include "exp_individual.h"
+#include "exp_data.h"
+
 
 int main() {
     std::string indPath = "./";
 
-    PopConfig cfg("../cfg/salesman_config.txt");
 
-    SaData sa_data(cfg);
-    SaIndividual tstInd(sa_data);
+    std::string points_path = "../data/points.csv";
+    std::string config_path = "../cfg/func_config.txt";
 
-    Population<SaIndividual, SaData> pop(tstInd, sa_data, cfg);
+    PopConfig cfg(config_path);
+
+    Random rnd;
+
+    ExpData data(cfg,points_path);
+    ExpIndividual ind(data);
+
+    Population<ExpIndividual, ExpData> pop(ind, data, cfg);
 
     pop.Randomize();
 
-    SaIndividual bestOne = pop.getBest();
-    std::cout << bestOne.fitness << std::endl;
+    ExpIndividual bestOne = pop.getBest();
+    std::cout << bestOne.getFitness() << std::endl;
 
-    Bitmap bmp(sa_data.scWidth_, sa_data.scHeight_);
+    Bitmap bmp(data.scWidth, data.scHeight);
 
     while (true) {
-        SaIndividual bestInd = pop.getBest();
+        ExpIndividual bestInd = pop.getBest();
 
         if (bestInd.getFitness() > bestOne.getFitness()) {
             bestOne = bestInd;
-            bestInd.Draw(sa_data, indPath + "IGEN" + std::to_string(pop.getGen()) + ".bmp");
+            bestInd.Draw(data, indPath + "IGEN" + std::to_string(pop.getGen()) + ".bmp");
 
             if (pop.m_drawpop) {
                 pop.paintPop(indPath + "GEN" + std::to_string(pop.getGen()) + ".bmp");
@@ -34,11 +40,15 @@ int main() {
         }
 
         std::cout << "GENERATION " << pop.getGen() << std::endl;
-        std::cout << bestInd.toString(sa_data) << std::endl;
+        bestInd.simplify();
+        std::cout << bestInd.toString(data) << std::endl;
         std::cout << "GEN BEST FITNESS: " << bestInd.getFitness() << std::endl;
         std::cout << "AVG FITNESS: " << pop.avgFitness() << std::endl;
         std::cout << "ALLBEST FITNESS: " << bestOne.getFitness() << std::endl;
 
         pop.nextGen();
     }
+
+
+
 }

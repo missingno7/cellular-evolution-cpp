@@ -34,6 +34,8 @@ public:
         ThrTask val;
         Random rnd;
 
+        IndData thread_data(m_indData);
+
         int inds[13];
 
         while (m_taskList.size() != 0) {
@@ -60,10 +62,10 @@ public:
                     // Randomize each initialized individual
                 case RANDOMIZE:
                     for (int i = val.from; i < val.to; i++) {
-                        m_currGenInds[i].randomize(m_indData, rnd);
-                        m_currGenInds[i].countFitness(m_indData);
+                        m_currGenInds[i].randomize(thread_data, rnd);
+                        m_currGenInds[i].countFitness(thread_data);
                         if (m_drawpop) {
-                            m_currGenInds[i].countColor();
+                            m_currGenInds[i].countColor(thread_data);
                         }
                     }
 
@@ -87,23 +89,23 @@ public:
 
                             if (second_ind != -1) {
                                 m_currGenInds[first_ind].crossoverTo(m_currGenInds[second_ind], m_nextGenInds[i],
-                                                                     rnd);
+                                                                     rnd, thread_data);
                             } else {
                                 m_currGenInds[first_ind].mutateTo(rnd.nextFloat() * m_mutamount, m_mutprob,
                                                                   m_nextGenInds[i],
-                                                                  rnd, m_indData);
+                                                                  rnd, thread_data);
                             }
                         } else {
                             int first_ind = tournament(prepareL5(i / m_popHeight, i % m_popHeight, inds), 5);
                             //int first_ind=tournament(NRands(prepareL5(i / m_popHeight, i % m_popHeight,inds),5,4,rnd),4);
                             m_currGenInds[first_ind].mutateTo(rnd.nextFloat() * m_mutamount,
                                                               m_mutprob, m_nextGenInds[i],
-                                                              rnd, m_indData);
+                                                              rnd, thread_data);
                         }
 
-                        m_nextGenInds[i].countFitness(m_indData); // TRAIN AND TEST SPLIT
+                        m_nextGenInds[i].countFitness(thread_data); // TRAIN AND TEST SPLIT
                         if (m_drawpop) {
-                            m_nextGenInds[i].countColor();
+                            m_nextGenInds[i].countColor(thread_data);
                         }
                     }
                     break;
@@ -115,14 +117,20 @@ public:
     Population(Individual const &srcInd, IndData const &data, PopConfig const &cfg) {
         m_indData = data;
 
-        m_popWidth = cfg.xpopsize;
-        m_popHeight = cfg.ypopsize;
+        m_popWidth = cfg.getInt("xpopsize")[0];
+        m_popHeight = cfg.getInt("ypopsize")[0];
         m_inds_cnt = m_popWidth * m_popHeight;
-        m_number_of_threads_ = cfg.threads;
-        m_drawpop = cfg.drawpop;
-        m_crossrate = cfg.crossrate;
-        m_mutamount = cfg.mutamount;
-        m_mutprob = cfg.mutprob;
+        m_number_of_threads_ = cfg.getThreads();
+        m_drawpop = cfg.getBool("drawpop")[0];
+        m_crossrate = cfg.getFloat("crossrate")[0];
+        m_mutamount = cfg.getFloat("mutamount")[0];
+        m_mutprob = cfg.getFloat("mutprob")[0];
+
+        if (cfg.is_present("cluster_size"))
+        {
+            cluster_size = cfg.getInt("cluster_size")[0];
+        }
+
 
         image_.init(m_popWidth, m_popHeight);
 
@@ -328,7 +336,7 @@ public:
 
             LABtoRGB(red, green, blue, l, a, b);
 
-            image_.SetPixel(xx, yy, red, green, blue);
+            image_.setPixel(xx, yy, red, green, blue);
         }
 
         image_.Write(imgName);

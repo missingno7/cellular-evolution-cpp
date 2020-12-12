@@ -10,24 +10,24 @@
 #include "cellular-evolution/utilities/random.h"
 
 #include "cellular-evolution/cevo/pop_config.h"
-#include "fun_data.h"
+#include "exp_data.h"
 #include "expression.cpp"
 #include "cellular-evolution/utilities/bitmap.hpp"
 
 template<class Individual, class IndData>
 class Population;
 
-class FunIndividual {
+class ExpIndividual {
 public:
 
-    FunIndividual(FunData const &data) {
+    ExpIndividual(ExpData const &data) {
 
     }
 
-    FunIndividual() {
+    ExpIndividual() {
     }
 
-    FunIndividual(FunIndividual const &individual) {
+    ExpIndividual(ExpIndividual const &individual) {
         if (individual._exp != nullptr) {
             _exp = individual._exp->clone();
         }
@@ -38,7 +38,7 @@ public:
     }
 
 
-    FunIndividual &operator=(const FunIndividual &individual) {
+    ExpIndividual &operator=(const ExpIndividual &individual) {
         if (_exp != nullptr) {
             delete _exp;
         }
@@ -53,14 +53,14 @@ public:
     }
 
 
-    ~FunIndividual() {
+    ~ExpIndividual() {
         if (_exp != nullptr) {
             delete _exp;
         }
     }
 
 
-    void randomize(FunData const &data, Random &rnd) {
+    void randomize(ExpData const &data, Random &rnd) {
         if (_exp != nullptr) {
             delete _exp;
         }
@@ -78,7 +78,7 @@ public:
         _exp = Expression::makeRandom(rnd, min, max);
     }
 
-    std::shared_ptr<FunIndividual> fromFile(std::string filename) {
+    std::shared_ptr<ExpIndividual> fromFile(std::string filename) {
         throw std::runtime_error("Not supported yet.");
     }
 
@@ -86,20 +86,20 @@ public:
         throw std::runtime_error("Not supported yet.");
     }
 
-    void mutate(float amount, float probability, Random &rnd, FunData &data) {
+    void mutate(float amount, float probability, Random &rnd, ExpData &data) {
         Expression::mutate(_exp, rnd);
     }
 
-    void crossoverTo(FunIndividual const &second_one, FunIndividual &ind, Random &rnd) const {
+    void crossoverTo(ExpIndividual const &second_one, ExpIndividual &ind, Random &rnd, ExpIndividual const &data) const {
         throw std::runtime_error("Not supported yet.");
     }
 
-    void mutateTo(float amount, float probability, FunIndividual &ind, Random &rnd, FunData &data) {
+    void mutateTo(float amount, float probability, ExpIndividual &ind, Random &rnd, ExpData &data) {
         copyTo(ind);
         ind.mutate(amount, probability, rnd, data);
     }
 
-    void copyTo(FunIndividual &ind) {
+    void copyTo(ExpIndividual &ind) {
 
         if (ind._exp != nullptr) {
             delete ind._exp;
@@ -107,7 +107,7 @@ public:
         ind._exp = _exp->clone();
     }
 
-    void countFitness(FunData const &data) {
+    void countFitness(ExpData const &data) {
         fitness = 0;
 
         for (auto point : data.points) {
@@ -126,7 +126,7 @@ public:
         }
     }
 
-    void countColor() {
+    void countColor(ExpData const &data) {
 
         colX = 0;
         colY = 0;
@@ -136,7 +136,7 @@ public:
         }
     }
 
-    std::string toString(FunData const &data) {
+    std::string toString(ExpData const &data) {
         if (_exp == nullptr) {
             return "NULL";
         } else {
@@ -153,7 +153,7 @@ public:
         }
     }
 
-    void Draw(FunData &data, std::string filename) {
+    void Draw(ExpData &data, std::string filename) {
         data.bmp_.clear(0, 0, 0);
 
         std::vector<float> x;
@@ -237,6 +237,11 @@ public:
         return -logf(-fitness);
     }
 
+    void simplify()
+    {
+        Expression::simplify(_exp);
+    }
+
 
 protected:
     float fitness = 0;
@@ -250,6 +255,6 @@ private:
         return (!std::isnan(num) & std::isfinite(num));
     }
 
-    friend class Population<FunIndividual, FunData>;
+    friend class Population<ExpIndividual, ExpData>;
 };
 

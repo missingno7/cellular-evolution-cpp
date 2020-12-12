@@ -62,3 +62,8 @@ void Operation::countColor(float &col_x, float &col_y) {
     _right->countColor(col_x,col_y);
 
 }
+
+bool Operation::endWithConst()
+{
+    return _left->endWithConst() && _right->endWithConst();
+}
