@@ -49,3 +49,8 @@ void Function::countColor(float &col_x, float &col_y) {
     col_y += float(_type)-float(n_types)/2.0;
     _left->countColor(col_x,col_y);
 }
+
+bool Function::endWithConst()
+{
+    return _left->endWithConst();
+}

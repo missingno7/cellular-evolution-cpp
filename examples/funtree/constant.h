@@ -15,6 +15,7 @@ class Constant : public Expression
         std::string toString();
         void mutate_value(Random &rnd);
         void countColor(float &col_x, float &col_y);
+        bool endWithConst();
 
 private:
             float _value;

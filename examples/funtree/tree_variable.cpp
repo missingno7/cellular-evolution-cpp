@@ -39,3 +39,8 @@ void TreeVariable::countColor(float &col_x, float &col_y) {
         col_y -= 1.0;
     }
 }
+
+bool TreeVariable::endWithConst()
+{
+    return false;
+}

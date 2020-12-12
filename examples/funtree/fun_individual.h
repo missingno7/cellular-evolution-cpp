@@ -237,6 +237,11 @@ public:
         return -logf(-fitness);
     }
 
+    void simplify()
+    {
+        Expression::simplify(_exp);
+    }
+
 
 protected:
     float fitness = 0;

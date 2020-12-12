@@ -40,6 +40,7 @@ int main() {
         }
 
         std::cout << "GENERATION " << pop.getGen() << std::endl;
+        bestInd.simplify();
         std::cout << bestInd.toString(data) << std::endl;
         std::cout << "GEN BEST FITNESS: " << bestInd.getFitness() << std::endl;
         std::cout << "AVG FITNESS: " << pop.avgFitness() << std::endl;

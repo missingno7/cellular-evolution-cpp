@@ -28,3 +28,8 @@ void Constant::mutate_value(Random &rnd) {
 void Constant::countColor(float &col_x, float &col_y) {
     col_x += _value;
 }
+
+bool Constant::endWithConst()
+{
+    return true;
+}

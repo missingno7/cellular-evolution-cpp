@@ -212,3 +212,22 @@ void Expression::mutate(Expression *&exp, Random &rnd) {
     }
 
 }
+
+void Expression::simplify(Expression *&exp) {
+
+    if (exp->endWithConst()) {
+        Expression *new_const = new Constant(exp->evaluate(0));
+
+        delete exp;
+        exp = new_const;
+
+    } else {
+        if (exp->_left != nullptr) {
+            exp->simplify(exp->_left);
+        }
+        if (exp->_right != nullptr) {
+            exp->simplify(exp->_right);
+        }
+    }
+
+}
