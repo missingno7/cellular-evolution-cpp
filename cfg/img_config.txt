@@ -1,12 +1,13 @@
-xpopsize 512
-ypopsize 512
+xpopsize 256
+ypopsize 16
 crossrate 0.05
 mutamount 5
-mutprob 0.005
+mutprob 0.05
 gennew true
 drawpop true
 threads 12
 image ../data/tst.jpg
+cluster_size 16
 
 
 

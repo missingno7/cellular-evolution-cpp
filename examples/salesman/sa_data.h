@@ -23,6 +23,45 @@ public:
 
     }
 
+    SaData &operator=(const SaData &data) {
+
+        if (x != nullptr) {
+            delete x;
+        }
+        if (y != nullptr) {
+            delete y;
+        }
+
+        cities_ = data.cities_;
+        scWidth_ = data.scWidth_;
+        scHeight_ = data.scHeight_;
+        shiftprob_ = data.shiftprob_;
+        revprob_ = data.revprob_;
+
+        x = new float[cities_];
+        y = new float[cities_];
+        std::memcpy(x, data.x, cities_ * sizeof(*x));
+        std::memcpy(y, data.y, cities_ * sizeof(*y));
+
+        bmp_.init(scWidth_, scHeight_);
+    }
+
+    SaData(SaData const &data) {
+        cities_ = data.cities_;
+        scWidth_ = data.scWidth_;
+        scHeight_ = data.scHeight_;
+        shiftprob_ = data.shiftprob_;
+        revprob_ = data.revprob_;
+
+        x = new float[cities_];
+        y = new float[cities_];
+        std::memcpy(x, data.x, cities_ * sizeof(*x));
+        std::memcpy(y, data.y, cities_ * sizeof(*y));
+
+        bmp_.init(scWidth_, scHeight_);
+
+    }
+
     SaData(PopConfig const &cfg) {
         scWidth_ = cfg.getInt("scwidth")[0];
         scHeight_ = cfg.getInt("scheight")[0];

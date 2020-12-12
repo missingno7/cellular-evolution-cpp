@@ -16,8 +16,7 @@ class PopConfig {
 public:
     PopConfig() = default;
 
-    PopConfig(std::string filename)
-    {
+    PopConfig(std::string filename) {
         loadConfig(filename);
     }
 
@@ -40,8 +39,7 @@ public:
             }
 
             std::vector<std::string> new_vec;
-            for (int i=1;i<strVals.size();i++)
-            {
+            for (int i = 1; i < strVals.size(); i++) {
                 new_vec.push_back(strVals[i]);
             }
 
@@ -52,6 +50,14 @@ public:
 
     }
 
+    bool is_present(std::string name) const{
+        auto item = items_.find(name);
+        if (item == items_.end()) {
+            return false;
+        }
+        return true;
+    }
+
     std::vector<std::string> getStr(std::string name) const {
         auto item = items_.find(name);
         if (item == items_.end()) {
@@ -60,7 +66,7 @@ public:
         return item->second;
     }
 
-    std::vector<int> getInt(std::string name) const{
+    std::vector<int> getInt(std::string name) const {
         auto item = items_.find(name);
         if (item == items_.end()) {
             throw std::runtime_error("Value does not exist.");
@@ -68,14 +74,13 @@ public:
 
         std::vector<int> res;
 
-        for(std::string const &val : item->second)
-        {
+        for (std::string const &val : item->second) {
             res.push_back(std::stoi(val));
         }
         return std::move(res);
     }
 
-    std::vector<long> getLong(std::string name) const{
+    std::vector<long> getLong(std::string name) const {
         auto item = items_.find(name);
         if (item == items_.end()) {
             throw std::runtime_error("Value does not exist.");
@@ -83,14 +88,13 @@ public:
 
         std::vector<long> res;
 
-        for(std::string const &val : item->second)
-        {
+        for (std::string const &val : item->second) {
             res.push_back(std::stol(val));
         }
         return std::move(res);
     }
 
-    std::vector<float> getFloat(std::string name) const{
+    std::vector<float> getFloat(std::string name) const {
         auto item = items_.find(name);
         if (item == items_.end()) {
             throw std::runtime_error("Value does not exist.");
@@ -98,14 +102,13 @@ public:
 
         std::vector<float> res;
 
-        for(std::string const &val : item->second)
-        {
+        for (std::string const &val : item->second) {
             res.push_back(std::stof(val));
         }
         return std::move(res);
     }
 
-    std::vector<double> getDouble(std::string name) const{
+    std::vector<double> getDouble(std::string name) const {
         auto item = items_.find(name);
         if (item == items_.end()) {
             throw std::runtime_error("Value does not exist.");
@@ -113,14 +116,13 @@ public:
 
         std::vector<double> res;
 
-        for(std::string const &val : item->second)
-        {
+        for (std::string const &val : item->second) {
             res.push_back(std::stod(val));
         }
         return std::move(res);
     }
 
-    std::vector<bool> getBool(std::string name) const{
+    std::vector<bool> getBool(std::string name) const {
         auto item = items_.find(name);
         if (item == items_.end()) {
             throw std::runtime_error("Value does not exist.");
@@ -128,23 +130,19 @@ public:
 
         std::vector<bool> res;
 
-        for(std::string const &val : item->second)
-        {
+        for (std::string const &val : item->second) {
 
-            if(val == "true")
-            {
+            if (val == "true") {
                 res.push_back(true);
 
-            } else
-            {
+            } else {
                 res.push_back(false);
             }
         }
         return std::move(res);
     }
 
-    inline int getThreads() const
-    {
+    inline int getThreads() const {
         return threads;
     }
 
@@ -157,10 +155,9 @@ private:
 
         if (item == items_.end()) {
             items_.insert(std::make_pair(name, val));
-        } else
-            {
-                item->second = val;
-            }
+        } else {
+            item->second = val;
+        }
     }
 
     std::vector<std::string> SplitString(std::string text, std::string delimiter) {

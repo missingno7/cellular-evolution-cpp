@@ -5,6 +5,7 @@
 
 #include<cassert>
 #include<fstream>
+#include<cstring>
 
 #define STB_IMAGE_IMPLEMENTATION
 
@@ -17,14 +18,11 @@ public:
 
     }
 
-    Bitmap(std::string const filename)
-    {
+    Bitmap(std::string const filename) {
         loadFile(filename);
     }
 
-
-    void loadFile(std::string const filename)
-    {
+    void loadFile(std::string const filename) {
         int width, height, channels;
 
         unsigned char *res = stbi_load("../data/tst.jpg", &width, &height, &channels, 3);
@@ -48,9 +46,17 @@ public:
     }
 
     Bitmap(Bitmap const &bmp) {
-        if (bmp._img != nullptr) {
+        init(bmp._width, bmp._height);
+        std::memcpy(_img, bmp._img, 3 * _width * _height * sizeof(*_img));
+    }
+
+
+    Bitmap &operator=(const Bitmap &bmp) {
+        if (bmp._width != _width || bmp._height != _height) {
             init(bmp._width, bmp._height);
         }
+
+        std::memcpy(_img, bmp._img, 3 * _width * _height * sizeof(*_img));
     }
 
 
@@ -271,7 +277,8 @@ public:
     }
 
 
-    void fillEllipseHole(int xc, int yc, int rx, int ry,int rxh,int ryh, unsigned char r, unsigned char g, unsigned char b) {
+    void fillEllipseHole(int xc, int yc, int rx, int ry, int rxh, int ryh, unsigned char r, unsigned char g,
+                         unsigned char b) {
 
         for (int i = 0; i <= rx; i++) {
             for (int j = 0; j <= ry; j++) {
@@ -284,7 +291,7 @@ public:
                            + (pow((j), 2) / pow(ryh, 2));
 
 
-                if (p2>1){
+                if (p2 > 1) {
                     setPixel(xc + i, yc + j, r, g, b);
                     setPixel(xc - i, yc + j, r, g, b);
                     setPixel(xc + i, yc - j, r, g, b);
@@ -300,9 +307,8 @@ public:
 
 
     void setPixel(int x, int y, unsigned char r, unsigned char g, unsigned char b) {
-        if (x < 0 || x >= _width || y < 0 || y >= _height)
-        {
-        return;
+        if (x < 0 || x >= _width || y < 0 || y >= _height) {
+            return;
         }
 
         _img[3 * (x + y * _width)] = b;
@@ -318,6 +324,10 @@ public:
             file.write(_padding, _pad);
         }
         file.close();
+    }
+
+    inline unsigned char getRaw(int i) {
+        return _img[i];
     }
 
     inline int getWidth() const {
