@@ -65,7 +65,7 @@ public:
                         m_currGenInds[i].randomize(thread_data, rnd);
                         m_currGenInds[i].countFitness(thread_data);
                         if (m_drawpop) {
-                            m_currGenInds[i].countColor();
+                            m_currGenInds[i].countColor(thread_data);
                         }
                     }
 
@@ -89,7 +89,7 @@ public:
 
                             if (second_ind != -1) {
                                 m_currGenInds[first_ind].crossoverTo(m_currGenInds[second_ind], m_nextGenInds[i],
-                                                                     rnd);
+                                                                     rnd, thread_data);
                             } else {
                                 m_currGenInds[first_ind].mutateTo(rnd.nextFloat() * m_mutamount, m_mutprob,
                                                                   m_nextGenInds[i],
@@ -105,7 +105,7 @@ public:
 
                         m_nextGenInds[i].countFitness(thread_data); // TRAIN AND TEST SPLIT
                         if (m_drawpop) {
-                            m_nextGenInds[i].countColor();
+                            m_nextGenInds[i].countColor(thread_data);
                         }
                     }
                     break;

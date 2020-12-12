@@ -90,7 +90,7 @@ public:
         Expression::mutate(_exp, rnd);
     }
 
-    void crossoverTo(ExpIndividual const &second_one, ExpIndividual &ind, Random &rnd) const {
+    void crossoverTo(ExpIndividual const &second_one, ExpIndividual &ind, Random &rnd, ExpIndividual const &data) const {
         throw std::runtime_error("Not supported yet.");
     }
 
@@ -126,7 +126,7 @@ public:
         }
     }
 
-    void countColor() {
+    void countColor(ExpData const &data) {
 
         colX = 0;
         colY = 0;

@@ -119,7 +119,7 @@ public:
 
     }
 
-    void crossoverTo(ImgIndividual const &second_one, ImgIndividual &ind, Random &rnd) const {
+    void crossoverTo(ImgIndividual const &second_one, ImgIndividual &ind, Random &rnd, ImgData const &data) const {
         float ratio = rnd.nextFloat();
         ind._r = (1 - ratio) * _r + ratio * second_one._r;
         ind._g = (1 - ratio) * _g + ratio * second_one._g;
@@ -162,7 +162,7 @@ public:
 
     }
 
-    void countColor() {
+    void countColor(ImgData &data) {
         colX = 0;
         colY = 0;
 

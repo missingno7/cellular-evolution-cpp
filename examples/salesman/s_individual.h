@@ -235,7 +235,7 @@ public:
         }
     }
 
-    void crossoverTo(SaIndividual const &second_one, SaIndividual &ind, Random &rnd) const {
+    void crossoverTo(SaIndividual const &second_one, SaIndividual &ind, Random &rnd, SaData const &data) const {
         bool *myarray = new bool[genom_len_]();
 
         int crossPoint = rnd.nextInt(0, genom_len_ - 1);
@@ -326,24 +326,21 @@ public:
 
     }
 
-    void countColor() {
+    void countColor(SaData const &data) {
         colX = 0;
         colY = 0;
 
         for (int i = 0; i < genom_len_; i++) {
-            if (i % 2 == 0) {
-                if (i % 4 < 2) {
+            switch (i % 4) {
+                case 0:
                     colX += genom_[i];
-                } else {
+                case 1:
                     colX -= genom_[i];
-                }
-
-            } else {
-                if (i % 4 < 2) {
+                case 2:
                     colY += genom_[i];
-                } else {
+                case 3:
                     colY -= genom_[i];
-                }
+                    break;
             }
         }
     }

@@ -36,7 +36,7 @@ public:
         val_ += (int) ((rnd.nextFloat(-1000, 1000)) * amount);
     }
 
-    void crossoverTo(TestInd &secondOne, TestInd &ind, Random &rnd) {
+    void crossoverTo(TestInd &secondOne, TestInd &ind, Random &rnd, TestIndData const &data) {
 
         float left = rnd.nextFloat();
         float right = 1 - left;
@@ -57,7 +57,7 @@ public:
         return std::to_string(val_) + " * " + std::to_string(data.data);
     }
 
-    void countColor() {
+    void countColor(TestIndData const &data) {
         colX = val_ * val_;
         colY = val_;
     }
