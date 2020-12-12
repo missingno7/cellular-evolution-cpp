@@ -1,7 +1,7 @@
 #include <iostream>
 #include "cellular-evolution/cevo/population.h"
-#include "fun_individual.h"
-#include "fun_data.h"
+#include "exp_individual.h"
+#include "exp_data.h"
 
 
 int main() {
@@ -15,20 +15,20 @@ int main() {
 
     Random rnd;
 
-    FunData data(cfg,points_path);
-    FunIndividual ind(data);
+    ExpData data(cfg,points_path);
+    ExpIndividual ind(data);
 
-    Population<FunIndividual, FunData> pop(ind, data, cfg);
+    Population<ExpIndividual, ExpData> pop(ind, data, cfg);
 
     pop.Randomize();
 
-    FunIndividual bestOne = pop.getBest();
+    ExpIndividual bestOne = pop.getBest();
     std::cout << bestOne.getFitness() << std::endl;
 
     Bitmap bmp(data.scWidth, data.scHeight);
 
     while (true) {
-        FunIndividual bestInd = pop.getBest();
+        ExpIndividual bestInd = pop.getBest();
 
         if (bestInd.getFitness() > bestOne.getFitness()) {
             bestOne = bestInd;

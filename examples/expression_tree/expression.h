@@ -6,8 +6,6 @@
 
 class Expression {
 public:
-
-
     ~Expression();
 
     static Expression *makeRandom(Random &rnd, int min_depth, int max_depth, int current_depth=0);

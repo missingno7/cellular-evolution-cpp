@@ -10,18 +10,18 @@
 #include <sstream>
 
 
-class FunData {
+class ExpData {
 public:
 
     std::vector<std::pair<float, float>> points;
     Bitmap bmp_;
     int scWidth, scHeight;
 
-    FunData() {
+    ExpData() {
 
     }
 
-    FunData(PopConfig const &cfg, std::string const &points_file) {
+    ExpData(PopConfig const &cfg, std::string const &points_file) {
         scWidth = 1000;
         scHeight = 1000;
 

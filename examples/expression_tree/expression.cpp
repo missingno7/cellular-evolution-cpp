@@ -4,7 +4,7 @@
 
 #include "expression.h"
 #include "constant.cpp"
-#include "tree_variable.cpp"
+#include "variable.cpp"
 #include "operation.cpp"
 #include "function.cpp"
 
@@ -18,13 +18,9 @@ Expression::~Expression() {
     if (_right != nullptr) {
         delete _right;
     }
-
 }
 
-
 Expression *Expression::makeRandom(Random &rnd, int min_depth, int max_depth, int current_depth) {
-
-
     if (current_depth < min_depth) {
 
         int val = rnd.nextInt(0, 1);
@@ -51,7 +47,7 @@ Expression *Expression::makeRandom(Random &rnd, int min_depth, int max_depth, in
                                      makeRandom(rnd, min_depth, max_depth, current_depth + 1),
                                      makeRandom(rnd, min_depth, max_depth, current_depth + 1));
             case 1:
-                return new TreeVariable(rnd.nextBoolean());
+                return new Variable(rnd.nextBoolean());
             case 2:
                 return new Constant(rnd.nextNormalFloat(0, 5));
             case 3:
@@ -62,7 +58,7 @@ Expression *Expression::makeRandom(Random &rnd, int min_depth, int max_depth, in
     } else {
 
         if (rnd.nextBoolean()) {
-            return new TreeVariable(rnd.nextBoolean());
+            return new Variable(rnd.nextBoolean());
         } else {
             return new Constant(rnd.nextNormalFloat(0, 5));
         }
@@ -135,7 +131,7 @@ void Expression::mutate(Expression *&exp, Random &rnd) {
                 if (right != nullptr) {
                     delete right;
                 }
-                exp = new TreeVariable(rnd.nextBoolean());
+                exp = new Variable(rnd.nextBoolean());
 
                 break;
             }
@@ -229,5 +225,4 @@ void Expression::simplify(Expression *&exp) {
             exp->simplify(exp->_right);
         }
     }
-
 }

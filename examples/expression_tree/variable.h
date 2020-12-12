@@ -7,10 +7,10 @@
 #include <string>
 
 
-class TreeVariable : public Expression {
+class Variable : public Expression {
 public:
 
-    TreeVariable(bool sign);
+    Variable(bool sign);
 
     float evaluate(float x);
 
